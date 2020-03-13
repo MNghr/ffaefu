@@ -5,7 +5,26 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>各項目を入力してちょんまげ <%= title %></p>
+    <h1><%= subTitle %></h1>
+    <% if(isRegisterd === false){ %>
+      <p>各項目を入力してちょんまげ </p>
+        <form action="signUp" method="post" class="form">
+        <span class="label">ユーザーID</span><input type="text" name="user_id" class="input" required><br>
+        <br>
+        <span class="label">パスワード</span><input type="password" name="password" class="input" required><br>
+        <br>
+        <span class="label">プレイヤーネーム</span><input type="text" name="user_name" class="input" required><br>
+        <br>
+        <button type="submit">これで登録！</button>
+      </form>
+    <% }else{ %>
+       <p>以下の内容で登録されました!ユーザIDとパスワードを使ってトップ画面からログインしてください</p>
+       <ul>
+        <li><a>ユーザID:<%= userId %></a></li>
+        <li><a>プレイヤーネーム:<%= userName %></a></li>
+        </ul>
+    <% } %>
+    <a href="/">TOPに戻る</a>
+
   </body>
 </html>

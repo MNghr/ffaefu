@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+let session = require('express-session');
+let fs = require('fs');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 let login = require("./routes/login");
@@ -21,6 +22,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: "keyboard cat",
+  resave: "false",
+  saveUninitialized: true
+}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

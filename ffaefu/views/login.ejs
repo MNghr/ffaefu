@@ -1,3 +1,15 @@
 <html>
-  
+  <head>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <% if(loginSucceeded) {%>
+      <span class="login-user"><%= userでログインしました %></span>
+      <form action="login" method="post" class="form">
+        <button type="submit">ステータス画面へ</button>
+      </form>
+    <% }else{ %>
+      <span class="error-message">エラー:不正なログインです</span>
+    <% } %>
+    </body>
 </html>

@@ -4,7 +4,7 @@ let fs = require('fs');
 
 router.get('/', function(req, res, next) {
     res.render('signUpConfirm', {
-        title: 'FFA えふ改',
+        title: '登録確認画面',
         isRegisterd: false
     });
 });
@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function (req, res, next) {
     //ファイルを開いて処理をする．
     res.render('signUpConfirm', {
-        title: "signUpConfirm",
+        title: "登録確認画面",
         isRegisterd: true
     });
 });

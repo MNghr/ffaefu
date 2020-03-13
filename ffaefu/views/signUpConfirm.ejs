@@ -6,7 +6,11 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>以下の内容で登録しちゃうよ OK? <%= title %></p>
-    
+    <p>以下の内容で登録しちゃうよ OK? </p>
+    <form action="signUpConfirm" method="post" class="form">
+      <button type="submit">OK！</button>
+    </form>
+    <%= isRegisterd %>
+    <a href="/">やっぱなしで！</a>
   </body>
 </html>
