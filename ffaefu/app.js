@@ -9,8 +9,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 let login = require("./routes/login");
 let signUp = require("./routes/signUp");
-let signUpConfirm = require("./routes/signUpConfirm");
 let setUser = require("./setUser");
+let status = require("./routes/status");
+
 var app = express();
 
 // view engine setup
@@ -32,7 +33,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/login", setUser,login);
 app.use("/signUp", signUp);
-app.use("/signUpConfirm", signUpConfirm);
+app.use("/status", status);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
