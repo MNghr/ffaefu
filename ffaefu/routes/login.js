@@ -4,11 +4,11 @@ let fs = require('fs');
 
 router.get('/', function (req, res, next) {
     //res.redirect('/status');
-    if (req.session.user_id) {
+    if (req.session.user) {
         res.render('login', {
             title: "ログイン成功",
             loginSucceeded: true,
-            user: req.session.user_name
+            user: req.session.user.userName
         });
     } else {
         res.render('login', { title: "ログイン失敗", loginSucceeded: false });

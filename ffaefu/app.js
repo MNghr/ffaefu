@@ -30,7 +30,7 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use("/login", login);
+app.use("/login", setUser,login);
 app.use("/signUp", signUp);
 app.use("/signUpConfirm", signUpConfirm);
 
