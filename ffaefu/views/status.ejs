@@ -10,10 +10,54 @@
   <body>
     <div class="wrapper">
     <h1><%= subTitle %></h1>    
-    <h2><%= user.userName %>さんのステータス:</h2>
+    <div class="instant-status">
+    <h3><%= user.userName %>さんのステータス:</h3>
+    <ul>  
+      <li>HP:<%=user.currentHP %>/<%=user.maxHP %></li>
+      <li>レベル: <%=user.level %></li>
+      <li>経験値: <%= user.exp %>/<%= user.level*300 %></li>
+      <li>所持金: <%= user.money %>C/1,000,000,000C</li>
+    </ul>
+    <form action="" method="post">
+      <button type="submit">戦術を変更する</button>
+    </form>
+    <form action="" method="post">
+      <button type="submit">チャンピオンに挑む</button>
+    </form>
+    <form action="" method="post">
+      <button type="submit">格闘王への道</button>
+    </form>
+    </div>
+    <div>
+      <a href="/inn"><button>HPを回復する(有料)</button></a>
+      <form action="" method="post">
+        <button type="submit">アイテム倉庫へ</button>
+      </form>
+      <form action="" method="post">
+        <button type="submit">銀行へ</button>
+      </form>
+      <form action="" method="post">
+        <button type="submit">道具屋へ</button>
+      </form>
+      <form action="" method="post">
+        <button type="submit">武器屋へ</button>
+      </form>
+      <form action="" method="post">
+        <button type="submit">防具屋へ</button>
+      </form>
+      <form action="" method="post">
+        <button type="submit">装飾品屋へ</button>
+      </form>
+      <form action="" method="post">
+        <button type="submit">転職の祠へ</button>
+      </form>
+      <form action="" method="post">
+        <button type="submit">画面更新</button>
+      </form>
+    </div>
     <div>
       その辺を探索
-      <form action="/" method="post">
+      <form action="" method="post">
         <select name="difficulty">
           <option value="1">そのへんの森(弱い敵が出現)</option>
           <option value="2">沖合(それなりの敵が出現)</option>
@@ -25,7 +69,7 @@
     </div>
     <div>
       勝ち抜きボスバトル
-      <form action="/" method="post">
+      <form action="" method="post">
         <select name="difficulty">
           <option value="1">試しの洞窟</option>
           <option value="2">バーレル火山</option>
@@ -37,7 +81,7 @@
     </div>
     <div>
       修練場
-      <form action="/" method="post">
+      <form action="" method="post">
         <button type="submit">修練場へ挑む</button>
       </form>
     </div>
