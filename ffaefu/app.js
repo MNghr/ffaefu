@@ -33,7 +33,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/login", setUser,login);
 app.use("/signUp", signUp);
-app.use("/status", status);
+app.use("/status", setUser,status);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
