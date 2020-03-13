@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'FFA えふ改' });
 });
 
-router.post('/login', function (req, res, next) {
+router.post('/', function (req, res, next) {
   let userId = req.body.userId;
   let password = req.body.password;
   //データベースファイルを開いて書き込む

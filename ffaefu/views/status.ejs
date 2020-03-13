@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel='stylesheet' href='/stylesheets/style.css'>
+  </head>
+  <body>
+    <div class="wrapper">
+    <h1><%= subTitle %></h1>    
+    <h2><%= user.userName %>さんのステータス:</h2>
+    <div>
+      その辺を探索
+      <form action="/" method="post">
+        <select name="difficulty">
+          <option value="1">そのへんの森(弱い敵が出現)</option>
+          <option value="2">沖合(それなりの敵が出現)</option>
+          <option value="3">樹海(割と強い敵が出現)</option>
+          <option value="4">魔の秘境(とても強い敵が出現)</option>
+        </select>
+        <button type="submit">挑む</button>
+      </form>
+    </div>
+    <div>
+      勝ち抜きボスバトル
+      <form action="/" method="post">
+        <select name="difficulty">
+          <option value="1">試しの洞窟</option>
+          <option value="2">バーレル火山</option>
+          <option value="3">VIPブリッヂ</option>
+          <option value="4">次元のはざま</option>
+        </select>
+        <button type="submit">挑む</button>
+      </form>
+    </div>
+    <div>
+      修練場
+      <form action="/" method="post">
+        <button type="submit">修練場へ挑む</button>
+      </form>
+    </div>
+    </div>
+  </body>
+</html>
