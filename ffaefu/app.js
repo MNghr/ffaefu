@@ -10,7 +10,7 @@ var usersRouter = require('./routes/users');
 let login = require("./routes/login");
 let signUp = require("./routes/signUp");
 let signUpConfirm = require("./routes/signUpConfirm");
-
+let setUser = require("./setUser");
 var app = express();
 
 // view engine setup

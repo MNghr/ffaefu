@@ -18,7 +18,7 @@ router.post('/', function (req, res, next) {
     let password = req.body.password;
     let userData = { userId: userId, userName: userName, password: password };
     //データベースファイルを開いて書き込む
-    fs.writeFile('./database/' + userId + ".json", JSON.stringify(userData),function (err) {
+    fs.writeFile('./database/userData' + userId + ".json", JSON.stringify(userData),function (err) {
         console.log(err);
         if (err) {
             res.render('signUp', {
