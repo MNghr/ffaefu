@@ -9,8 +9,8 @@ utility.getExp = function(user, amount){
 utility.levelup =  function(user) {
     levelDifference = 0;
     while (user.level * 300 < user.exp) {
-        ++user.level;
         user.exp -= (user.level)*300
+        ++user.level;
         ++levelDifference;
     }
 }
@@ -20,7 +20,7 @@ utility.deposit = function(user,amount) {
         return;    
     user.money -= amount;
     user.bank += amount;
-    this.writeUser(user, function () { });
+    this.writeUser(user);
 }
 
 utility.fullDeposit = function(user) {
@@ -35,7 +35,7 @@ utility.withdraw = function (user, amount) {
     amount = Math.min(amount, user.bank);
     user.bank -= amount;
     user.money += amount;
-    this.writeUser(user, function () { });
+    this.writeUser(user);
 }
 
 utility.fullWithdraw = function(user) {
@@ -44,15 +44,9 @@ utility.fullWithdraw = function(user) {
     this.withdraw(user, amount);    
 }
 
-utility.writeUser = function(user,callback) {
-    fs.writeFile('./database/userData' + user.userId + ".json", JSON.stringify(user), function (err) {
-        console.log("ファイル書き換え完了");
-        if (err) {
-            console.log(err);
-            console.log("ファイル書き込みエラー");
-        }
-        callback();
-    });
+utility.writeUser = function(user) {
+    fs.writeFileSync('./database/userData' + user.userId + ".json", JSON.stringify(user));
+    console.log("ファイル書き込み完了！");
 }
 
 utility.calculateAttack = function (user) {

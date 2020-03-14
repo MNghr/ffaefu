@@ -38,7 +38,7 @@ battle.battleRoutine = function (user, enemy, kind) {
             this.draw(user,enemy);
         }
 
-        fs.writeFileSync('./database/userData' + user.userId + ".json", JSON.stringify(user));
+        utility.writeUser(user);
         console.log("戦闘後ファイル書き換え完了");
         return this.returnMessage;
     }
