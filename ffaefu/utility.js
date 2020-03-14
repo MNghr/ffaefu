@@ -1,6 +1,11 @@
 let fs = require("fs");
 let utility = {};
 
+utility.getExp = function(user, amount){
+    user.exp += amount;
+    this.levelup(user);
+}
+
 utility.levelup =  function(user) {
     levelDifference = 0;
     while (user.level * 300 < user.exp) {
@@ -41,12 +46,18 @@ utility.fullWithdraw = function(user) {
 
 utility.writeUser = function(user,callback) {
     fs.writeFile('./database/userData' + user.userId + ".json", JSON.stringify(user), function (err) {
+        console.log("ファイル書き換え完了");
         if (err) {
             console.log(err);
             console.log("ファイル書き込みエラー");
         }
         callback();
     });
+}
+
+utility.calculateAttack = function (user) {
+    //職業によって計算するところを今は力をそのまま返すことにする．
+    return user.power;
 }
 
 module.exports = utility;

@@ -13,6 +13,7 @@ let setUser = require("./setUser");
 let status = require("./routes/status");
 let inn = require("./routes/inn");
 let bank = require("./routes/bank");
+let vsMonster = require("./routes/vsMonster");
 
 var app = express();
 
@@ -37,7 +38,8 @@ app.use("/login", setUser,login);
 app.use("/signUp", signUp);
 app.use("/status", setUser, status);
 app.use("/inn", setUser, inn);
-app.use("/bank", setUser,bank);
+app.use("/bank", setUser, bank);
+app.use("/vsMonster", setUser, vsMonster);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

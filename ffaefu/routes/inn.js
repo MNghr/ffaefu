@@ -9,6 +9,7 @@ router.get('/', function (req, res, next){
             req.session.user.currentHP = req.session.user.maxHP;
 
             fs.writeFile('./database/userData' + req.session.user.userId + ".json", JSON.stringify(req.session.user), function (err) {
+                console.log("宿屋ファイル書き換え完了");
                 if (err) {
                     res.render('inn', {
                         title: "FFA えふ改",

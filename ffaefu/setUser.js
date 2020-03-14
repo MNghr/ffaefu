@@ -8,6 +8,7 @@ module.exports = function (req, res, next) {
             if (!err) {
                 console.log(data);
                 res.locals.user = JSON.parse(data);
+                console.log(res.locals.user);
             }
         });
     }
