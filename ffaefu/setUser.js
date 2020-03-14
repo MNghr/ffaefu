@@ -6,6 +6,7 @@ module.exports = function (req, res, next) {
     if (userId !== undefined) {
         fs.readFile('./database/userData' + userId + ".json", 'utf-8',function (err,data) {
             if (!err) {
+                console.log(data);
                 res.locals.user = JSON.parse(data);
             }
         });

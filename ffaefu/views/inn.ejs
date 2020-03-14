@@ -9,7 +9,17 @@
   </head>
   <body>
     <h1><%= subTitle %></h1>
-    <h2>HPが全快した！</h2>
-    お金を使いました．
+    <%if(isHealed) {%>
+      <h2>HPが全快した！</h2>
+      お金を<%= user.level *1000%>C使いました． 
+    <% } %>
+    
+    <a href="/status"><button>ステータス画面へ</button></a>
+    <a href="/bank"><button>銀行へ</button></a>
+    <a href="/weaponShop"><button>武器屋へ</button></a>
+    <a href="/armorShop"><button>防具屋へ</button></a>
+    <a href="/accessoryShop"><button>装飾品屋へ</button></a>
+    <a href="/toolShop"><button>道具屋へ</button></a> 
+    
   </body>
 </html>

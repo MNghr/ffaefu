@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel='stylesheet' href='/stylesheets/style.css'>
+  </head>
+  <body>
+    <h1><%= subTitle %></h1>
+    <div wrapper>
+    <% if(isFinished) {%>
+        <% if(mode ==="deposit") {%>
+          お金を預けました．現在の預金残高は<%= user.bank %>Cです．
+        <% } else{%>
+          お金を引き出しました．現在の預金残高は<%=user.bank %>Cです．
+        <% } %>
+    <% } else {%>
+     <h2>現在の預金残高は<%= user.bank %>Cです．</h2>
+    <form action="" method="post" class="form">
+        <input type="hidden" name="mode" value="deposit">
+        <input type="text" name="amount" required><label>C</label>
+        <button type="submit">預ける</button> 
+    </form>
+
+    <form action="" method="post" class="form">
+        <input type="hidden" name="mode" value="fullDeposit">
+        <button type="submit">預けられるだけ預ける</button>
+    </form>
+
+    <form action="" method="post" class="form">
+        <input type="hidden" name="mode" value="withdraw">
+        <input type="text" name="amount" required><label>C</label>
+        <button type="submit">引き出す</button> 
+    </form>
+
+    <form action="" method="post" class="form" >
+        <input type="hidden" name="mode" value="fullWithdraw">
+        <button type="submit">引き出せるだけ引き出す</button>
+    </form>
+    <% } %>
+    
+    <a href="/status"><button>ステータス画面へ</button></a>
+    <a href="/bank"><button>銀行へ</button></a>
+    <a href="/weaponShop"><button>武器屋へ</button></a>
+    <a href="/armorShop"><button>防具屋へ</button></a>
+    <a href="/accessoryShop"><button>装飾品屋へ</button></a>
+    <a href="/toolShop"><button>道具屋へ</button></a> 
+    </div>
+  </body>
+</html>

@@ -38,7 +38,8 @@ router.post('/', function (req, res, next) {
         weapon : 0,
         armor : 0,
         accessory : 0,
-        stamina : 600
+        stamina: 600,
+        bank: 0
     };
     //データベースファイルを開いて書き込む
     fs.writeFile('./database/userData' + userId + ".json", JSON.stringify(userData),function (err) {
