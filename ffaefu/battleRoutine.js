@@ -1,6 +1,7 @@
 let battle = {};
 let utility = require("./utility.js");
 let fs = require("fs");
+let jobInformation = require("./informations/jobInformation.js");
 
 battle.battleAgainstMonster = function (user, enemy) {
     let stamina = utility.calculateStamina(user.lastBattleDate);
@@ -37,7 +38,7 @@ battle.battleRoutine = function (user, enemy, kind) {
             this.returnMessage += "敗北した．．．";
             this.lose(user,enemy);   
         } else {
-            this.returnMessage += "逃げ出した...";
+            this.returnMessage += "逃げ出した...♪";
             this.draw(user,enemy);
         }
 
@@ -55,7 +56,7 @@ battle.getExp = function(user, amount){
 
 battle.levelup = function (user) {
     let levelDifference = 0;
-    let userOld = {}; //能力の上昇量を表示するために使う，レベルアップ前の各能力値を入れる変数
+    let userOld = {}; //能力の上昇量を表示するために使う．レベルアップ前の各能力値を入れる変数
     userOld.maxHP = user.maxHP;
     userOld.power = user.power;
     userOld.mana = user.mana;
@@ -69,21 +70,21 @@ battle.levelup = function (user) {
         user.exp -= (user.level) * 300;
         ++user.level;
         ++levelDifference;
-        let abilityDifference = utility.random(1, 8) * utility.random(0, 1);
+        let abilityDifference = utility.random(1, jobInformation.joblist[user.job].powerGrowth) * utility.random(0, 1);
         user.power += abilityDifference;
-        abilityDifference = utility.random(1, 8) * utility.random(0, 1);
+        abilityDifference = utility.random(1, jobInformation.joblist[user.job].manaGrowth) * utility.random(0, 1);
         user.mana += abilityDifference;
-        abilityDifference = utility.random(1, 8) * utility.random(0, 1);
+        abilityDifference = utility.random(1, jobInformation.joblist[user.job].religionGrowth) * utility.random(0, 1);
         user.religion += abilityDifference;
-        abilityDifference = utility.random(1, 8) * utility.random(0, 1);
+        abilityDifference = utility.random(1, jobInformation.joblist[user.job].vitalityGrowth) * utility.random(0, 1);
         user.vitality += abilityDifference;
-        abilityDifference = utility.random(1, 8) * utility.random(0, 1);
+        abilityDifference = utility.random(1, jobInformation.joblist[user.job].agilityGrowth) * utility.random(0, 1);
         user.agility += abilityDifference;
-        abilityDifference = utility.random(1, 8) * utility.random(0, 1);
+        abilityDifference = utility.random(1, jobInformation.joblist[user.job].charmGrowth) * utility.random(0, 1);
         user.charm += abilityDifference;
-        abilityDifference = utility.random(1, 8) * utility.random(0, 1);
+        abilityDifference = utility.random(1, jobInformation.joblist[user.job].karmaGrowth) * utility.random(0, 1);
         user.karma += abilityDifference;
-        abilityDifference = utility.random(1, 8) * utility.random(0, 1);
+        abilityDifference = utility.random(1, jobInformation.joblist[user.job].dexterityGrowth) * utility.random(0, 1);
         user.dexterity += abilityDifference;
         user.maxHP += utility.random(1, 4) * user.vitality;
     }
