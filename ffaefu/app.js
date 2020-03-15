@@ -36,10 +36,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/login", setUser,login);
 app.use("/signUp", signUp);
-app.use("/status", setUser, status);
-app.use("/inn", setUser, inn);
-app.use("/bank", setUser, bank);
-app.use("/vsMonster", setUser, vsMonster);
+app.use("/status", status);
+app.use("/inn",  inn);
+app.use("/bank",  bank);
+app.use("/vsMonster", vsMonster);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

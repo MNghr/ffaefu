@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+let utility = require("../utility.js")
 
 /* GET users listing. */
 router.get('/', function (req, res, next){
@@ -7,7 +8,8 @@ router.get('/', function (req, res, next){
         res.render('status', {
             title: "FFA えふ改",
             subTitle: "ステータス画面",
-            user: req.session.user
+            user: req.session.user,
+            stamina: utility.calculateStamina(req.session.user.lastBattleDate)
         });
     } else {
         res.redirect('/');

@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let fs = require('fs');
+let utility = require("../utility.js");
 
 router.get('/', function (req, res, next) {
     res.render('signUp', {
@@ -20,26 +21,27 @@ router.post('/', function (req, res, next) {
         userId: userId,
         userName: userName,
         password: password,
-        maxHP : 500,
-        currentHP : 500,
-        power : 8,
-        mana : 8,
-        religion : 8,
-        vitality : 8,
-        agility : 8,
-        charm : 8,
-        dexterity : 8,
-        karma : 8,
-        level : 1,
-        money : 1500,
-        exp : 0,
-        homePageName : "FFA えふ改",
-        homePageURL : "https://google.com",
-        weapon : 0,
-        armor : 0,
-        accessory : 0,
-        stamina: 600,
-        bank: 0
+        maxHP: 500,
+        currentHP: 500,
+        power: 8,
+        mana: 8,
+        religion: 8,
+        vitality: 8,
+        agility: 8,
+        charm: 8,
+        dexterity: 8,
+        karma: 8,
+        level: 1,
+        money: 1500,
+        exp: 0,
+        homePageName: "FFA えふ改",
+        homePageURL: "https://google.com",
+        weapon: 0,
+        armor: 0,
+        accessory: 0,
+        bank: 0,
+        job: req.body.job,
+        lastBattleDate: utility.date.getTime()
     };
     //データベースファイルを開いて書き込む
     fs.writeFile('./database/userData' + userId + ".json", JSON.stringify(userData),function (err) {
@@ -57,7 +59,7 @@ router.post('/', function (req, res, next) {
                 isRegisterd: true,
                 userId: userId,
                 userName: userName,
-                password: password
+                userJob: user.job
             });
         }
 

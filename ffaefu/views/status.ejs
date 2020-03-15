@@ -6,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <link rel='stylesheet' href='/stylesheets/style.css'>
+    <script>
+      window.onload = ()=>{
+        window.setInterval(()=>{
+          console.log("interval");
+            if(parseInt(document.getElementById("stamina").textContent) < 600)
+              document.getElementById("stamina").textContent = parseInt(document.getElementById("stamina").textContent) + 1;        
+        },1000);
+
+        console.log(document.getElementById("stamina"));
+      }
+    </script>
   </head>
   <body>
     <div class="wrapper">
@@ -17,6 +28,8 @@
       <li>レベル: <%=user.level %></li>
       <li>経験値: <%= user.exp %>/<%= user.level*300 %></li>
       <li>所持金: <%= user.money %>C/1,000,000,000C</li>
+      <li>スタイル: <%= user.job %></li>
+      <li>スタミナ: <x id="stamina"><%= stamina %></x></li>
     </ul>
     <form action="" method="post">
       <button type="submit">戦術を変更する</button>

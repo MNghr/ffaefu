@@ -15,6 +15,12 @@
         <br>
         <span class="label">プレイヤーネーム</span><input type="text" name="user_name" class="input" required><br>
         <br>
+          <select name="job" required> 
+            <option value="0">戦士</option>
+            <option value="1">僧侶</option>
+            <option value="2">魔法使い</option>
+            <option value="3">シーフ</option>
+          </select>
         <button type="submit">これで登録！</button>
       </form>
     <% }else{ %>

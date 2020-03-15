@@ -16,11 +16,12 @@ router.post('/', function (req, res, next){
             console.log(enemy);
             let content = battle.battleAgainstMonster(req.session.user, JSON.parse(enemy));
             console.log("戦闘後のコンテンツ表示");
+            console.log(req.session.user.lastBattleDate);
             if (!err) {
                 console.log(content);
                 res.render('vsMonster', {
                     title: "FFA えふ改",
-                    subTitle: "戦闘",
+                    subTitle: JSON.parse(enemy).enemyName + "が現れた！",
                     content: content,
                     user: req.session.user
                 });
