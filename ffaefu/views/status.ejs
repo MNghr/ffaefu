@@ -30,6 +30,9 @@
       <li>所持金: <%= user.money %>C/1,000,000,000C</li>
       <li>スタイル: <%= user.job %></li>
       <li>スタミナ: <x id="stamina"><%= stamina %></x></li>
+      <li>武器 <%=weapon.name %> 威力: <%= weapon.attack %></li>
+      <li>防具 <%=armor.name %> 防御力: <%= armor.defence %></li>
+      <li>装飾品 <%=accessory.name %></li>
     </ul>
     <form action="" method="post">
       <button type="submit">戦術を変更する</button>
@@ -51,9 +54,7 @@
       <form action="" method="post">
         <button type="submit">道具屋へ</button>
       </form>
-      <form action="" method="post">
-        <button type="submit">武器屋へ</button>
-      </form>
+      <a href="/weaponShop"><button>武器屋</button></a>
       <form action="" method="post">
         <button type="submit">防具屋へ</button>
       </form>
@@ -63,9 +64,7 @@
       <form action="" method="post">
         <button type="submit">転職の祠へ</button>
       </form>
-      <form action="" method="post">
-        <button type="submit">画面更新</button>
-      </form>
+      <a href="/status"><button>画面更新</button></a>
     </div>
     <div>
       その辺を探索
