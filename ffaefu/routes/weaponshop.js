@@ -9,7 +9,7 @@ let fs = require('fs');
 router.get('/', function (req, res, next) {
     //res.redirect('/status');
     if (req.session.user) {
-        availableWeapons = [];
+        let availableWeapons = [];
         console.log(jobInformation.jobList[req.session.user.job].weapon);
         for (let i = 0; i < jobInformation.jobList[req.session.user.job].weapon.length; ++i){
             console.log(weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[i]]);
@@ -30,11 +30,21 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
+    let content = "";
+    if (req.session.user.money < weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]].value) {
+        content = "エラー:所持金が足りません";
+    } else {
+        utility.buyWeapon(req.session.user, weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]]);
+        console.log(jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]);
+        console.log(req.session.user.weapon);
+        content = weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]].name + "を購入しました．" + req.session.user.userName + "は早速装備した！";
+    }
     res.render('weaponshop', {
         title: configuration.gameTitle,
+        subTitle: "購入完了",
         user: req.session.user,
         weapons: [],
-        content: "現在準備中です．少々お待ちください．",
+        content: content,
         mode: "finished"
     });
 });

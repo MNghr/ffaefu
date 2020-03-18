@@ -1,5 +1,8 @@
 let fs = require("fs");
 let utility = {};
+let weaponInformation = require("./informations/weaponInformation.js");
+let armorInformation = require("./informations/armorInformation.js");
+let accessoryInformation = require("./informations/accessoryInformation.js");
 
 utility.random = function (min, max) {
     if (min > max) {
@@ -38,13 +41,14 @@ utility.fullWithdraw = function(user) {
     this.withdraw(user, amount);    
 }
 
+//ここwriteFileSyncにしてpromiseリターンにする．
 utility.writeUser = function(user) {
     fs.writeFileSync('./database/userData' + user.userId + ".json", JSON.stringify(user));
     console.log("ファイル書き込み完了！");
 }
 
 utility.calculateAttack = function (user) {
-    //職業によって計算するところを今は力をそのまま返すことにする．
+    //職業や装備によって計算するところを今は力をそのまま返すことにする．
     return user.power;
 }
 
@@ -62,5 +66,25 @@ utility.calculateStamina = function (lastBattleDate) {
     let now = new Date();
     return Math.min(600, Math.floor((now.getTime() - lastBattleDate)/1000));
 }
+
+utility.buyWeapon = function(user,targetWeapon){ 
+    user.weapon = targetWeapon.id;
+    user.money -= targetWeapon.value;
+    this.writeUser(user);
+}
+
+utility.buyArmor = function (user,targetArmor) {
+    user.armor = targetArmor.id;
+    user.money -= targetArmor.value;
+    this.writeUser(user);
+}
+
+utility.buyAccessory = function (user,targetAccessory) {
+    user.accessory = targetAccessory.id;
+    user.money -= targetAccessory.value;
+    this.writeUser(user);
+}
+
+
 
 module.exports = utility;

@@ -9,14 +9,14 @@
   </head>
   <body>
     <h1><%= subTitle %></h1>
-    <% if(mode === "selectWeapon"){ %>
+    <% if(mode === "selectAccessory"){ %>
       なにを買うかね？
       <ul>
-      <%for(let i = 0;i < weapons.length; ++i){ %>
+      <%for(let i = 0;i < accessories.length; ++i){ %>
         <form action="" method="post">
-          <% let input = '<input type="hidden" name="targetWeapon" value=' + '"'+i+'"' + '>' %>
+          <% let input = '<input type="hidden" name="targetAccessory" value=' + '"'+i+'"' + '>' %>
             <%- input %>        
-          <button type=submit>買う</button> <li> 名前:<%= weapons[i].name %> , 攻撃力:<%= weapons[i].attack %>, 値段:<%= weapons[i].value %></li>
+          <button type=submit>買う</button> <li> 名前:<%= accessories[i].name %> , 攻撃力:<%= accessories[i].defence %>, 値段:<%= accessories[i].value %></li>
         </form>
       <% } %>
       </ul>

@@ -15,6 +15,8 @@ let inn = require("./routes/inn");
 let bank = require("./routes/bank");
 let vsMonster = require("./routes/vsMonster");
 let weaponShop = require("./routes/weaponShop");
+let armorShop = require("./routes/armorShop");
+let accessoryShop = require("./routes/accessoryShop");
 
 var app = express();
 
@@ -42,6 +44,8 @@ app.use("/inn",  inn);
 app.use("/bank",  bank);
 app.use("/vsMonster", vsMonster);
 app.use("/weaponShop", weaponShop);
+app.use("/armorShop", armorShop);
+app.use("/accessoryShop", accessoryShop);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
