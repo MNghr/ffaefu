@@ -38,7 +38,7 @@ router.post('/', function (req, res, next) {
         console.log(jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]);
         content = armorInformation.armorList[jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]].name + "を購入しました．" + req.session.user.userName + "は早速装備した！";
     }
-    res.render('weaponshop', {
+    res.render('armorShop', {
         title: configuration.gameTitle,
         subTitle: "購入完了",
         user: req.session.user,

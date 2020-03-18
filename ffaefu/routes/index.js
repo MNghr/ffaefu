@@ -1,17 +1,18 @@
 var express = require('express');
 var router = express.Router();
 let fs = require("fs");
-
+let utility = require("../utility.js");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'FFA えふ改' });
 });
 
+//ログイン処理
 router.post('/', function (req, res, next) {
-  let userId = req.body.userId;
-  let password = req.body.password;
-  //データベースファイルを開いて書き込む
-  fs.readFile('./database/userData' + userId + ".json", 'utf-8',function (err,data) {
+  (async () => {
+    let userId = req.body.userId;
+    let password = req.body.password;
+    fs.readFile('./database/userData' + userId + ".json", 'utf-8', function (err, data) {
       console.log(err);
       if (err) {
         console.log(err);
@@ -24,7 +25,8 @@ router.post('/', function (req, res, next) {
       }
       res.redirect('/login');
 
-  });
+    });
+  })().catch(next);
 });
 
 module.exports = router;

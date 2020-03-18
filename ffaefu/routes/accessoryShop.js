@@ -39,7 +39,7 @@ router.post('/', function (req, res, next) {
         console.log(req.session.user.accessory);
         content = accessoryInformation.accessoryList[jobInformation.jobList[req.session.user.job].accessory[req.body.targetAccessory]].name + "を購入しました．" + req.session.user.userName + "は早速装備した！";
     }
-    res.render('accessoryshop', {
+    res.render('accessoryShop', {
         title: configuration.gameTitle,
         subTitle: "購入完了",
         user: req.session.user,

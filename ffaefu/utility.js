@@ -1,4 +1,4 @@
-let fs = require("fs");
+let fs = require("fs").promises;
 let utility = {};
 let weaponInformation = require("./informations/weaponInformation.js");
 let armorInformation = require("./informations/armorInformation.js");
@@ -41,9 +41,16 @@ utility.fullWithdraw = function(user) {
     this.withdraw(user, amount);    
 }
 
-//ここwriteFileSyncにしてpromiseリターンにする．
-utility.writeUser = function(user) {
-    fs.writeFileSync('./database/userData' + user.userId + ".json", JSON.stringify(user));
+utility.readUser = async function (user) {
+    let data = await fs.readFile('./database/userData' + user.userId + ".json", "utf-8");
+    
+    user = JSON.parse(data);
+    console.log(user);
+    console.log("ファイル読み込み完了");
+}
+
+utility.writeUser = async function(user) {
+    await fs.writeFile('./database/userData' + user.userId + ".json", JSON.stringify(user));
     console.log("ファイル書き込み完了！");
 }
 
