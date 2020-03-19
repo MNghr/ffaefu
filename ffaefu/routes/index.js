@@ -12,6 +12,19 @@ router.post('/', function (req, res, next) {
   (async () => {
     let userId = req.body.userId;
     let password = req.body.password;
+    let data = {};
+    try {
+      data = await utility.readUser({userId:userId});
+    } catch(err){
+      res.redirect('/login');
+    }
+    console.log(data);
+    if (data.password === password) {
+      console.log("パスワード照合完了");
+      req.session.user = data;
+    }
+    res.redirect('/login');
+    /*
     fs.readFile('./database/userData' + userId + ".json", 'utf-8', function (err, data) {
       console.log(err);
       if (err) {
@@ -25,7 +38,7 @@ router.post('/', function (req, res, next) {
       }
       res.redirect('/login');
 
-    });
+    });*/
   })().catch(next);
 });
 

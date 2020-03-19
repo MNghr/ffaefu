@@ -1,13 +1,16 @@
-let fs = require("fs");
+let fs = require("fs").promises;
+let utility = require("./utility.js");
 module.exports = function (req, res, next) {
-    let userId;
-    if (req.session.user !== undefined)
-        userId = req.session.user.userId;
-    if (userId !== undefined) {
-        res.locals.user = JSON.parse(fs.readFileSync('./database/userData' + userId + ".json", 'utf-8'));
+    (async () => {
+        let userId;
+        if (req.session.user !== undefined)
+            userId = req.session.user.userId;
+        if (userId !== undefined) {
+            res.locals.user = JSON.parse(await fs.readFile('./database/userData/' + userId + "/"+userId+".json", 'utf-8'));
         
-        console.log(res.locals.user);
-    }
+            console.log(res.locals.user);
+        }
 
-    next();
+        next();
+    })().catch(next)
 };

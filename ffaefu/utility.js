@@ -42,16 +42,39 @@ utility.fullWithdraw = function(user) {
 }
 
 utility.readUser = async function (user) {
-    let data = await fs.readFile('./database/userData' + user.userId + ".json", "utf-8");
-    
-    user = JSON.parse(data);
+    let data = await fs.readFile('./database/userData/' + user.userId + ".json", "utf-8");
+    console.log(user);
+    user = { ...JSON.parse(data) };
     console.log(user);
     console.log("ファイル読み込み完了");
+    return user;
+}
+
+utility.readUserDetail = async function (user) {
+    
+}
+
+utility.readEquipInventory = async function(user){
+    let equipInventory = await fs.readFile('./database/userData/' + user.userId + "/"+user.userId+"/equipment.json");
+    console.log(equipInventory);
+    console.log("装備品倉庫読み込み完了")
+    return equipInventory;
+}
+
+utility.readItemInventory = async function(user){
+    let itemInventory = await fs.readFile('./database/userData/' + user.userId + "/item.json");
+    console.log(equipInventory);
+    console.log("装備品倉庫読み込み完了")
+    return equipInventory;
 }
 
 utility.writeUser = async function(user) {
-    await fs.writeFile('./database/userData' + user.userId + ".json", JSON.stringify(user));
+    await fs.writeFile('./database/userData/' + user.userId + ".json", JSON.stringify(user));
     console.log("ファイル書き込み完了！");
+}
+
+utility.writeEquipInventory = async function (user,equipInventory) {
+    await await fs.writeFile('./database/userData/' + user.userId + ".json", JSON.stringify(equipInventory));
 }
 
 utility.calculateAttack = function (user) {
@@ -91,6 +114,7 @@ utility.buyAccessory = function (user,targetAccessory) {
     user.money -= targetAccessory.value;
     this.writeUser(user);
 }
+
 
 
 
