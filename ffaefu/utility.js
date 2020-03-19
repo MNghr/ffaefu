@@ -42,7 +42,7 @@ utility.fullWithdraw = function(user) {
 }
 
 utility.readUser = async function (user) {
-    let data = await fs.readFile('./database/userData/' + user.userId + ".json", "utf-8");
+    let data = await fs.readFile('./database/userData/' + user.userId + "/"+user.userId+".json", "utf-8");
     console.log(user);
     user = { ...JSON.parse(data) };
     console.log(user);
@@ -50,8 +50,12 @@ utility.readUser = async function (user) {
     return user;
 }
 
-utility.readUserDetail = async function (user) {
-    
+utility.readAllData = async function (user) {
+    let userData = await this.readUser(user);
+    let equipInventory = await this.readEquipInventory(user);
+    let itemInventory = await this.readItemInventory(user);
+
+    return { userData, equipInventory, itemInventory };
 }
 
 utility.readEquipInventory = async function(user){
@@ -64,18 +68,33 @@ utility.readEquipInventory = async function(user){
 utility.readItemInventory = async function(user){
     let itemInventory = await fs.readFile('./database/userData/' + user.userId + "/item.json");
     console.log(equipInventory);
-    console.log("装備品倉庫読み込み完了")
-    return equipInventory;
+    console.log("道具倉庫読み込み完了")
+    return itemInventory;
+}
+
+utility.registerUser = async function (user) {
+    await fs.mkdir('./database/userData/' + user.userId);
+    await fs.writeUser(user);
+    await fs.writeEquipInventory(user, []);
+    await fs.writeItemInventory(user, []);    
+
 }
 
 utility.writeUser = async function(user) {
-    await fs.writeFile('./database/userData/' + user.userId + ".json", JSON.stringify(user));
-    console.log("ファイル書き込み完了！");
+    await fs.writeFile('./database/userData/' + user.userId + "/"+user.userId+".json", JSON.stringify(user));
+    console.log("ユーザファイル書き込み完了！");
 }
 
 utility.writeEquipInventory = async function (user,equipInventory) {
-    await await fs.writeFile('./database/userData/' + user.userId + ".json", JSON.stringify(equipInventory));
+    await fs.writeFile('./database/userData/' + user.userId + "/equipment.json", JSON.stringify(equipInventory));
+    console.log("ユーザの装備品情報書き込み完了");
 }
+
+utility.writeItemInventory = async function (user,itemInventory) {
+    await fs.writeFile('./database/userData/' + user.userId + "/itemInventory.json", JSON.stringify(itemInventory));
+    console.log("ユーザの道具情報書き込み完了");
+}
+
 
 utility.calculateAttack = function (user) {
     //職業や装備によって計算するところを今は力をそのまま返すことにする．

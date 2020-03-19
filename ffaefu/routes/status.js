@@ -7,7 +7,7 @@ let accessoryInformation = require("../informations/accessoryInformation.js");
 let armorInformation = require("../informations/armorInformation.js");
 
 /* GET users listing. */
-router.get('/', function (req, res, next){
+router.get('/', function (req, res, next) {
     if (req.session.user !== undefined) {
         console.log(weaponInformation);
         res.render('status', {
