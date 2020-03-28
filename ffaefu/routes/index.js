@@ -23,9 +23,10 @@ router.post('/', function (req, res, next) {
       console.log("パスワード照合完了");
       //req.session.user = data;
       [req.session.user,
-        req.session.equipInventory,
-           req.session.itemInventory,
-        req.session.artsInventory
+        req.session.user.equipInventory,
+           req.session.user.itemInventory,
+        req.session.user.artsInventory,
+        req.session.user.career
        ] = await utility.readAllDataOfUser({ userId: userId });
     }
     res.redirect('/login');

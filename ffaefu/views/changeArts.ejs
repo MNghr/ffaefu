@@ -10,14 +10,16 @@
   <body>
     <h1><%= subTitle %></h1>
     <div wrapper>
-      あなたが転職可能な職業は
-      <% changeableJobs.forEach(function(element){ %>
-        <%= element.name %>,
+      戦術を選んでください．
+      現在の戦術:
+
+      <% changeableArts.forEach(function(element){ %>
+        <li><%= element.name %>, <%= element.explain %></li>
       <% }); %>
       です．このうち，マスターしていない職業は
-        ※準備中です
-      です．転職先のジョブレベルが19以下の場合，HP以外の各ステータスが1割，カルマは2割減少します．
 
+      です．転職先のジョブレベルが19以下の場合，HP以外の各ステータスが1割，カルマは2割減少します．
+      
     <a href="/status"><button>ステータス画面へ</button></a>
     <a href="/bank"><button>銀行へ</button></a>
     <a href="/weaponShop"><button>武器屋へ</button></a>

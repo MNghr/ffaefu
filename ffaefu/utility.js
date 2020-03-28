@@ -3,7 +3,7 @@ let utility = {};
 let weaponInformation = require("./informations/weaponInformation.js");
 let armorInformation = require("./informations/armorInformation.js");
 let accessoryInformation = require("./informations/accessoryInformation.js");
-let artsInformation = require("./informations/artsInformation");
+let artsInformation = require("./informations/artsInformation.js");
 let jobInformation = require("./informations/jobInformation.js");
 
 utility.random = function (min, max) {
@@ -73,12 +73,20 @@ utility.readArtsInventory = async function (user) {
     return artsInventory;
 }
 
+utility.readCareer = async function (user) {
+    let career= JSON.parse(await fs.readFile('./database/userData/' + user.userId + "/career.json"));
+    console.log(career);
+    console.log("職歴読み込み完了")
+    return career;
+}
+
 utility.readAllDataOfUser = async function (user) {
     let kernelData =  this.readUser(user);
     let equipInventory = this.readEquipInventory(user);
     let itemInventory =  this.readItemInventory(user);
-    let artsInventory =  this.readArtsInventory(user);
-    let userData = await Promise.all([kernelData, equipInventory, itemInventory, artsInventory]);
+    let artsInventory = this.readArtsInventory(user);
+    let career = this.readCareer(user);
+    let userData = await Promise.all([kernelData, equipInventory, itemInventory, artsInventory,career]);
 
     return userData;
 }
@@ -87,10 +95,12 @@ utility.readAllDataOfUser = async function (user) {
 utility.registerUser = async function (user) {
     await fs.mkdir('./database/userData/' + user.userId);
     await Promise.all([
-    this.writeUser(user),
-    this.writeEquipInventory(user, []),
-    this.writeItemInventory(user, []),
-    this.writeArtsInventory(user, [0].concat(this.getBasicArtsNumbersByUser(user)))]);
+        this.writeUser(user),
+        this.writeEquipInventory(user, []),
+        this.writeItemInventory(user, []),
+        this.writeArtsInventory(user, [0].concat(this.getBasicArtsNumbersByUser(user))),
+        this.writeCareer(user, [user.job])
+    ]);
 }
 
 utility.writeUser = async function(user) {
@@ -113,12 +123,19 @@ utility.writeArtsInventory = async function (user, artsInventory) {
     console.log("ユーザの戦術情報書き込み完了");
 }
 
-utility.writeAllDataOfUser = async function(user, equipmentInventory, itemInventory, artsInventory){
+utility.writeCareer = async function (user, career) {
+    await fs.writeFile('./database/userData/' + user.userId + "/career.json", JSON.stringify(career));
+    console.log("ユーザの戦術情報書き込み完了");
+}
+
+utility.writeAllDataOfUser = async function(user, equipmentInventory, itemInventory, artsInventory,career){
     await Promise.all([
         this.writeUser(user),
         this.writeEquipInventory(user, equipmentInventory),
         this.writeItemInventory(user, itemInventory),
-        this.writeArtsInventory(user, artsInventory)]);
+        this.writeArtsInventory(user, artsInventory),
+        this.writeCareer(user, career)
+    ]);
 }
 
 
@@ -176,7 +193,8 @@ utility.getBasicArtsNumbersByUser= function (user){//ユーザの職業の基本
 
 utility.isChangeable = function (user, job) {
     let isChangeable = false;
-    if (user.power >= job.powerRequired
+    if (   user.job != job.id
+        && user.power >= job.powerRequired
         && user.mana >= job.manaRequired
         && user.religion >= job.religionRequired
         && user.vitality >= job.vitalityRequired
@@ -190,20 +208,48 @@ utility.isChangeable = function (user, job) {
         return isChangeable;
 }
 
-utility.getChangeableJobs = function () {
-    console.log(utility);
+utility.getChangeableJobs = function (user) {
     let changeableJobs = [];
-    jobInformation.jobList.forEach(function (element) {
-        if (isChangeable(element)) {
-            changeableJobs.push(element.id);
+    console.log(jobInformation.jobList);
+    jobInformation.jobList.forEach(element => { 
+        if (this.isChangeable(user,element)) {
+            changeableJobs.push(element);
         }
     });
     return changeableJobs;
 }
 
+utility.getChangeableAndNotYetMasterJobs = function (user) {//未マスターかつ転職可能な職業を取得
+    let changeableJobs = this.getChangeableJobs(user);
+    let changeableAndNotYetMasterJobs = [];
+    changeableJobs.forEach(element => {
+        changeableAndNotYetMasterJobs.push(element);
+    });
+}
+
 utility.changeJob = function (user,target) {
     user.job = target;
 }
+
+utility.getChangeableArtsByArtsInventory = function(user){
+    let changeableArts = [];
+    console.log(user);
+    console.log(artsInformation.artsList);
+    user.artsInventory.forEach(element => {
+        changeableArts.push(artsInformation.artsList[element]);
+    });
+    console.log(changeableArts);
+    return changeableArts;
+}
+
+utility.getChangeableArts = function (user) {
+    return this.getChangeableArtsByArtsInventory(user);
+}
+
+utility.getArtsByIndex = function (index) {
+    return artsInformation.artsList[element];
+}
+
 
 
 module.exports = utility;

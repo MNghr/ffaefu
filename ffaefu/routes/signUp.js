@@ -40,7 +40,8 @@ router.post('/', function (req, res, next) {
             armor: 0,
             accessory: 0,
             bank: 0,
-            job: req.body.job,
+            setArts: 0,
+            job: req.body.job.parseInt(),
             lastBattleDate: utility.getTime(),
             lastLoginDate: utility.getTime()
         };
