@@ -6,8 +6,12 @@ module.exports = function (req, res, next) {
         if (req.session.user !== undefined)
             userId = req.session.user.userId;
         if (userId !== undefined) {
-            res.locals.user = JSON.parse(await fs.readFile('./database/userData/' + userId + "/"+userId+".json", 'utf-8'));
-        
+            [res.locals.user,
+             res.locals.equipInventory,
+                res.locals.itemInventory,
+             res.locals.artsInventory
+            ] = await utility.readAllDataOfUser({ userId: userId });
+            
             console.log(res.locals.user);
         }
 

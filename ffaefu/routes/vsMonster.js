@@ -6,11 +6,13 @@ let configuration = require("../configuration.js");
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
+
 router.get('/', function (req, res, next) {
     res.redirect('status'); 
 });
-router.post('/', function (req, res, next){
+
+//「モンスターと戦う/その辺の探索」 post以外のメソッドでのリクエストは受け付けずステータス画面へ戻る．
+router.post('/', function (req, res, next) {
     if (req.session.user !== undefined) {
         if (utility.calculateStamina(req.session.user.lastBattleDate) < configuration.vsMonsterStamina) {
             res.render('vsMonster', {

@@ -14,14 +14,19 @@ router.post('/', function (req, res, next) {
     let password = req.body.password;
     let data = {};
     try {
-      data = await utility.readUser({userId:userId});
+      data = await utility.readUser({ userId: userId });
     } catch(err){
       res.redirect('/login');
     }
     console.log(data);
     if (data.password === password) {
       console.log("パスワード照合完了");
-      req.session.user = data;
+      //req.session.user = data;
+      [req.session.user,
+        req.session.equipInventory,
+           req.session.itemInventory,
+        req.session.artsInventory
+       ] = await utility.readAllDataOfUser({ userId: userId });
     }
     res.redirect('/login');
     /*

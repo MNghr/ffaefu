@@ -6,7 +6,7 @@ let weaponInformation = require("../informations/weaponInformation.js");
 let accessoryInformation = require("../informations/accessoryInformation.js");
 let armorInformation = require("../informations/armorInformation.js");
 
-/* GET users listing. */
+//ステータス画面のバックエンド．ステータス画面描画に必要なデータをejs側に飛ばすだけ．
 router.get('/', function (req, res, next) {
     if (req.session.user !== undefined) {
         console.log(weaponInformation);

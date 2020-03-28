@@ -3,6 +3,8 @@ let utility = {};
 let weaponInformation = require("./informations/weaponInformation.js");
 let armorInformation = require("./informations/armorInformation.js");
 let accessoryInformation = require("./informations/accessoryInformation.js");
+let artsInformation = require("./informations/artsInformation");
+let jobInformation = require("./informations/jobInformation.js");
 
 utility.random = function (min, max) {
     if (min > max) {
@@ -50,34 +52,45 @@ utility.readUser = async function (user) {
     return user;
 }
 
-utility.readAllData = async function (user) {
-    let userData = await this.readUser(user);
-    let equipInventory = await this.readEquipInventory(user);
-    let itemInventory = await this.readItemInventory(user);
-
-    return { userData, equipInventory, itemInventory };
-}
-
 utility.readEquipInventory = async function(user){
-    let equipInventory = await fs.readFile('./database/userData/' + user.userId + "/"+user.userId+"/equipment.json");
+    let equipInventory = JSON.parse(await fs.readFile('./database/userData/' + user.userId + "/equipmentInventory.json"));
     console.log(equipInventory);
     console.log("装備品倉庫読み込み完了")
     return equipInventory;
 }
 
 utility.readItemInventory = async function(user){
-    let itemInventory = await fs.readFile('./database/userData/' + user.userId + "/item.json");
-    console.log(equipInventory);
+    let itemInventory = JSON.parse(await fs.readFile('./database/userData/' + user.userId + "/itemInventory.json"));
+    console.log(itemInventory);
     console.log("道具倉庫読み込み完了")
     return itemInventory;
 }
 
+utility.readArtsInventory = async function (user) {
+    let artsInventory = JSON.parse(await fs.readFile('./database/userData/' + user.userId + "/artsInventory.json"));
+    console.log(artsInventory);
+    console.log("戦術情報読み込み完了")
+    return artsInventory;
+}
+
+utility.readAllDataOfUser = async function (user) {
+    let kernelData =  this.readUser(user);
+    let equipInventory = this.readEquipInventory(user);
+    let itemInventory =  this.readItemInventory(user);
+    let artsInventory =  this.readArtsInventory(user);
+    let userData = await Promise.all([kernelData, equipInventory, itemInventory, artsInventory]);
+
+    return userData;
+}
+
+//ユーザ登録処理
 utility.registerUser = async function (user) {
     await fs.mkdir('./database/userData/' + user.userId);
-    await fs.writeUser(user);
-    await fs.writeEquipInventory(user, []);
-    await fs.writeItemInventory(user, []);    
-
+    await Promise.all([
+    this.writeUser(user),
+    this.writeEquipInventory(user, []),
+    this.writeItemInventory(user, []),
+    this.writeArtsInventory(user, [0].concat(this.getBasicArtsNumbersByUser(user)))]);
 }
 
 utility.writeUser = async function(user) {
@@ -93,6 +106,19 @@ utility.writeEquipInventory = async function (user,equipInventory) {
 utility.writeItemInventory = async function (user,itemInventory) {
     await fs.writeFile('./database/userData/' + user.userId + "/itemInventory.json", JSON.stringify(itemInventory));
     console.log("ユーザの道具情報書き込み完了");
+}
+
+utility.writeArtsInventory = async function (user, artsInventory) {
+    await fs.writeFile('./database/userData/' + user.userId + "/artsInventory.json", JSON.stringify(artsInventory));
+    console.log("ユーザの戦術情報書き込み完了");
+}
+
+utility.writeAllDataOfUser = async function(user, equipmentInventory, itemInventory, artsInventory){
+    await Promise.all([
+        this.writeUser(user),
+        this.writeEquipInventory(user, equipmentInventory),
+        this.writeItemInventory(user, itemInventory),
+        this.writeArtsInventory(user, artsInventory)]);
 }
 
 
@@ -134,7 +160,50 @@ utility.buyAccessory = function (user,targetAccessory) {
     this.writeUser(user);
 }
 
+utility.getJobElement = function (user) {
+    return jobInformation.jobList[user.job];
+}
 
+utility.getBasicArtsNumbers = function (job) {//対象の職業の基本技を得る
+    let basicArts=[];
+    job.basicArts.forEach(element => basicArts.push(element));
+    return basicArts;
+}
+
+utility.getBasicArtsNumbersByUser= function (user){//ユーザの職業の基本技の番号を得る
+    return this.getBasicArtsNumbers(this.getJobElement(user));
+}
+
+utility.isChangeable = function (user, job) {
+    let isChangeable = false;
+    if (user.power >= job.powerRequired
+        && user.mana >= job.manaRequired
+        && user.religion >= job.religionRequired
+        && user.vitality >= job.vitalityRequired
+        && user.agility >= job.agilityRequired
+        && user.dexterity >= job.dexterityRequired
+        && user.charm >= job.charmRequired
+        && user.karma >= job.karmaRequired
+    ) {
+        isChangeable = true;
+    }
+        return isChangeable;
+}
+
+utility.getChangeableJobs = function () {
+    console.log(utility);
+    let changeableJobs = [];
+    jobInformation.jobList.forEach(function (element) {
+        if (isChangeable(element)) {
+            changeableJobs.push(element.id);
+        }
+    });
+    return changeableJobs;
+}
+
+utility.changeJob = function (user,target) {
+    user.job = target;
+}
 
 
 module.exports = utility;
