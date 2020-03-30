@@ -94,12 +94,15 @@ utility.readAllDataOfUser = async function (user) {
 //ユーザ登録処理
 utility.registerUser = async function (user) {
     await fs.mkdir('./database/userData/' + user.userId);
+    let career = new Array(jobInformation.jobList.length);
+    career.fill(0);
+    career[user.job] = user.jobLevel;
     await Promise.all([
         this.writeUser(user),
         this.writeEquipInventory(user, []),
         this.writeItemInventory(user, []),
         this.writeArtsInventory(user, [0].concat(this.getBasicArtsNumbersByUser(user))),
-        this.writeCareer(user, [user.job])
+        this.writeCareer(user, career)
     ]);
 }
 
@@ -109,7 +112,7 @@ utility.writeUser = async function(user) {
 }
 
 utility.writeEquipInventory = async function (user,equipInventory) {
-    await fs.writeFile('./database/userData/' + user.userId + "/equipment.json", JSON.stringify(equipInventory));
+    await fs.writeFile('./database/userData/' + user.userId + "/equipmentInventory.json", JSON.stringify(equipInventory));
     console.log("ユーザの装備品情報書き込み完了");
 }
 
@@ -177,7 +180,7 @@ utility.buyAccessory = function (user,targetAccessory) {
     this.writeUser(user);
 }
 
-utility.getJobElement = function (user) {
+utility.getJobElementOfUser = function (user) {
     return jobInformation.jobList[user.job];
 }
 
@@ -188,7 +191,7 @@ utility.getBasicArtsNumbers = function (job) {//対象の職業の基本技を�
 }
 
 utility.getBasicArtsNumbersByUser= function (user){//ユーザの職業の基本技の番号を得る
-    return this.getBasicArtsNumbers(this.getJobElement(user));
+    return this.getBasicArtsNumbers(this.getJobElementOfUser(user));
 }
 
 utility.isChangeable = function (user, job) {
@@ -227,8 +230,13 @@ utility.getChangeableAndNotYetMasterJobs = function (user) {//未マスターか
     });
 }
 
-utility.changeJob = function (user,target) {
-    user.job = target;
+utility.changeJob = async function (user,targetJobId) {
+    user.career[user.job] = user.jobLevel;
+    user.job = targetJobId;
+    user.jobLevel = user.career[user.job];
+    user.jobLevel = max(user.jobLevel, 1);
+
+    await this.writeAllDataOfUser(user,user.equipInventory,user.itemInventory,user.artsInventory,user.career);
 }
 
 utility.getChangeableArtsByArtsInventory = function(user){
@@ -251,7 +259,7 @@ utility.getArtsByIndex = function (index) {
 }
 
 utility.getArtsById = function (id) {
-    if (artsInformation.artsList[index].id === index) {
+    if (artsInformation.artsList[id].id === id) {
         return this.getArtsByIndex(id);
     }
     let returnArts = {};
@@ -261,6 +269,10 @@ utility.getArtsById = function (id) {
     });
 
     return returnArts;
+}
+
+utility.getArtsOfUser = function (user) {
+    return this.getArtsById(user.setArts);
 }
 
 

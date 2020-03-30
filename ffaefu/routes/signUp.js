@@ -41,7 +41,8 @@ router.post('/', function (req, res, next) {
             accessory: 0,
             bank: 0,
             setArts: 0,
-            job: req.body.job.parseInt(),
+            job: parseInt(req.body.job),
+            jobLevel: 1,
             lastBattleDate: utility.getTime(),
             lastLoginDate: utility.getTime()
         };
@@ -54,7 +55,7 @@ router.post('/', function (req, res, next) {
             isRegisterd: true,
             userId: userId,
             userName: userName,
-            userJob: req.body.job.parseInt()
+            userJob: parseInt(req.body.job)
         });
         /*
         fs.writeFile('./database/userData' + userId + ".json", JSON.stringify(userData), function (err) {

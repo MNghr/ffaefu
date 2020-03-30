@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
         console.log(availableAccessories);
         res.render('accessoryShop', {
             title: configuration.gameTitle,
-            subTitle: "武器屋",
+            subTitle: "装飾品屋",
             user: req.session.user,
             accessories: availableAccessories,
             content: "",

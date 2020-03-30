@@ -2,10 +2,12 @@ let battle = {};
 let utility = require("./utility.js");
 let fs = require("fs");
 let jobInformation = require("./informations/jobInformation.js");
+let artsInformation = require("./informations/artsInformation.js");
+let configuration = require("./configuration.js");
 
 battle.battleAgainstMonster = function (user, enemy) {
     let stamina = utility.calculateStamina(user.lastBattleDate);
-    user.lastBattleDate = (utility.getTime() - (stamina - 60) * 1000);
+    user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsMonsterStamina) * 1000);
     return this.battleRoutine(user, enemy, 0);
 };
 battle.battleAgainstPlayer = function (user, enemy) {
@@ -16,13 +18,19 @@ battle.battleRoutine = function (user, enemy, kind) {
     this.returnMessage = "";
     if (kind === 0) {
         enemy.currentHP = enemy.maxHP;
-        userAttack = user.power;//utility.calculateAttack(user);
+        userAttack = utility.calculateAttack(user);
         let turn = 1;
         while (user.currentHP > 0 && enemy.currentHP > 0) {
             this.returnMessage += turn + "ターン目:<br>";
             this.returnMessage += user.userName + ":" + user.currentHP + "/" + user.maxHP + "VS" + enemy.enemyName + ":" + enemy.currentHP + "/" + enemy.maxHP + "<br>";
-            enemy.currentHP -= userAttack;
-            this.returnMessage += user.userName + "の攻撃!" + enemy.enemyName + "に" + userAttack + "ダメージを与えた<br>";
+            let receiveData = {};
+            if (utility.getArtsOfUser(user).invocationRate > utility.random(0, 100)) {
+                receiveData = utility.getArtsOfUser(user).effect(user, enemy);            
+            } else {
+                receiveData = utility.getArtsById(0).effect(user,enemy);
+            }
+            enemy.currentHP -= receiveData.dealDamage;
+            this.returnMessage += user.userName + "の攻撃!"+receiveData.message+enemy.enemyName + "に" + receiveData.dealDamage + "ダメージを与えた<br>";
             user.currentHP -= enemy.attack;
             this.returnMessage += enemy.enemyName + "が襲い掛かった！" + user.userName + "は" + enemy.attack + "ダメージ受けた<br>";
             this.returnMessage += "<br>";
@@ -66,10 +74,12 @@ battle.levelup = function (user) {
     userOld.religion = user.religion;
     userOld.vitality = user.vitality;
     userOld.charm = user.charm;
+    userOld.jobLevel = user.jobLevel;
     while (user.level * 300 <= user.exp) {
         user.exp -= (user.level) * 300;
         ++user.level;
         ++levelDifference;
+        ++user.jobLevel;
         let abilityDifference = utility.random(1, jobInformation.jobList[user.job].powerGrowth) * utility.random(0, 1);
         user.power += abilityDifference;
         abilityDifference = utility.random(1, jobInformation.jobList[user.job].manaGrowth) * utility.random(0, 1);
@@ -89,7 +99,13 @@ battle.levelup = function (user) {
         user.maxHP += utility.random(1, 4) * user.vitality;
     }
     if (levelDifference > 0) {
-        this.returnMessage += "<h1>" + user.userName + "のレベルが" + levelDifference + "上がった！</h1>";
+        user.jobLevel = Math.min(60, user.jobLevel);
+        this.returnMessage += "<h1>" + user.userName + "のレベルが" + levelDifference + "上がった！";
+        if (user.jobLevel === 60 && userOld.jobLevel < 60) {
+            this.returnMessage += utility.getJobElementOfUser(user).name + "をマスターした！！！";
+            this.jobMaster(user);
+        }
+        this.returnMessage += "</h1>"
         this.returnMessage += "最大HPが" + (user.maxHP - userOld.maxHP) + "上がった．";
         this.returnMessage += "力が" + (user.power - userOld.power) + "上がった．";
         this.returnMessage += "魔力が" + (user.mana - userOld.mana) + "上がった．";
@@ -116,9 +132,14 @@ battle.lose = function(user,enemy){
     console.log(user)
 };
 
-battle.draw = function (user,enemy) {
+battle.draw = function (user, enemy) {
     this.getExp(user, enemy.exp / 2);
     console.log(user);
+};
+
+battle.jobMaster = function (user) {
+    user.artsInventory.concat(utility.getJobElementOfUser(user).masterArts);
+    user.career[utility.getJobElementOfUser(user).id];
 }
 
 module.exports = battle;
