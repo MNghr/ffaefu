@@ -54,7 +54,7 @@ router.post('/', function (req, res, next) {
             isRegisterd: true,
             userId: userId,
             userName: userName,
-            userJob: req.body.job
+            userJob: req.body.job.parseInt()
         });
         /*
         fs.writeFile('./database/userData' + userId + ".json", JSON.stringify(userData), function (err) {

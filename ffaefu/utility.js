@@ -247,7 +247,20 @@ utility.getChangeableArts = function (user) {
 }
 
 utility.getArtsByIndex = function (index) {
-    return artsInformation.artsList[element];
+    return artsInformation.artsList[index];
+}
+
+utility.getArtsById = function (id) {
+    if (artsInformation.artsList[index].id === index) {
+        return this.getArtsByIndex(id);
+    }
+    let returnArts = {};
+    artsInformation.artsList.forEach(element => {
+        if(element.id === id)
+            returnArts = element;
+    });
+
+    return returnArts;
 }
 
 
