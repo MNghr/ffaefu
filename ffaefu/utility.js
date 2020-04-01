@@ -45,10 +45,7 @@ utility.fullWithdraw = function(user) {
 
 utility.readUser = async function (user) {
     let data = await fs.readFile('./database/userData/' + user.userId + "/"+user.userId+".json", "utf-8");
-    console.log(user);
     user = { ...JSON.parse(data) };
-    console.log(user);
-    console.log("ファイル読み込み完了");
     return user;
 }
 
@@ -82,11 +79,11 @@ utility.readCareer = async function (user) {
 
 utility.readAllDataOfUser = async function (user) {
     let kernelData =  this.readUser(user);
-    let equipInventory = this.readEquipInventory(user);
-    let itemInventory =  this.readItemInventory(user);
-    let artsInventory = this.readArtsInventory(user);
-    let career = this.readCareer(user);
-    let userData = await Promise.all([kernelData, equipInventory, itemInventory, artsInventory,career]);
+    //let equipInventory = this.readEquipInventory(user);
+    //let itemInventory =  this.readItemInventory(user);
+    //let artsInventory = this.readArtsInventory(user);
+    //let career = this.readCareer(user);
+    let userData = await Promise.all([kernelData])//, equipInventory, itemInventory, artsInventory,career]);
 
     return userData;
 }
@@ -97,12 +94,23 @@ utility.registerUser = async function (user) {
     let career = new Array(jobInformation.jobList.length);
     career.fill(0);
     career[user.job] = user.jobLevel;
+    user.career = career;
+    user.equipInventory = {};
+    user.equipInventory.weapons = [];
+    user.equipInventory.armors = [];
+    user.equipInventory.accessories = [];
+    user.itemInventory = [];
+    user.artsInventory = [0];
+    user.artsInventory = user.artsInventory.concat(this.getBasicArtsNumbersByUser(user));
+    console.log(this.getBasicArtsNumbersByUser(user));
+    console.log(user.artsInventory);
+    
     await Promise.all([
         this.writeUser(user),
-        this.writeEquipInventory(user, []),
-        this.writeItemInventory(user, []),
-        this.writeArtsInventory(user, [0].concat(this.getBasicArtsNumbersByUser(user))),
-        this.writeCareer(user, career)
+        //this.writeEquipInventory(user, []),
+        //this.writeItemInventory(user, user.itemInventory),
+        //this.writeArtsInventory(user, [0].concat(this.getBasicArtsNumbersByUser(user))),
+        //this.writeCareer(user, career)
     ]);
 }
 
@@ -134,10 +142,10 @@ utility.writeCareer = async function (user, career) {
 utility.writeAllDataOfUser = async function(user, equipmentInventory, itemInventory, artsInventory,career){
     await Promise.all([
         this.writeUser(user),
-        this.writeEquipInventory(user, equipmentInventory),
-        this.writeItemInventory(user, itemInventory),
-        this.writeArtsInventory(user, artsInventory),
-        this.writeCareer(user, career)
+        //this.writeEquipInventory(user, equipmentInventory),
+        //this.writeItemInventory(user, itemInventory),
+        //this.writeArtsInventory(user, artsInventory),
+        //this.writeCareer(user, career)
     ]);
 }
 
@@ -259,6 +267,7 @@ utility.getArtsByIndex = function (index) {
 }
 
 utility.getArtsById = function (id) {
+    console.log(artsInformation);
     if (artsInformation.artsList[id].id === id) {
         return this.getArtsByIndex(id);
     }
@@ -267,7 +276,7 @@ utility.getArtsById = function (id) {
         if(element.id === id)
             returnArts = element;
     });
-
+    console.log(returnArts);
     return returnArts;
 }
 

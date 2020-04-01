@@ -21,13 +21,16 @@ router.post('/', function (req, res, next) {
     console.log(data);
     if (data.password === password) {
       console.log("パスワード照合完了");
-      //req.session.user = data;
+      req.session.user = data;
+      /*
       [req.session.user,
         req.session.user.equipInventory,
            req.session.user.itemInventory,
         req.session.user.artsInventory,
         req.session.user.career
-       ] = await utility.readAllDataOfUser({ userId: userId });
+       ] = await utility.readAllDataOfUser({ userId: userId });*/
+      
+      //req.session.user = await utility.readAllDataOfUser({ userId: userId })[0];
     }
     res.redirect('/login');
     /*

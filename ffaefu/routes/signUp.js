@@ -44,7 +44,7 @@ router.post('/', function (req, res, next) {
             job: parseInt(req.body.job),
             jobLevel: 1,
             lastBattleDate: utility.getTime(),
-            lastLoginDate: utility.getTime()
+            lastLoginDate: utility.getTime(),
         };
         //データベースファイルを開いて書き込む
         await utility.registerUser(userData);

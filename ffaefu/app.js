@@ -51,6 +51,7 @@ app.use("/armorShop", armorShop);
 app.use("/accessoryShop", accessoryShop);
 app.use("/changeJob", changeJob);
 app.use("/changeArts", changeArts);
+app.use("/changeStatus", changeStatus);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -9,7 +9,6 @@ let armorInformation = require("../informations/armorInformation.js");
 //ステータス画面のバックエンド．ステータス画面描画に必要なデータをejs側に飛ばすだけ．
 router.get('/', function (req, res, next) {
     if (req.session.user !== undefined) {
-        console.log(weaponInformation);
         res.render('status', { 
             title: "FFA えふ改",
             subTitle: "ステータス画面",
