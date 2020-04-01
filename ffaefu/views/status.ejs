@@ -29,6 +29,7 @@
       <li>経験値: <%= user.exp %>/<%= user.level*300 %></li>
       <li>所持金: <%= user.money %>C/1,000,000,000C</li>
       <li>スタイル: <%= job.name %></li>
+      <li>スタイルレベル: <%= user.jobLevel </li>
       <li>スタミナ: <x id="stamina"><%= stamina %></x></li>
       <li>武器 <%=weapon.name %> 威力: <%= weapon.attack %></li>
       <li>防具 <%=armor.name %> 防御力: <%= armor.defence %></li>
@@ -57,7 +58,7 @@
       <a href="/accessoryShop"><button>装飾品屋へ</button></a>
       <a href="/changeJob"><button>転職の祠へ</button></a>
       <a href="/status"><button>画面更新</button></a>
-      <a href="/changeStatus"><button>画面更新</button></a>
+      <a href="/changeStatus"><button>ステータス変更画面へ</button></a>
     </div>
     <div>
       その辺を探索

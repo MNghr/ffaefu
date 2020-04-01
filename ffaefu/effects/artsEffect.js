@@ -3,7 +3,6 @@ let utility = require("../utility.js");
 let artsEffect = {};
 
 artsEffect.none = function (user,enemy) { //通常攻撃
-    console.log(utility);
     let returnData = {};
     returnData.message= "";
     returnData.dealDamage = calculateAttack(user);
@@ -20,8 +19,8 @@ artsEffect.crossSlash = function (user,enemy) {
 
 artsEffect.furyCutter = function (user,enemy) {
     let returnData = {};
-    let hitAmount = utility.random(1,8);
-    returnData.message = "連続斬り！"+hitAmount+"回 あたった！";
+    let hitAmount = random(1, 8);
+    returnData.message = "<p><h2>連続斬り！</h2>"+hitAmount+"回 あたった！</p>";
     returnData.dealDamage = hitAmount*calculateAttack(user)*random(1, 35);
 
     return returnData;

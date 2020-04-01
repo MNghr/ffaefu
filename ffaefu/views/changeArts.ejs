@@ -21,9 +21,11 @@
         <% }); %>
         <button type="submit">戦術を変更する</button>
         </form>
-      <% }else{ %>
+      <% }else if(mode === "done"){ %>
           戦術を<%=setArts.name %>に変更しました！
-      <% } %>
+      <% }else{ %>
+        不正な選択です．
+      <% }%>
 
       
 

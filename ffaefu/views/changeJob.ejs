@@ -10,13 +10,27 @@
   <body>
     <h1><%= subTitle %></h1>
     <div wrapper>
-      あなたが転職可能な職業は
-      <% changeableJobs.forEach(function(element){ %>
-        <%= element.name %>,
-      <% }); %>
-      です．このうち，マスターしていない職業は
-        ※準備中です
-      です．転職先のジョブレベルが19以下の場合，HP以外の各ステータスが1割，カルマは2割減少します．
+
+      <% if(mode === "selectJob"){ %>
+        あなたが転職可能な職業は
+        <% changeableJobs.forEach(function(element){ %>
+          <%= element.name %>,
+        <% }); %>
+        です．このうち，マスターしていない職業は
+          ※準備中です
+        です．転職先のジョブレベルが19以下の場合，HP以外の各ステータスが1割，カルマは2割減少します．
+      <form action="" method="POST">
+        <select name="jobNumber">
+        <% changeableJobs.forEach(function(element){ %>
+          <% let output='<option value="'+element.id+'">' + element.name + '</option>'%>
+          <%- output %>
+        <% }); %>
+        </select>
+      <button type="submit">転職する</button>
+      </form>
+      <% }else if(mode === "done"){ %>
+        <%= jobElement.name %>に転職しました．
+        <% } %>
 
     <a href="/status"><button>ステータス画面へ</button></a>
     <a href="/bank"><button>銀行へ</button></a>

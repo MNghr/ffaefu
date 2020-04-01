@@ -10,7 +10,7 @@ let armorInformation = require("../informations/armorInformation.js");
 router.get('/', function (req, res, next) {
     if (req.session.user !== undefined) {
         console.log(weaponInformation);
-        res.render('status', { 
+        res.render('changeStatus', { 
             title: "FFA えふ改",
             subTitle: "ステータス変更画面",
             user: req.session.user,

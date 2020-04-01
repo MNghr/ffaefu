@@ -20,13 +20,17 @@ battle.battleRoutine = function (user, enemy, kind) {
         enemy.currentHP = enemy.maxHP;
         userAttack = utility.calculateAttack(user);
         let turn = 1;
+        console.log("ユーザの戦術番号:"+user.setArts)
         while (user.currentHP > 0 && enemy.currentHP > 0) {
             this.returnMessage += turn + "ターン目:<br>";
             this.returnMessage += user.userName + ":" + user.currentHP + "/" + user.maxHP + "VS" + enemy.enemyName + ":" + enemy.currentHP + "/" + enemy.maxHP + "<br>";
             let receiveData = {};
+            console.log(utility.getArtsOfUser(user).invocationRate);
             if (utility.getArtsOfUser(user).invocationRate > utility.random(0, 100)) {
+                console.log("戦術発動");
                 receiveData = utility.getArtsOfUser(user).effect(user, enemy);            
             } else {
+                console.log("戦術不発");
                 receiveData = utility.getArtsById(0).effect(user,enemy);
             }
             enemy.currentHP -= receiveData.dealDamage;
@@ -138,7 +142,7 @@ battle.draw = function (user, enemy) {
 };
 
 battle.jobMaster = function (user) {
-    user.artsInventory.concat(utility.getJobElementOfUser(user).masterArts);
+    user.artsInventory = user.artsInventory.concat(utility.getJobElementOfUser(user).masterArts);
     user.career[utility.getJobElementOfUser(user).id];
 }
 

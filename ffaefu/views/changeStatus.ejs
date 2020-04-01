@@ -37,63 +37,12 @@
       <li>器用さ:<%=user.dexterity %></li>
       <li>カルマ:<%=user.karma %></li>
       <li>スタイル: <%= job.name %></li>
+      <li>スタイルレベル: <%= user.jobLevel %></li>
       <li>武器 <%=weapon.name %> 威力: <%= weapon.attack %></li>
       <li>防具 <%=armor.name %> 防御力: <%= armor.defence %></li>
       <li>装飾品 <%=accessory.name %></li>
     </ul>
     <a href="changeArts"><button>戦術を変更する</button></a>
-    <form action="" method="post">
-      <button type="submit">チャンピオンに挑む</button>
-    </form>
-    <form action="" method="post">
-      <button type="submit">格闘王への道</button>
-    </form>
-    </div>
-    <div>
-      <a href="/inn"><button>HPを回復する(有料)</button></a>
-      <form action="" method="post">
-        <button type="submit">装備品倉庫へ</button>
-      </form>
-      <a href="/bank"><button>銀行へ</button></a>
-    
-      <form action="" method="post">
-        <button type="submit">道具屋へ</button>
-      </form>
-      <a href="/weaponShop"><button>武器屋</button></a>
-      <a href="/armorShop"><button>防具屋へ</button></a>
-      <a href="/accessoryShop"><button>装飾品屋へ</button></a>
-      <a href="/changeJob"><button>転職の祠へ</button></a>
-      <a href="/status"><button>画面更新</button></a>
-    </div>
-    <div>
-      その辺を探索
-      <form action="/vsMonster" method="post">
-        <select name="difficulty">
-          <option value="1">そのへんの森(弱い敵が出現)</option>
-          <option value="2">沖合(それなりの敵が出現)</option>
-          <option value="3">樹海(割と強い敵が出現)</option>
-          <option value="4">魔の秘境(とても強い敵が出現)</option>
-        </select>
-        <button type="submit">挑む</button>
-      </form>
-    </div>
-    <div>
-      勝ち抜きボスバトル
-      <form action="/vsMonster" method="post">
-        <select name="difficulty">
-          <option value="1">試しの洞窟</option>
-          <option value="2">バーレル火山</option>
-          <option value="3">VIPブリッヂ</option>
-          <option value="4">次元のはざま</option>
-        </select>
-        <button type="submit">挑む</button>
-      </form>
-    </div>
-    <div>
-      修練場
-      <form action="" method="post">
-        <button type="submit">修練場へ挑む</button>
-      </form>
     </div>
     </div>
   </body>

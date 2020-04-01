@@ -240,11 +240,36 @@ utility.getChangeableAndNotYetMasterJobs = function (user) {//未マスターか
 
 utility.changeJob = async function (user,targetJobId) {
     user.career[user.job] = user.jobLevel;
+    if (user.jobLevel < 60) {//ジョブをマスターしてなければその職業の技を削除
+        let removeArts = this.getBasicArtsNumbersByUser(user);
+        console.log(removeArts);
+        user.artsInventory = user.artsInventory.filter(function (element) {
+            for (let i = 0; i < removeArts.length; ++i){
+                if (element === removeArts[i]) {
+                    return false;
+                }
+                return true;
+            }
+        });
+        user.setArts = 0;
+    }
+    console.log(user.artsInventory);
     user.job = targetJobId;
     user.jobLevel = user.career[user.job];
-    user.jobLevel = max(user.jobLevel, 1);
-
-    await this.writeAllDataOfUser(user,user.equipInventory,user.itemInventory,user.artsInventory,user.career);
+    user.jobLevel = Math.max(user.jobLevel, 1);
+    let addArts = this.getBasicArtsNumbersByUser(user);
+    user.artsInventory = user.artsInventory.concat(addArts);
+    user.artsInventory.sort(function (a, b) {
+        if (a < b)
+            return -1;
+        if (a > b)
+            return 1;
+        return 0;
+    });
+    await this.writeUser(user);
+    console.log(user.job);
+    console.log(user.jobLevel);
+    console.log(user.artsInventory);
 }
 
 utility.getChangeableArtsByArtsInventory = function(user){
@@ -267,21 +292,27 @@ utility.getArtsByIndex = function (index) {
 }
 
 utility.getArtsById = function (id) {
-    console.log(artsInformation);
+    console.log(artsInformation.artsList[id]);
+    console.log("requestedid:" + id);
+    console.log("artsInformation.artsList[id].id:"+artsInformation.artsList[id].id)
     if (artsInformation.artsList[id].id === id) {
+        console.log("技のidと要求されたidが一致したのでそのまま返します");
+        console.log(artsInformation.artsList[id]);
         return this.getArtsByIndex(id);
+    } else {
+        console.log("一致しなかったため検索します");
+        let returnArts = {};
+        artsInformation.artsList.forEach(element => {
+            if (element.id === id)
+                returnArts = element;
+        });
+        return returnArts;
     }
-    let returnArts = {};
-    artsInformation.artsList.forEach(element => {
-        if(element.id === id)
-            returnArts = element;
-    });
-    console.log(returnArts);
-    return returnArts;
 }
 
 utility.getArtsOfUser = function (user) {
-    return this.getArtsById(user.setArts);
+    //return this.getArtsById(user.setArts);
+    return this.getArtsByIndex(user.setArts);
 }
 
 
