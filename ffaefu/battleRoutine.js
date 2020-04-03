@@ -5,6 +5,8 @@ let jobInformation = require("./informations/jobInformation.js");
 let artsInformation = require("./informations/artsInformation.js");
 let configuration = require("./configuration.js");
 
+//戦闘周りの処理 戦闘突入に伴うスタミナ減少，戦闘，戦闘後の各種獲得処理，レベルアップ，レベルアップに伴う職業マスター処理をここに記述
+
 battle.battleAgainstMonster = function (user, enemy) {
     let stamina = utility.calculateStamina(user.lastBattleDate);
     user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsMonsterStamina) * 1000);

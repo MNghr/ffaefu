@@ -29,7 +29,7 @@
       <li>経験値: <%= user.exp %>/<%= user.level*300 %></li>
       <li>所持金: <%= user.money %>C/1,000,000,000C</li>
       <li>スタイル: <%= job.name %></li>
-      <li>スタイルレベル: <%= user.jobLevel </li>
+      <li>スタイルレベル: <%= user.jobLevel %> </li>
       <li>スタミナ: <x id="stamina"><%= stamina %></x></li>
       <li>武器 <%=weapon.name %> 威力: <%= weapon.attack %></li>
       <li>防具 <%=armor.name %> 防御力: <%= armor.defence %></li>
@@ -45,9 +45,7 @@
     </div>
     <div>
       <a href="/inn"><button>HPを回復する(有料)</button></a>
-      <form action="" method="post">
-        <button type="submit">装備品倉庫へ</button>
-      </form>
+      <a href="/equipmentStorage"><button>装備品倉庫へ</button></a>
       <a href="/bank"><button>銀行へ</button></a>
     
       <form action="" method="post">

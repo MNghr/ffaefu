@@ -5,6 +5,7 @@ let utility = require("../utility.js");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'FFA えふ改' });
+  
 });
 
 //ログイン処理

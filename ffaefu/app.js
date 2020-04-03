@@ -19,7 +19,8 @@ let armorShop = require("./routes/armorShop");
 let accessoryShop = require("./routes/accessoryShop");
 let changeJob = require("./routes/changeJob");
 let changeArts = require("./routes/changeArts");
-let changeStatus = require("./routes/changeStatus")
+let changeStatus = require("./routes/changeStatus");
+let equipmentStorage = require("./routes/equipmentStorage");
 
 var app = express();
 
@@ -52,6 +53,7 @@ app.use("/accessoryShop", accessoryShop);
 app.use("/changeJob", changeJob);
 app.use("/changeArts", changeArts);
 app.use("/changeStatus", changeStatus);
+app.use("/equipmentStorage", equipmentStorage);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

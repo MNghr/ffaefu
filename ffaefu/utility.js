@@ -95,10 +95,10 @@ utility.registerUser = async function (user) {
     career.fill(0);
     career[user.job] = user.jobLevel;
     user.career = career;
-    user.equipInventory = {};
-    user.equipInventory.weapons = [];
-    user.equipInventory.armors = [];
-    user.equipInventory.accessories = [];
+    user.equipmentInventory = {};
+    user.equipmentInventory.weapons = [];
+    user.equipmentInventory.armors = [];
+    user.equipmentInventory.accessories = [];
     user.itemInventory = [];
     user.artsInventory = [0];
     user.artsInventory = user.artsInventory.concat(this.getBasicArtsNumbersByUser(user));
@@ -257,15 +257,18 @@ utility.changeJob = async function (user,targetJobId) {
     user.job = targetJobId;
     user.jobLevel = user.career[user.job];
     user.jobLevel = Math.max(user.jobLevel, 1);
-    let addArts = this.getBasicArtsNumbersByUser(user);
-    user.artsInventory = user.artsInventory.concat(addArts);
-    user.artsInventory.sort(function (a, b) {
-        if (a < b)
-            return -1;
-        if (a > b)
-            return 1;
-        return 0;
-    });
+    if (user.jobLevel < 60) { //転職先が未マスターの場合のみ，転職でスキル追加
+        let addArts = this.getBasicArtsNumbersByUser(user);
+        user.artsInventory = user.artsInventory.concat(addArts);
+        user.artsInventory.sort(function (a, b) {
+            if (a < b)
+                return -1;
+            if (a > b)
+                return 1;
+            return 0;
+        });
+    }
+        
     await this.writeUser(user);
     console.log(user.job);
     console.log(user.jobLevel);
@@ -316,5 +319,45 @@ utility.getArtsOfUser = function (user) {
 }
 
 
+utility.getWeaponByIndex=function(index){
+    return weaponInformation.weaponList[index];
+}
+
+utility.getWeaponsOfUser=function(user){
+    let weapons = [];
+    user.equipmentInventory.weapons.forEach(element => {
+        weapons.push(this.getWeaponByIndex(element));
+    })
+    return weapons;
+}
+
+utility.getArmorByIndex=function(index){
+    return armorInformation.armorList[index];
+}
+
+utility.getArmorsOfUser=function(user){
+    let armors = [];
+    user.equipmentInventory.armors.forEach(element => {
+        armors.push(this.getArmorByIndex(element));
+    })
+    return armors;
+}
+
+utility.getAccessoryByIndex=function(index){
+    return accessoryInformation.accessoryList[index];
+}
+
+utility.getAccessoriesOfUser = function (user) {
+    let accessories = [];
+    user.equipmentInventory.accessories.forEach(element => {
+        accessories.push(this.getAccessoryByIndex(element));
+    })
+    return accessories;
+}
+
+utility.readChampion = async function () {
+    let data = await fs.readFile('./database/championData/champion.json', "utf-8");
+    return data;
+};
 
 module.exports = utility;
