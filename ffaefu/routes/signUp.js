@@ -19,7 +19,7 @@ router.post('/', function (req, res, next) {
         let password = req.body.password;
         let userData = {
             userId: userId,
-            userName: userName,
+            name: userName,
             password: password,
             maxHP: 500,
             currentHP: 500,

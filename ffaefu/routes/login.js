@@ -11,7 +11,7 @@ router.get('/', function (req, res, next) {
         res.render('login', {
             title: "ログイン成功",
             loginSucceeded: true,
-            user: req.session.user.userName
+            user: req.session.user.name
         });
     } else {
         res.render('login', { title: "ログイン失敗", loginSucceeded: false });

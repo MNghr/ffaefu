@@ -25,7 +25,7 @@ battle.battleRoutine = function (user, enemy, kind) {
         console.log("ユーザの戦術番号:"+user.setArts)
         while (user.currentHP > 0 && enemy.currentHP > 0) {
             this.returnMessage += turn + "ターン目:<br>";
-            this.returnMessage += user.userName + ":" + user.currentHP + "/" + user.maxHP + "VS" + enemy.enemyName + ":" + enemy.currentHP + "/" + enemy.maxHP + "<br>";
+            this.returnMessage += user.name + ":" + user.currentHP + "/" + user.maxHP + "VS" + enemy.enemyName + ":" + enemy.currentHP + "/" + enemy.maxHP + "<br>";
             let receiveData = {};
             console.log(utility.getArtsOfUser(user).invocationRate);
             if (utility.getArtsOfUser(user).invocationRate > utility.random(0, 100)) {
@@ -36,9 +36,9 @@ battle.battleRoutine = function (user, enemy, kind) {
                 receiveData = utility.getArtsById(0).effect(user,enemy);
             }
             enemy.currentHP -= receiveData.dealDamage;
-            this.returnMessage += user.userName + "の攻撃!"+receiveData.message+enemy.enemyName + "に" + receiveData.dealDamage + "ダメージを与えた<br>";
+            this.returnMessage += user.name + "の攻撃!"+receiveData.message+enemy.enemyName + "に" + receiveData.dealDamage + "ダメージを与えた<br>";
             user.currentHP -= enemy.attack;
-            this.returnMessage += enemy.enemyName + "が襲い掛かった！" + user.userName + "は" + enemy.attack + "ダメージ受けた<br>";
+            this.returnMessage += enemy.enemyName + "が襲い掛かった！" + user.name + "は" + enemy.attack + "ダメージ受けた<br>";
             this.returnMessage += "<br>";
             turn++;
             if (turn === 151) {
@@ -46,7 +46,7 @@ battle.battleRoutine = function (user, enemy, kind) {
             }
         }
         if (enemy.currentHP <= 0) {
-            this.returnMessage += user.userName+"は戦闘に勝利した！！";
+            this.returnMessage += user.name+"は戦闘に勝利した！！";
             this.win(user,enemy);
         } else if (user.currentHP <= 0) {
             this.returnMessage += "敗北した．．．";
@@ -64,7 +64,7 @@ battle.battleRoutine = function (user, enemy, kind) {
 
 battle.getExp = function(user, amount){
     user.exp += amount;
-    this.returnMessage += user.userName + "は" + amount + "経験値を獲得．";
+    this.returnMessage += user.name + "は" + amount + "経験値を獲得．";
     this.levelup(user);
 }
 
@@ -106,7 +106,7 @@ battle.levelup = function (user) {
     }
     if (levelDifference > 0) {
         user.jobLevel = Math.min(60, user.jobLevel);
-        this.returnMessage += "<h1>" + user.userName + "のレベルが" + levelDifference + "上がった！";
+        this.returnMessage += "<h1>" + user.name + "のレベルが" + levelDifference + "上がった！";
         if (user.jobLevel === 60 && userOld.jobLevel < 60) {
             this.returnMessage += utility.getJobElementOfUser(user).name + "をマスターした！！！";
             this.jobMaster(user);

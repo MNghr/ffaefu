@@ -28,15 +28,15 @@ router.post('/', function (req, res, next) {
             switch (req.body.mode) {
                 case "weapon":
                     changeWeapon(req.session.user, parseInt(req.body.targetWeapon));
-                    content += req.session.user.userName + "は" + utility.getWeaponByIndex(req.session.user.weapon).name + "を装備した";
+                    content += req.session.user.name + "は" + utility.getWeaponByIndex(req.session.user.weapon).name + "を装備した";
                     break;
                 case "armor":
                     changeArmor(req.session.user, parseInt(req.body.targetArmor));
-                    content += req.session.user.userName + "は" + utility.getArmorByIndex(req.session.user.armor).name + "を装備した";
+                    content += req.session.user.name + "は" + utility.getArmorByIndex(req.session.user.armor).name + "を装備した";
                     break;
                 case "accessory":
                     changeAccessory(req.session.user, parseInt(req.body.targetAccessory));
-                    content += req.session.user.userName + "は" + utility.getAccessoryByIndex(req.session.user.accessory).name + "を装備した";
+                    content += req.session.user.name + "は" + utility.getAccessoryByIndex(req.session.user.accessory).name + "を装備した";
                     break;
             }
             await utility.writeUser(req.session.user);
