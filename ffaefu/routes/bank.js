@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 let fs = require("fs");
-let utility = require("../utility.js")
+let usersPeripheral = require("../usersPeripheral.js")
 /* GET users listing. */
 router.get('/', function (req, res, next){
     if (req.session.user !== undefined) {
@@ -23,22 +23,22 @@ router.post('/', function (req, res, next) {
             case "deposit":
                 modeMessage = "deposit";
                 //console.log("deposit");
-                utility.deposit(req.session.user,req.body.amount);
+                usersPeripheral.deposit(req.session.user,req.body.amount);
                 break;
             case "fullDeposit":
                 modeMessage = "deposit";
                 //console.log("fullDeposit");
-                utility.fullDeposit(req.session.user);
+                usersPeripheral.fullDeposit(req.session.user);
                 break;
             case "withdraw":
                 modeMessage = "withdraw";
                 //console.log("withdraw");
-                utility.withdraw(req.session.user,req.body.amount);
+                usersPeripheral.withdraw(req.session.user,req.body.amount);
                 break;
             case "fullWithdraw":
                 modeMessage = "withdraw";
                 //console.log("fullwithdraw");
-                utility.fullWithdraw(req.session.user);
+                usersPeripheral.fullWithdraw(req.session.user);
                 break;
             default:
                 console.log("error-bank");

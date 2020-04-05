@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let utility = require("../utility.js");
+let usersPeripheral = require("../usersPeripheral.js");
 let jobInformation = require("../informations/jobInformation.js");
 let weaponInformation = require("../informations/weaponInformation.js");
 let accessoryInformation = require("../informations/accessoryInformation.js");
@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
             weapon: weaponInformation.weaponList[req.session.user.weapon],
             armor: armorInformation.armorList[req.session.user.armor],
             accessory: accessoryInformation.accessoryList[req.session.user.accessory],
-            stamina: utility.calculateStamina(req.session.user.lastBattleDate)
+            stamina: usersPeripheral.calculateStamina(req.session.user.lastBattleDate)
         });
     } else {
         res.redirect('/');

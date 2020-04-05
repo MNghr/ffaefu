@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let fs = require('fs');
+let usersPeripheral = require("../usersPeripheral.js");
 let utility = require("../utility.js");
 
 router.get('/', function (req, res, next) {
@@ -47,7 +48,7 @@ router.post('/', function (req, res, next) {
             lastLoginDate: utility.getTime(),
         };
         //データベースファイルを開いて書き込む
-        await utility.registerUser(userData);
+        await usersPeripheral.registerUser(userData);
 
         res.render('signUp', {
             subTitle: "登録完了",

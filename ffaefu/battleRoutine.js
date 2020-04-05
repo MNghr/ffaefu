@@ -1,4 +1,5 @@
 let battle = {};
+let usersPeripheral = require("./usersPeripheral.js");
 let utility = require("./utility.js");
 let fs = require("fs");
 let jobInformation = require("./informations/jobInformation.js");
@@ -8,7 +9,7 @@ let configuration = require("./configuration.js");
 //戦闘周りの処理 戦闘突入に伴うスタミナ減少，戦闘，戦闘後の各種獲得処理，レベルアップ，レベルアップに伴う職業マスター処理をここに記述
 
 battle.battleAgainstMonster = function (user, enemy) {
-    let stamina = utility.calculateStamina(user.lastBattleDate);
+    let stamina = usersPeripheral.calculateStamina(user.lastBattleDate);
     user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsMonsterStamina) * 1000);
     return this.battleRoutine(user, enemy, 0);
 };
@@ -20,20 +21,20 @@ battle.battleRoutine = function (user, enemy, kind) {
     this.returnMessage = "";
     if (kind === 0) {
         enemy.currentHP = enemy.maxHP;
-        userAttack = utility.calculateAttack(user);
+        userAttack = usersPeripheral.calculateAttack(user);
         let turn = 1;
         console.log("ユーザの戦術番号:"+user.setArts)
         while (user.currentHP > 0 && enemy.currentHP > 0) {
             this.returnMessage += turn + "ターン目:<br>";
             this.returnMessage += user.name + ":" + user.currentHP + "/" + user.maxHP + "VS" + enemy.enemyName + ":" + enemy.currentHP + "/" + enemy.maxHP + "<br>";
             let receiveData = {};
-            console.log(utility.getArtsOfUser(user).invocationRate);
-            if (utility.getArtsOfUser(user).invocationRate > utility.random(0, 100)) {
+            console.log(usersPeripheral.getArtsOfUser(user).invocationRate);
+            if (usersPeripheral.getArtsOfUser(user).invocationRate > utility.random(0, 100)) {
                 console.log("戦術発動");
-                receiveData = utility.getArtsOfUser(user).effect(user, enemy);            
+                receiveData = usersPeripheral.getArtsOfUser(user).effect(user, enemy);            
             } else {
                 console.log("戦術不発");
-                receiveData = utility.getArtsById(0).effect(user,enemy);
+                receiveData = usersPeripheral.getArtsById(0).effect(user,enemy);
             }
             enemy.currentHP -= receiveData.dealDamage;
             this.returnMessage += user.name + "の攻撃!"+receiveData.message+enemy.enemyName + "に" + receiveData.dealDamage + "ダメージを与えた<br>";
@@ -56,7 +57,7 @@ battle.battleRoutine = function (user, enemy, kind) {
             this.draw(user,enemy);
         }
 
-        utility.writeUser(user);
+        usersPeripheral.writeUser(user);
         console.log("戦闘後ファイル書き換え完了");
         return this.returnMessage;
     }
@@ -108,7 +109,7 @@ battle.levelup = function (user) {
         user.jobLevel = Math.min(60, user.jobLevel);
         this.returnMessage += "<h1>" + user.name + "のレベルが" + levelDifference + "上がった！";
         if (user.jobLevel === 60 && userOld.jobLevel < 60) {
-            this.returnMessage += utility.getJobElementOfUser(user).name + "をマスターした！！！";
+            this.returnMessage += usersPeripheral.getJobElementOfUser(user).name + "をマスターした！！！";
             this.jobMaster(user);
         }
         this.returnMessage += "</h1>"
@@ -144,8 +145,8 @@ battle.draw = function (user, enemy) {
 };
 
 battle.jobMaster = function (user) {
-    user.artsInventory = user.artsInventory.concat(utility.getJobElementOfUser(user).masterArts);
-    user.career[utility.getJobElementOfUser(user).id];
+    user.artsInventory = user.artsInventory.concat(usersPeripheral.getJobElementOfUser(user).masterArts);
+    user.career[usersPeripheral.getJobElementOfUser(user).id];
 }
 
 module.exports = battle;

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 let fs = require("fs");
-let utility = require("../utility.js")
+let usersPeripheral = require("../usersPeripheral.js")
 
 /* GET users listing. */
 router.get('/', function (req, res, next){
@@ -12,9 +12,9 @@ router.get('/', function (req, res, next){
             user: req.session.user,
             content: "",
             isFinished: false,
-            weapons: utility.getWeaponsOfUser(req.session.user),
-            armors: utility.getArmorsOfUser(req.session.user),
-            accessories:utility.getAccessoriesOfUser(req.session.user)
+            weapons: usersPeripheral.getWeaponsOfUser(req.session.user),
+            armors: usersPeripheral.getArmorsOfUser(req.session.user),
+            accessories:usersPeripheral.getAccessoriesOfUser(req.session.user)
         });
     } else {
         res.redirect('/');
@@ -28,18 +28,18 @@ router.post('/', function (req, res, next) {
             switch (req.body.mode) {
                 case "weapon":
                     changeWeapon(req.session.user, parseInt(req.body.targetWeapon));
-                    content += req.session.user.name + "は" + utility.getWeaponByIndex(req.session.user.weapon).name + "を装備した";
+                    content += req.session.user.name + "は" + usersPeripheral.getWeaponByIndex(req.session.user.weapon).name + "を装備した";
                     break;
                 case "armor":
                     changeArmor(req.session.user, parseInt(req.body.targetArmor));
-                    content += req.session.user.name + "は" + utility.getArmorByIndex(req.session.user.armor).name + "を装備した";
+                    content += req.session.user.name + "は" + usersPeripheral.getArmorByIndex(req.session.user.armor).name + "を装備した";
                     break;
                 case "accessory":
                     changeAccessory(req.session.user, parseInt(req.body.targetAccessory));
-                    content += req.session.user.name + "は" + utility.getAccessoryByIndex(req.session.user.accessory).name + "を装備した";
+                    content += req.session.user.name + "は" + usersPeripheral.getAccessoryByIndex(req.session.user.accessory).name + "を装備した";
                     break;
             }
-            await utility.writeUser(req.session.user);
+            await usersPeripheral.writeUser(req.session.user);
             res.render('equipmentStorage', {
                 title: "FFAえふ改",
                 subTitle: "装備品倉庫",

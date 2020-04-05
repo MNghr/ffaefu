@@ -1,4 +1,4 @@
-let utility = require("../utility.js");
+let usersPeripheral = require("../usersPeripheral.js");
 let battle = require("../battleRoutine.js");
 let fs = require("fs");
 let configuration = require("../configuration.js");
@@ -14,7 +14,7 @@ router.get('/', function (req, res, next) {
 //「モンスターと戦う/その辺の探索」 post以外のメソッドでのリクエストは受け付けずステータス画面へ戻る．
 router.post('/', function (req, res, next) {
     if (req.session.user !== undefined) {
-        if (utility.calculateStamina(req.session.user.lastBattleDate) < configuration.vsMonsterStamina) {
+        if (usersPeripheral.calculateStamina(req.session.user.lastBattleDate) < configuration.vsMonsterStamina) {
             res.render('vsMonster', {
                 title: "FFA えふ改",
                 subTitle: "エラー！",

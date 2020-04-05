@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let utility = require("../utility.js");
+let usersPeripheral = require("../usersPeripheral.js");
 let jobInformation = require("../informations/jobInformation.js");
 let weaponInformation = require("../informations/weaponInformation.js");
 let accessoryInformation = require("../informations/accessoryInformation.js");
@@ -9,14 +9,12 @@ let ArtsInformation = require("../informations/artsInformation");
 
 router.get('/', function (req, res, next) {
     if (req.session.user !== undefined) {
-        //console.log(utility.getArtsById(req.session.user.setArts));
-        //console.log(req.session.user.setArts);
         res.render('changeArts', { 
             title: "FFA えふ改",
             subTitle: "戦術を変更する",
             user: req.session.user,
-            changeableArts: utility.getChangeableArts(req.session.user),
-            setArts: utility.getArtsOfUser(req.session.user),
+            changeableArts: usersPeripheral.getChangeableArts(req.session.user),
+            setArts: usersPeripheral.getArtsOfUser(req.session.user),
             mode: "selectArts"
         });
     } else {
@@ -30,12 +28,12 @@ router.post('/', function (req, res, next) {
             console.log(req.session.user.setArts);
             req.session.user.setArts = req.body.artsNumber;
             console.log(req.session.user.setArts);
-            console.log(utility.getArtsOfUser(req.session.user));
+            console.log(usersPeripheral.getArtsOfUser(req.session.user));
             res.render('changeArts', {
                 title: "FFA えふ改",
                 subTitle: "戦術を変更する",
                 user: req.session.user,
-                changeableArts: utility.getChangeableArts(req.session.user),
+                changeableArts: usersPeripheral.getChangeableArts(req.session.user),
                 setArts: ArtsInformation.artsList[req.session.user.setArts],
 
                 mode: "done"
@@ -45,7 +43,7 @@ router.post('/', function (req, res, next) {
                 title: "FFA えふ改",
                 subTitle: "戦術を変更する",
                 user: req.session.user,
-                changeableArts: utility.getChangeableArts(req.session.user),
+                changeableArts: usersPeripheral.getChangeableArts(req.session.user),
                 setArts: ArtsInformation.artsList[req.session.user.setArts],
                 mode: "error"
             }); 

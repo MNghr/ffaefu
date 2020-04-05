@@ -1,5 +1,5 @@
 let express = require('express');
-let utility = require("../utility.js");
+let usersPeripheral = require("../usersPeripheral.js");
 let configuration = require("../configuration.js");
 let jobInformation = require("../informations/jobInformation.js")
 let armorInformation = require("../informations/armorInformation.js");
@@ -34,7 +34,7 @@ router.post('/', function (req, res, next) {
     if (req.session.user.money < armorInformation.armorList[jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]].value) {
         content = "エラー:所持金が足りません";
     } else {
-        utility.buyArmor(req.session.user, armorInformation.armorList[jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]]);
+        usersPeripheral.buyArmor(req.session.user, armorInformation.armorList[jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]]);
         console.log(jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]);
         content = armorInformation.armorList[jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]].name + "を購入しました．" + req.session.user.userName + "は早速装備した！";
     }

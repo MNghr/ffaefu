@@ -1,5 +1,5 @@
 let fs = require("fs").promises;
-let utility = require("./utility.js");
+let usersPeripheral = require("./usersPeripheral.js");
 module.exports = function (req, res, next) {
     (async () => {
         let userId;
@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
              res.locals.equipInventory,
                 res.locals.itemInventory,
              res.locals.artsInventory
-            ] = await utility.readAllDataOfUser({ userId: userId });
+            ] = await usersPeripheral.readAllDataOfUser({ userId: userId });
             
             console.log(res.locals.user);
         }

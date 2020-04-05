@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let utility = require("../utility.js");
+let usersPeripheral = require("../usersPeripheral.js");
 let jobInformation = require("../informations/jobInformation.js");
 let weaponInformation = require("../informations/weaponInformation.js");
 let accessoryInformation = require("../informations/accessoryInformation.js");
@@ -13,8 +13,8 @@ router.get('/', function (req, res, next) {
             title: "FFA えふ改",
             subTitle: "転職の祠",
             user: req.session.user,
-            changeableJobs: utility.getChangeableJobs(req.session.user),
-            jobElement: utility.getJobElementOfUser(req.session.user),
+            changeableJobs: usersPeripheral.getChangeableJobs(req.session.user),
+            jobElement: usersPeripheral.getJobElementOfUser(req.session.user),
             mode:"selectJob"
         });
     } else {
@@ -25,13 +25,13 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
     (async () => {
         if (req.session.user !== undefined) {
-            await utility.changeJob(req.session.user, req.body.jobNumber);
+            await usersPeripheral.changeJob(req.session.user, req.body.jobNumber);
             res.render('changeJob', {
                 title: "FFA えふ改",
                 subTitle: "転職の祠",
                 user: req.session.user,
-                changeableJobs: utility.getChangeableJobs(req.session.user),
-                jobElement: utility.getJobElementOfUser(req.session.user),
+                changeableJobs: usersPeripheral.getChangeableJobs(req.session.user),
+                jobElement: usersPeripheral.getJobElementOfUser(req.session.user),
                 mode: "done"
             });
         } else {

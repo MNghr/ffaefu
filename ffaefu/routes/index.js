@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 let fs = require("fs");
-let utility = require("../utility.js");
+let usersPeripheral = require("../usersPeripheral.js");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'FFA えふ改' });
-  
+
 });
 
 //ログイン処理
@@ -15,7 +15,7 @@ router.post('/', function (req, res, next) {
     let password = req.body.password;
     let data = {};
     try {
-      data = await utility.readUser({ userId: userId });
+      data = await usersPeripheral.readUser({ userId: userId });
     } catch(err){
       res.redirect('/login');
     }
