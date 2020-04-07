@@ -32,7 +32,7 @@ router.post('/', function (req, res, next) {
                     console.log(content);
                     res.render('vsMonster', {
                         title: "FFA えふ改",
-                        subTitle: JSON.parse(enemy).enemyName + "が現れた！",
+                        subTitle: JSON.parse(enemy).name + "が現れた！",
                         content: content,
                         user: req.session.user
                     });

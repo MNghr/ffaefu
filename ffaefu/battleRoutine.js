@@ -4,6 +4,7 @@ let utility = require("./utility.js");
 let fs = require("fs");
 let jobInformation = require("./informations/jobInformation.js");
 let artsInformation = require("./informations/artsInformation.js");
+let enemyArtsEffect = require("./effects/enemyArtsEffect.js");
 let configuration = require("./configuration.js");
 
 //戦闘周りの処理 戦闘突入に伴うスタミナ減少，戦闘，戦闘後の各種獲得処理，レベルアップ，レベルアップに伴う職業マスター処理をここに記述
@@ -18,49 +19,80 @@ battle.battleAgainstPlayer = function (user, enemy) {
 };
 battle.returnMessage = "";
 battle.battleRoutine = function (user, enemy, kind) {
+    let _user = JSON.parse(JSON.stringify(user));
+    let _enemy = JSON.parse(JSON.stringify(enemy));
+    _user.weapon = usersPeripheral.getWeaponByIndex(user.weapon);
+    _enemy.artsEffect = enemyArtsEffect.fire2;
+    console.log(_user.weapon)
+    console.log(usersPeripheral.getWeaponByIndex(user.weapon));
+    console.log(_user);
+    console.log(_enemy);
+
     this.returnMessage = "";
     if (kind === 0) {
-        enemy.currentHP = enemy.maxHP;
-        userAttack = usersPeripheral.calculateAttack(user);
+        _enemy.currentHP = _enemy.maxHP;
+        
+        userAttack = usersPeripheral.calculateAttack(_user);
         let turn = 1;
-        console.log("ユーザの戦術番号:"+user.setArts)
-        while (user.currentHP > 0 && enemy.currentHP > 0) {
+        console.log("ユーザの戦術番号:"+_user.setArts)
+        while (_user.currentHP > 0 && _enemy.currentHP > 0) {
+            _enemy.receiveDamage = 0; 
+            _enemy.damageCutPercentage = 0.0; 
+            _enemy.recoverHP = 0; 
+            _enemy.erasiveness = enemy.erasive;
+            _user.receiveDamage = 0;
+            _user.damageCutPercentage = 0.0;
+            _user.erasiveness = 50;
+    
             this.returnMessage += turn + "ターン目:<br>";
-            this.returnMessage += user.name + ":" + user.currentHP + "/" + user.maxHP + "VS" + enemy.enemyName + ":" + enemy.currentHP + "/" + enemy.maxHP + "<br>";
+            this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS" + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br>";
             let receiveData = {};
-            console.log(usersPeripheral.getArtsOfUser(user).invocationRate);
-            if (usersPeripheral.getArtsOfUser(user).invocationRate > utility.random(0, 100)) {
+            let enemyReceiveData = {}; 
+            if (usersPeripheral.getArtsOfUser(_user).invocationRate > utility.random(0, 99)) {
                 console.log("戦術発動");
-                receiveData = usersPeripheral.getArtsOfUser(user).effect(user, enemy);            
+                receiveData = usersPeripheral.getArtsOfUser(_user).effect(_user, _enemy);            
             } else {
                 console.log("戦術不発");
-                receiveData = usersPeripheral.getArtsById(0).effect(user,enemy);
+                receiveData = usersPeripheral.getArtsById(0).effect(_user,_enemy);
             }
-            enemy.currentHP -= receiveData.dealDamage;
-            this.returnMessage += user.name + "の攻撃!"+receiveData.message+enemy.enemyName + "に" + receiveData.dealDamage + "ダメージを与えた<br>";
-            user.currentHP -= enemy.attack;
-            this.returnMessage += enemy.enemyName + "が襲い掛かった！" + user.name + "は" + enemy.attack + "ダメージ受けた<br>";
+
+            if (_enemy.artsActivation > utility.random(0, 99)) {
+                console.log("敵戦術発動");
+                enemyReceiveData = _enemy.artsEffect(_user, _enemy);
+            } else {
+                console.log("敵戦術不発")
+                enemyReceiveData = enemyArtsEffect.none(_user, _enemy);
+            }
+            _enemy.currentHP -= Math.ceil(_enemy.receiveDamage*Math.ceil(1-_enemy.damageCutPercentage));
+            this.returnMessage += _user.name + "の攻撃!"+receiveData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた<br>";
+            _user.currentHP -= Math.ceil(_user.receiveDamage*Math.ceil(1-_user.damageCutPercentage));
+            this.returnMessage += _enemy.name + "が襲い掛かった！" + enemyReceiveData.message + _user.name + "は" + _user.receiveDamage + "ダメージ受けた<br>";
             this.returnMessage += "<br>";
             turn++;
             if (turn === 151) {
                 break;
             }
         }
-        if (enemy.currentHP <= 0) {
+
+        if (_enemy.currentHP <= 0) {
             this.returnMessage += user.name+"は戦闘に勝利した！！";
             this.win(user,enemy);
-        } else if (user.currentHP <= 0) {
+        } else if (_user.currentHP <= 0) {
             this.returnMessage += "敗北した．．．";
             this.lose(user,enemy);   
         } else {
             this.returnMessage += "逃げ出した...♪";
             this.draw(user,enemy);
         }
-
+        user.currentHP = _user.currentHP;
+        if (user.currentHP <= 0) {
+            user.currentHP = user.maxHP;
+        }
         usersPeripheral.writeUser(user);
         console.log("戦闘後ファイル書き換え完了");
         return this.returnMessage;
     }
+
 };
 
 battle.getExp = function(user, amount){

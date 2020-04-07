@@ -6,6 +6,7 @@ let armorInformation = require("./informations/armorInformation.js");
 let accessoryInformation = require("./informations/accessoryInformation.js");
 let artsInformation = require("./informations/artsInformation.js");
 let jobInformation = require("./informations/jobInformation.js");
+let configuration = require("./configuration.js")
 
 usersPeripheral.deposit = function(user,amount) {
     if (user.money < amount)
@@ -197,6 +198,11 @@ usersPeripheral.isChangeable = function (user, job) {
     ) {
         isChangeable = true;
     }
+
+    job.jobRequired.forEach(element => {
+        if (user.career[element] < configuration.jobMasterLevel)
+            isChangeable = false;
+    });
         return isChangeable;
 }
 
