@@ -178,7 +178,7 @@ battle.draw = function (user, enemy) {
 
 battle.jobMaster = function (user) {
     user.artsInventory = user.artsInventory.concat(usersPeripheral.getJobElementOfUser(user).masterArts);
-    user.career[usersPeripheral.getJobElementOfUser(user).id];
+    user.career[usersPeripheral.getJobElementOfUser(user).id] = user.jobLevel;
 }
 
 module.exports = battle;

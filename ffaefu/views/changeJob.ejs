@@ -17,7 +17,9 @@
           <%= element.name %>,
         <% }); %>
         です．このうち，マスターしていない職業は
-          ※準備中です
+        <% changeableAndNotYetMasterJobs.forEach(function(element){ %>
+          [<%= element.name %>],
+        <% }); %>
         です．転職先のジョブレベルが19以下の場合，HP以外の各ステータスが1割，カルマは2割減少します．
       <form action="" method="POST">
         <select name="jobNumber">

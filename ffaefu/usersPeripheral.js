@@ -41,40 +41,9 @@ usersPeripheral.readUser = async function (user) {
     return user;
 }
 
-usersPeripheral.readEquipInventory = async function(user){
-    let equipInventory = JSON.parse(await fs.readFile('./database/userData/' + user.userId + "/equipmentInventory.json"));
-    console.log(equipInventory);
-    console.log("装備品倉庫読み込み完了")
-    return equipInventory;
-}
-
-usersPeripheral.readItemInventory = async function(user){
-    let itemInventory = JSON.parse(await fs.readFile('./database/userData/' + user.userId + "/itemInventory.json"));
-    console.log(itemInventory);
-    console.log("道具倉庫読み込み完了")
-    return itemInventory;
-}
-
-usersPeripheral.readArtsInventory = async function (user) {
-    let artsInventory = JSON.parse(await fs.readFile('./database/userData/' + user.userId + "/artsInventory.json"));
-    console.log(artsInventory);
-    console.log("戦術情報読み込み完了")
-    return artsInventory;
-}
-
-usersPeripheral.readCareer = async function (user) {
-    let career= JSON.parse(await fs.readFile('./database/userData/' + user.userId + "/career.json"));
-    console.log(career);
-    console.log("職歴読み込み完了")
-    return career;
-}
-
 usersPeripheral.readAllDataOfUser = async function (user) {
     let kernelData =  this.readUser(user);
-    //let equipInventory = this.readEquipInventory(user);
-    //let itemInventory =  this.readItemInventory(user);
-    //let artsInventory = this.readArtsInventory(user);
-    //let career = this.readCareer(user);
+
     let userData = await Promise.all([kernelData])//, equipInventory, itemInventory, artsInventory,career]);
 
     return userData;
@@ -149,7 +118,7 @@ usersPeripheral.calculateAttack = function (user) {
 
 usersPeripheral.calculateStamina = function (lastBattleDate) {
     let now = new Date();
-    return Math.min(600, Math.floor((now.getTime() - lastBattleDate)/1000));
+    return Math.min(configuration.maxStamina, Math.floor((now.getTime() - lastBattleDate)/1000));
 }
 
 usersPeripheral.buyWeapon = function(user,targetWeapon){ 
@@ -184,6 +153,7 @@ usersPeripheral.getBasicArtsNumbersByUser= function (user){//ユーザの職業�
     return this.getBasicArtsNumbers(this.getJobElementOfUser(user));
 }
 
+
 usersPeripheral.isChangeable = function (user, job) {
     let isChangeable = false;
     if (   user.job != job.id
@@ -199,9 +169,8 @@ usersPeripheral.isChangeable = function (user, job) {
         isChangeable = true;
     }
 
-    job.jobRequired.forEach(element => {
-        if (user.career[element] < configuration.jobMasterLevel)
-            isChangeable = false;
+    job.jobsRequired.forEach(element => {
+        isChangeable = isChangeable && !(user.career[element] < configuration.jobMasterLevel);
     });
         return isChangeable;
 }
@@ -218,11 +187,7 @@ usersPeripheral.getChangeableJobs = function (user) {
 }
 
 usersPeripheral.getChangeableAndNotYetMasterJobs = function (user) {//未マスターかつ転職可能な職業を取得
-    let changeableJobs = this.getChangeableJobs(user);
-    let changeableAndNotYetMasterJobs = [];
-    changeableJobs.forEach(element => {
-        changeableAndNotYetMasterJobs.push(element);
-    });
+    return this.getChangeableJobs(user).filter((element) => user.career[element.id] < configuration.jobMasterLevel);
 }
 
 usersPeripheral.changeJob = async function (user,targetJobId) {

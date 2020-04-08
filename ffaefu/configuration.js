@@ -11,4 +11,6 @@ configuration.gameTitle = "FFA えふ改 ver1.0"; //サイト名
 
 configuration.jobMasterLevel = 60;//ジョブマスターに必要なジョブレベル．デフォルトでは60でマスター
 
+configuration.maxStamina = 600;
+
 module.exports = configuration;

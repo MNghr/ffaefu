@@ -14,6 +14,7 @@ router.get('/', function (req, res, next) {
             subTitle: "転職の祠",
             user: req.session.user,
             changeableJobs: usersPeripheral.getChangeableJobs(req.session.user),
+            changeableAndNotYetMasterJobs: usersPeripheral.getChangeableAndNotYetMasterJobs(req.session.user),
             jobElement: usersPeripheral.getJobElementOfUser(req.session.user),
             mode:"selectJob"
         });
@@ -31,6 +32,7 @@ router.post('/', function (req, res, next) {
                 subTitle: "転職の祠",
                 user: req.session.user,
                 changeableJobs: usersPeripheral.getChangeableJobs(req.session.user),
+                changeableAndNotYetMasterJobs: usersPeripheral.getChangeableAndNotYetMasterJobs(req.session.user),
                 jobElement: usersPeripheral.getJobElementOfUser(req.session.user),
                 mode: "done"
             });
