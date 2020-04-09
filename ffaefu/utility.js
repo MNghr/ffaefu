@@ -1,5 +1,6 @@
 //ユーザ，武器防具装飾品等の各種情報を全く必要としない関数を収録(一緒くたにすると循環参照みたいなことが起こるため)
 let utility = {};
+let fs = require("fs").promises;
 utility.getDate = function () {
     let date = new Date();
     return date;
@@ -19,5 +20,10 @@ utility.random = function (min, max) {
     let ret = Math.ceil(Math.random() * (max - min + 1) + min - 1);
     return ret;
 }
+
+utility.readChampion = async function () {
+    let data = await fs.readFile('./database/championData/champion.json', "utf-8");
+    return data;
+};
 
 module.exports = utility;

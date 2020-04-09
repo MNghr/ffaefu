@@ -36,7 +36,7 @@ router.post('/', function (req, res, next) {
     } else {
         usersPeripheral.buyArmor(req.session.user, armorInformation.armorList[jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]]);
         console.log(jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]);
-        content = armorInformation.armorList[jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]].name + "を購入しました．" + req.session.user.userName + "は早速装備した！";
+        content = armorInformation.armorList[jobInformation.jobList[req.session.user.job].armor[req.body.targetArmor]].name + "を購入して倉庫に送りました．";
     }
     res.render('armorShop', {
         title: configuration.gameTitle,

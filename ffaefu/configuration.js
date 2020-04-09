@@ -13,4 +13,6 @@ configuration.jobMasterLevel = 60;//ジョブマスターに必要なジョブ�
 
 configuration.maxStamina = 600;
 
+configuration.turnLimit = 150;
+
 module.exports = configuration;

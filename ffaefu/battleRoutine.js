@@ -6,6 +6,7 @@ let jobInformation = require("./informations/jobInformation.js");
 let artsInformation = require("./informations/artsInformation.js");
 let enemyArtsEffect = require("./effects/enemyArtsEffect.js");
 let configuration = require("./configuration.js");
+let itemInformation = require("./informations/itemInformation");
 
 //戦闘周りの処理 戦闘突入に伴うスタミナ減少，戦闘，戦闘後の各種獲得処理，レベルアップ，レベルアップに伴う職業マスター処理をここに記述
 
@@ -21,7 +22,10 @@ battle.returnMessage = "";
 battle.battleRoutine = function (user, enemy, kind) {
     let _user = JSON.parse(JSON.stringify(user));
     let _enemy = JSON.parse(JSON.stringify(enemy));
-    _user.weapon = usersPeripheral.getWeaponByIndex(user.weapon);
+    _user.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.weapon)));
+    _user.armor = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.armor)));
+    _user.accessory = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.accessory)));
+
     _enemy.artsEffect = enemyArtsEffect.fire2;
     console.log(_user.weapon)
     console.log(usersPeripheral.getWeaponByIndex(user.weapon));
@@ -29,9 +33,9 @@ battle.battleRoutine = function (user, enemy, kind) {
     console.log(_enemy);
 
     this.returnMessage = "";
-    if (kind === 0) {
+    if (kind === 0) { //モンスター戦
         _enemy.currentHP = _enemy.maxHP;
-        
+
         userAttack = usersPeripheral.calculateAttack(_user);
         let turn = 1;
         console.log("ユーザの戦術番号:"+_user.setArts)
@@ -39,15 +43,17 @@ battle.battleRoutine = function (user, enemy, kind) {
             _enemy.receiveDamage = 0; 
             _enemy.damageCutPercentage = 0.0; 
             _enemy.recoverHP = 0; 
-            _enemy.erasiveness = enemy.erasive;
+            _enemy.erasiveness = enemy.erasive; 
             _user.receiveDamage = 0;
-            _user.damageCutPercentage = 0.0;
+            _user.damageCutPercentage = 0.0; //ユーザのダメージ軽減率
             _user.erasiveness = 50;
+            _user.receiveElement = "";
     
             this.returnMessage += turn + "ターン目:<br>";
             this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS" + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br>";
             let receiveData = {};
-            let enemyReceiveData = {}; 
+            let enemyReceiveData = {};
+
             if (usersPeripheral.getArtsOfUser(_user).invocationRate > utility.random(0, 99)) {
                 console.log("戦術発動");
                 receiveData = usersPeripheral.getArtsOfUser(_user).effect(_user, _enemy);            
@@ -63,13 +69,22 @@ battle.battleRoutine = function (user, enemy, kind) {
                 console.log("敵戦術不発")
                 enemyReceiveData = enemyArtsEffect.none(_user, _enemy);
             }
+
+            if (_user.accessory.invocationRate > utility.random(0, 99)) {
+                console.log("アクセサリ効果発動");
+                _user.accessory.accessoryEffect(_user, _enemy);
+            } else{
+                console.log("アクセサリ効果不発")
+            }
+
+            
             _enemy.currentHP -= Math.ceil(_enemy.receiveDamage*Math.ceil(1-_enemy.damageCutPercentage));
             this.returnMessage += _user.name + "の攻撃!"+receiveData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた<br>";
             _user.currentHP -= Math.ceil(_user.receiveDamage*Math.ceil(1-_user.damageCutPercentage));
             this.returnMessage += _enemy.name + "が襲い掛かった！" + enemyReceiveData.message + _user.name + "は" + _user.receiveDamage + "ダメージ受けた<br>";
             this.returnMessage += "<br>";
             turn++;
-            if (turn === 151) {
+            if (turn > turnLimit) {
                 break;
             }
         }
@@ -91,8 +106,9 @@ battle.battleRoutine = function (user, enemy, kind) {
         usersPeripheral.writeUser(user);
         console.log("戦闘後ファイル書き換え完了");
         return this.returnMessage;
+    } else if (kind === 1) { //対人戦
+        
     }
-
 };
 
 battle.getExp = function(user, amount){
@@ -157,6 +173,11 @@ battle.levelup = function (user) {
     }
 };
 
+battle.itemsEffect= function(user, enemy){
+    user.itemInventory.forEach((element, index) => {
+        itemInformation.itemList[index].itemEffect(user,enemy);
+    });
+}
 
 battle.win = function (user, enemy) {
     user.money += enemy.dropMoney;

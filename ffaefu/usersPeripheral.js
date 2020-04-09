@@ -122,19 +122,19 @@ usersPeripheral.calculateStamina = function (lastBattleDate) {
 }
 
 usersPeripheral.buyWeapon = function(user,targetWeapon){ 
-    user.weapon = targetWeapon.id;
+    user.equipmentInventory.weapons.push(targetWeapon);
     user.money -= targetWeapon.value;
     this.writeUser(user);
 }
 
 usersPeripheral.buyArmor = function (user,targetArmor) {
-    user.armor = targetArmor.id;
+    user.equipmentInventory.armors.push(targetArmor);
     user.money -= targetArmor.value;
     this.writeUser(user);
 }
 
 usersPeripheral.buyAccessory = function (user,targetAccessory) {
-    user.accessory = targetAccessory.id;
+    user.equipmentInventory.accessories.push(targetAccessory);
     user.money -= targetAccessory.value;
     this.writeUser(user);
 }
@@ -307,9 +307,6 @@ usersPeripheral.getAccessoriesOfUser = function (user) {
     return accessories;
 }
 
-usersPeripheral.readChampion = async function () {
-    let data = await fs.readFile('./database/championData/champion.json', "utf-8");
-    return data;
-};
+
 
 module.exports = usersPeripheral;

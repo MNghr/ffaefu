@@ -37,7 +37,7 @@ router.post('/', function (req, res, next) {
         usersPeripheral.buyWeapon(req.session.user, weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]]);
         console.log(jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]);
         console.log(req.session.user.weapon);
-        content = weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]].name + "を購入しました．" + req.session.user.name + "は早速装備した！";
+        content = weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]].name + "を購入して倉庫に送りました．";
     }
     res.render('weaponShop', {
         title: configuration.gameTitle,

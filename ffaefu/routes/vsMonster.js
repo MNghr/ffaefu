@@ -2,6 +2,7 @@ let usersPeripheral = require("../usersPeripheral.js");
 let battle = require("../battleRoutine.js");
 let fs = require("fs");
 let configuration = require("../configuration.js");
+let utility = require("../utility.js")
 
 var express = require('express');
 var router = express.Router();

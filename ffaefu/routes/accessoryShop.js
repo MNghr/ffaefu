@@ -37,7 +37,7 @@ router.post('/', function (req, res, next) {
         utility.buyAccessory(req.session.user, accessoryInformation.accessoryList[jobInformation.jobList[req.session.user.job].accessory[req.body.targetAccessory]]);
         console.log(jobInformation.jobList[req.session.user.job].accessory[req.body.targetAccessory]);
         console.log(req.session.user.accessory);
-        content = accessoryInformation.accessoryList[jobInformation.jobList[req.session.user.job].accessory[req.body.targetAccessory]].name + "を購入しました．" + req.session.user.userName + "は早速装備した！";
+        content = accessoryInformation.accessoryList[jobInformation.jobList[req.session.user.job].accessory[req.body.targetAccessory]].name + "を購入して倉庫に送りました．";
     }
     res.render('accessoryShop', {
         title: configuration.gameTitle,
