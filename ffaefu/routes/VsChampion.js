@@ -26,7 +26,7 @@ router.post('/', function (req, res, next) {
             } else {
                 champion = await utility.readChampion();
                 console.log(JSON.parse(champion));
-                let content = ""//battle.battleAgainstMonster(req.session.user, JSON.parse(enemy));
+                let content = //battle.battleAgainstPlayer(req.session.user, JSON.parse(enemy));
                 console.log("戦闘後のコンテンツ表示");
                 console.log(req.session.user.lastBattleDate);
                 if (true) {

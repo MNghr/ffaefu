@@ -17,7 +17,7 @@ accessoryEffect.majinRing = function (user,enemy) {
 accessoryEffect.aura = function (user, enemy) {
     let returnData = {};
     user.weapon.attack *= 2;
-    returnData.message = "オーラの結晶が光を放つ．．．武器の効果二倍！";
+    returnData.message = "オーラの結晶が光を放つ．．．武器の効果二倍！(効果継続・重複有効)";
     return returnData;
 }
 

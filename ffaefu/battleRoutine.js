@@ -5,6 +5,7 @@ let fs = require("fs");
 let jobInformation = require("./informations/jobInformation.js");
 let artsInformation = require("./informations/artsInformation.js");
 let enemyArtsEffect = require("./effects/enemyArtsEffect.js");
+let accessoryEffect = require("./effects/accessoryEffect.js");
 let configuration = require("./configuration.js");
 let itemInformation = require("./informations/itemInformation");
 
@@ -15,11 +16,18 @@ battle.battleAgainstMonster = function (user, enemy) {
     user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsMonsterStamina) * 1000);
     return this.battleRoutine(user, enemy, 0);
 };
+
 battle.battleAgainstPlayer = function (user, enemy) {
     return this.battleRoutine(user, enemy, 1);
 };
+
+battle.battleAgainstChampion = function (user, enemy) {
+    return this.battleRoutine(user, enemy, 2);
+};
+
+
 battle.returnMessage = "";
-battle.battleRoutine = function (user, enemy, kind) {
+battle.battleRoutine = async function (user, enemy, kind) {
     let _user = JSON.parse(JSON.stringify(user));
     let _enemy = JSON.parse(JSON.stringify(enemy));
     _user.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.weapon)));
@@ -54,28 +62,11 @@ battle.battleRoutine = function (user, enemy, kind) {
             let receiveData = {};
             let enemyReceiveData = {};
 
-            if (usersPeripheral.getArtsOfUser(_user).invocationRate > utility.random(0, 99)) {
-                console.log("戦術発動");
-                receiveData = usersPeripheral.getArtsOfUser(_user).effect(_user, _enemy);            
-            } else {
-                console.log("戦術不発");
-                receiveData = usersPeripheral.getArtsById(0).effect(_user,_enemy);
-            }
+            receiveData = invokeUserArts(_user,_enemy);
 
-            if (_enemy.artsActivation > utility.random(0, 99)) {
-                console.log("敵戦術発動");
-                enemyReceiveData = _enemy.artsEffect(_user, _enemy);
-            } else {
-                console.log("敵戦術不発")
-                enemyReceiveData = enemyArtsEffect.none(_user, _enemy);
-            }
+            enemyReceiveData = invokeEnemyArts(_user, _enemy);
 
-            if (_user.accessory.invocationRate > utility.random(0, 99)) {
-                console.log("アクセサリ効果発動");
-                _user.accessory.accessoryEffect(_user, _enemy);
-            } else{
-                console.log("アクセサリ効果不発")
-            }
+            accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy);
 
             
             _enemy.currentHP -= Math.ceil(_enemy.receiveDamage*Math.ceil(1-_enemy.damageCutPercentage));
@@ -84,7 +75,7 @@ battle.battleRoutine = function (user, enemy, kind) {
             this.returnMessage += _enemy.name + "が襲い掛かった！" + enemyReceiveData.message + _user.name + "は" + _user.receiveDamage + "ダメージ受けた<br>";
             this.returnMessage += "<br>";
             turn++;
-            if (turn > turnLimit) {
+            if (turn > configuration.turnLimit) {
                 break;
             }
         }
@@ -110,6 +101,44 @@ battle.battleRoutine = function (user, enemy, kind) {
         
     }
 };
+
+invokeUserArts = function (user, enemy) {
+    let receiveData = {};
+    if (usersPeripheral.getArtsOfUser(user).invocationRate > utility.random(0, 99)) {
+        console.log("戦術発動");
+        receiveData = usersPeripheral.getArtsOfUser(user).effect(user, enemy);            
+    } else {
+        console.log("戦術不発");
+        receiveData = usersPeripheral.getArtsById(0).effect(user,enemy);
+    }
+
+    return receiveData;
+}
+
+invokeEnemyArts = function (user, enemy) {
+    let enemyReceiveData = {};
+    if (enemy.artsActivation > utility.random(0, 99)) {
+        console.log("敵戦術発動");
+        enemyReceiveData = enemy.artsEffect(user, enemy);
+    } else {
+        console.log("敵戦術不発")
+        enemyReceiveData = enemyArtsEffect.none(user, enemy);
+    }
+
+    return enemyReceiveData;
+}
+
+invokeUserAccessoryEffect = function (user, enemy) {
+    let accessoryReceiveData = {};
+    if (user.accessory.invocationRate > utility.random(0, 99)) {
+        console.log("アクセサリ効果発動");
+        accessoryReceiveData = user.accessory.accessoryEffect(user, enemy);
+    } else{
+        accessoryReceiveData = accessoryEffect.none(user, enemy);
+    }
+
+    return accessoryReceiveData;
+}
 
 battle.getExp = function(user, amount){
     user.exp += amount;
