@@ -7,26 +7,26 @@ enemyArtsEffect.none = function (user,enemy) {
     let returnData = {};
     returnData.message= "";
     user.receiveDamage = enemy.attack;
-    user.erasiveness -= 0;
+    user.evasiveness -= 0;
     return returnData;
 }
 
 //ファイア
 enemyArtsEffect.fire = function (user, enemy) { 
     let returnData = {};
-    returnData.message= "黒魔法 ファイア！";
+    returnData.message= "<h1>黒魔法 ファイア！</h1>";
     user.receiveDamage = enemy.attack;
     returnData.element = "fire";
-    user.erasiveness -= 999;
+    user.evasiveness -= 999;
     return returnData;
 }
 //ブリザード
 enemyArtsEffect.blizzard = function (user, enemy) { 
     let returnData = {};
-    returnData.message= "黒魔法 ブリザード！";
+    returnData.message= "<h1>黒魔法 ブリザード！</h1>";
     user.receiveDamage = enemy.attack;
     returnData.element = "ice";
-    user.erasiveness -= 999;
+    user.evasiveness -= 999;
     return returnData;
 }
 //サンダー
@@ -35,7 +35,7 @@ enemyArtsEffect.thunder = function (user, enemy) {
     returnData.message= "黒魔法 サンダー！";
     user.receiveDamage = enemy.attack;
     returnData.element = "thunder";
-    user.erasiveness -= 999;
+    user.evasiveness -= 999;
     return returnData;
 }
 
@@ -45,7 +45,7 @@ enemyArtsEffect.fire2 = function (user, enemy) {
     returnData.message= "黒魔法 ファイア2！";
     user.receiveDamage = enemy.attack*2;
     returnData.element = "fire";
-    user.erasiveness -= 999;
+    user.evasiveness -= 999;
     return returnData;
 }
 
@@ -55,7 +55,7 @@ enemyArtsEffect.blizzard2 = function (user, enemy) {
     returnData.message= "黒魔法 ブリザード2！";
     user.receiveDamage = enemy.attack*2;
     returnData.element = "ice";
-    user.erasiveness -= 999;
+    user.evasiveness -= 999;
     return returnData;
 }
 
@@ -65,7 +65,7 @@ enemyArtsEffect.thunder2 = function (user, enemy) {
     returnData.message= "黒魔法 サンダー2！";
     user.receiveDamage= enemy.attack*2;
     returnData.element = "thunder";
-    user.erasiveness -= 999;
+    user.evasiveness -= 999;
     return returnData;
 }
 
@@ -75,7 +75,7 @@ enemyArtsEffect.meteor = function (user, enemy) {
     let hitAmount = utility.random(1, 16);
     returnData.message = "古代魔法 ミーティア！" + hitAmount + "ヒット！";
     user.receiveDamage = enemy.attack * 2 * hitAmount;
-    user.erasiveness -= 999;
+    user.evasiveness -= 999;
     return returnData;
 }
 
@@ -95,7 +95,7 @@ enemyArtsEffect.zantetsuken = function (user, enemy) {
     } else {
         returnData.message += "．．．失敗！";
     }
-    user.erasiveness -= 99999999;
+    user.evasiveness -= 99999999;
     returnData.element = "zantetsuken";
     return returnData;
 }
@@ -116,7 +116,7 @@ enemyArtsEffect.deadlyMessage = function (user, enemy) {
         }
     }
 
-    user.erasiveness -= 999999999;
+    user.evasiveness -= 999999999;
     return returnData;
 }
 
@@ -130,7 +130,7 @@ enemyArtsEffect.efu = function (user, enemy) {
         returnData.message = "管理者特権";
         user.receiveDamage -= 1000000000000;
     }
-    user.erasiveness -= 9999999999;
+    user.evasiveness -= 9999999999;
     return returnData;
 }
 //ホーリーパネル

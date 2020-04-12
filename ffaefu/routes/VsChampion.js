@@ -16,6 +16,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
     (async () => {
         if (req.session.user !== undefined) {
+            let champion = await usersPeripheral.readChampion();
             if (usersPeripheral.calculateStamina(req.session.user.lastBattleDate) < configuration.vsMonsterStamina) {
                 res.render('vsChampion', {
                     title: "FFA えふ改",
@@ -23,10 +24,16 @@ router.post('/', function (req, res, next) {
                     content: "スタミナ不足です．",
                     user: req.session.user
                 });
-            } else {
-                champion = await utility.readChampion();
+            } else if (champion.userId === req.session.user.userId) {
+                res.render('vsChampion', {
+                    title: "FFA えふ改",
+                    subTitle: "エラー！",
+                    content: "自分とは闘えません．",
+                    user: req.session.user
+                });
+            }else {
                 console.log(JSON.parse(champion));
-                let content = //battle.battleAgainstPlayer(req.session.user, JSON.parse(enemy));
+                let content = await battle.battleAgainstChampion(req.session.user, JSON.parse(champion));
                 console.log("戦闘後のコンテンツ表示");
                 console.log(req.session.user.lastBattleDate);
                 if (true) {

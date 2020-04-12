@@ -21,6 +21,10 @@
   <body>
     <div class="wrapper">
     <h1><%= subTitle %></h1>    
+    現在のチャンピオン:<%= champion.name %>さん
+    HP: <%= champion.currentHP %>/<%=champion.maxHP %>
+    <% let homepage = '<a href="'+ champion.homePageURL+'">' + champion.homePageName + '</a>'%>
+    おすすめのHP: <%- homepage %>
     <div class="instant-status">
     <h3><%= user.name %>さんのステータス:</h3>
     <ul>  
@@ -36,9 +40,13 @@
       <li>装飾品 <%=accessory.name %></li>
     </ul>
     <a href="/changeArts"><button>戦術を変更する</button></a>
+    <% if(champion.userId !== user.userId){ %>
     <form action="/vsChampion" method="post">
       <button type="submit">チャンピオンに挑む</button>
     </form>
+    <% }else{ %>
+      ※あなたがチャンピオンなので挑めません
+    <% } %>
     <form action="" method="post">
       <button type="submit">格闘王への道</button>
     </form>

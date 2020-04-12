@@ -307,6 +307,26 @@ usersPeripheral.getAccessoriesOfUser = function (user) {
     return accessories;
 }
 
+usersPeripheral.writeChampion = async function (user) {
+    this.currentChampion = JSON.parse(JSON.stringify(user));
+    await fs.writeFile('./database/ChampionData/champion.json', JSON.stringify(user));
+}
+
+usersPeripheral.readChampion = async function () {
+    let data = await fs.readFile('./database/championData/champion.json', "utf-8");
+    
+    return data;
+};
+
+usersPeripheral.currentChampion;
+
+usersPeripheral.setChampion = async function(){
+    this.currentChampion = JSON.parse(await this.readChampion());
+    console.log(this.currentChampion);
+}
+
+usersPeripheral.setChampion();//サーバ起動時，チャンピオン情報を読み込む処理
+
 
 
 module.exports = usersPeripheral;

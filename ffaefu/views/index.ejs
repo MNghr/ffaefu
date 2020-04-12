@@ -17,6 +17,9 @@
       <button type="submit">ログイン</button>
     </form>
     <a href="signUp" class="btn">新規登録</a>
+    現在のチャンピオン:<%= champion.name %>
+    <% let homepage = '<a href="'+ champion.homePageURL+'">' + champion.homePageName + '</a>'%>
+    おすすめのサイト: <%- homepage %>
     </div>
   </body>
 </html>

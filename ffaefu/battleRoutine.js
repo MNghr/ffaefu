@@ -11,30 +11,33 @@ let itemInformation = require("./informations/itemInformation");
 
 //戦闘周りの処理 戦闘突入に伴うスタミナ減少，戦闘，戦闘後の各種獲得処理，レベルアップ，レベルアップに伴う職業マスター処理をここに記述
 
-battle.battleAgainstMonster = function (user, enemy) {
+battle.battleAgainstMonster = async function (user, enemy) {
     let stamina = usersPeripheral.calculateStamina(user.lastBattleDate);
     user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsMonsterStamina) * 1000);
-    return this.battleRoutine(user, enemy, 0);
+    return await this.battleRoutine(user, enemy, 0);
 };
 
-battle.battleAgainstPlayer = function (user, enemy) {
-    return this.battleRoutine(user, enemy, 1);
+battle.battleAgainstPlayer = async function (user, enemy) {
+    return await this.battleRoutine(user, enemy, 1);
 };
 
-battle.battleAgainstChampion = function (user, enemy) {
-    return this.battleRoutine(user, enemy, 2);
+battle.battleAgainstChampion = async function (user, enemy) {
+    return await this.battleRoutine(user, enemy, 2);
 };
 
 
 battle.returnMessage = "";
+
+//戦闘処理
 battle.battleRoutine = async function (user, enemy, kind) {
     let _user = JSON.parse(JSON.stringify(user));
     let _enemy = JSON.parse(JSON.stringify(enemy));
     _user.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.weapon)));
     _user.armor = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.armor)));
     _user.accessory = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.accessory)));
-
-    _enemy.artsEffect = enemyArtsEffect.fire2;
+    _enemy.artsEffect = enemy.artsEffect; //関数だけJSON.stringifyの範囲外なので改めて追加
+    console.log(_enemy.artsEffect);
+    console.log(enemy.artsEffect);
     console.log(_user.weapon)
     console.log(usersPeripheral.getWeaponByIndex(user.weapon));
     console.log(_user);
@@ -43,18 +46,16 @@ battle.battleRoutine = async function (user, enemy, kind) {
     this.returnMessage = "";
     if (kind === 0) { //モンスター戦
         _enemy.currentHP = _enemy.maxHP;
-
-        userAttack = usersPeripheral.calculateAttack(_user);
         let turn = 1;
         console.log("ユーザの戦術番号:"+_user.setArts)
         while (_user.currentHP > 0 && _enemy.currentHP > 0) {
             _enemy.receiveDamage = 0; 
             _enemy.damageCutPercentage = 0.0; 
             _enemy.recoverHP = 0; 
-            _enemy.erasiveness = enemy.erasive; 
+            _enemy.evasiveness = enemy.evasive; 
             _user.receiveDamage = 0;
             _user.damageCutPercentage = 0.0; //ユーザのダメージ軽減率
-            _user.erasiveness = 50;
+            _user.evasiveness = 50;
             _user.receiveElement = "";
     
             this.returnMessage += turn + "ターン目:<br>";
@@ -63,14 +64,11 @@ battle.battleRoutine = async function (user, enemy, kind) {
             let enemyReceiveData = {};
 
             receiveData = invokeUserArts(_user,_enemy);
-
             enemyReceiveData = invokeEnemyArts(_user, _enemy);
+            accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy);            
 
-            accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy);
-
-            
-            _enemy.currentHP -= Math.ceil(_enemy.receiveDamage*Math.ceil(1-_enemy.damageCutPercentage));
-            this.returnMessage += _user.name + "の攻撃!"+receiveData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた<br>";
+            _enemy.currentHP -= Math.ceil(_enemy.receiveDamage * Math.ceil(1 - _enemy.damageCutPercentage));
+            this.returnMessage += _user.name + "は"+_user.weapon.name+"で攻撃!"+receiveData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた<br>";
             _user.currentHP -= Math.ceil(_user.receiveDamage*Math.ceil(1-_user.damageCutPercentage));
             this.returnMessage += _enemy.name + "が襲い掛かった！" + enemyReceiveData.message + _user.name + "は" + _user.receiveDamage + "ダメージ受けた<br>";
             this.returnMessage += "<br>";
@@ -94,14 +92,70 @@ battle.battleRoutine = async function (user, enemy, kind) {
         if (user.currentHP <= 0) {
             user.currentHP = user.maxHP;
         }
-        usersPeripheral.writeUser(user);
+        await usersPeripheral.writeUser(user);
         console.log("戦闘後ファイル書き換え完了");
         return this.returnMessage;
-    } else if (kind === 1) { //対人戦
-        
+    } else if (kind === 2 || kind === 1) { //対人戦
+        _enemy.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.weapon)));
+        _enemy.armor = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.armor)));
+        _enemy.accessory = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.accessory)));
+        let turn = 1;
+        while (_user.currentHP > 0 && _enemy.currentHP > 0) {
+            _enemy.receiveDamage = 0;//敵が受けるダメージ
+            _enemy.damageCutPercentage = 0.0;//敵が受けるダメージの軽減率
+            _enemy.recoverHP = 0;//敵のHPの回復量(基本は0)
+            _enemy.evasiveness = enemy.evasive; //敵の回避率
+            _user.receiveDamage = 0; //ユーザの受けるダメージ
+            _user.damageCutPercentage = 0.0; //ユーザのダメージ軽減率
+            _user.evasiveness = 50; //ユーザの回避率
+            _user.recoverHP;
+
+            this.returnMessage += turn + "ターン目:<br>";
+            this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS " + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br><br>";
+            let receiveData = {};
+            let enemyReceiveData = {};
+
+            receiveData = invokeUserArts(_user, _enemy);
+            console.log(receiveData);
+            enemyReceiveData = invokeUserArts(_enemy, _user);
+            accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy);
+            _enemy.currentHP -= Math.ceil(_enemy.receiveDamage * Math.ceil(1 - _enemy.damageCutPercentage));
+            console.log(_enemy.receiveDamage);
+            console.log(_user.receiveDamage)
+            this.returnMessage += _user.name + "は" + _user.weapon.name + "で攻撃!" + receiveData.message + _enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた<br><br>";
+            _user.currentHP -= Math.ceil(_user.receiveDamage * Math.ceil(1 - _user.damageCutPercentage));
+            this.returnMessage += _enemy.name + "は" + _enemy.weapon.name + "で攻撃！" + enemyReceiveData.message + _user.name + "は" + _user.receiveDamage + "ダメージ受けた<br><br>";
+            this.returnMessage += "<br>";
+            turn++;
+            if (turn > configuration.turnLimit) {
+                break;
+            }
+        }
+        if (kind === 2) {
+            user.currentHP = _user.currentHP;
+            if (user.currentHP <= 0)
+                user.currentHP = user.currentHP;
+            enemy.currentHP = _enemy.currentHP;
+            if (_user.currentHP > 0 && _enemy.currentHP <= 0) {
+                this.returnMessage += user.name+"は戦闘に勝利した！！";
+                await this.winChampion(user, enemy);
+            } else if (_user.currentHP <= 0 && _enemy.currentHP <= 0) {
+                user.currentHP = 1;
+                this.returnMessage += user.name + "は"+ enemy.name +"と相打ちした！";
+                await this.drawChampion(user, enemy);
+            } else if (turn > configuration.turnLimit) {
+                this.returnMessage += enemy.name + "との決着がつかなかった．．．";
+                await this.timeUpChampion(user, enemy);
+            } else {
+                this.returnMessage += "敗北した．．．";
+                await this.loseChampion(user, enemy);
+            }
+        }
+        await usersPeripheral.writeUser(user);
+        return this.returnMessage;
     }
 };
-
+//プレイヤーの戦術発動
 invokeUserArts = function (user, enemy) {
     let receiveData = {};
     if (usersPeripheral.getArtsOfUser(user).invocationRate > utility.random(0, 99)) {
@@ -115,6 +169,7 @@ invokeUserArts = function (user, enemy) {
     return receiveData;
 }
 
+//敵戦術効果発動
 invokeEnemyArts = function (user, enemy) {
     let enemyReceiveData = {};
     if (enemy.artsActivation > utility.random(0, 99)) {
@@ -128,25 +183,29 @@ invokeEnemyArts = function (user, enemy) {
     return enemyReceiveData;
 }
 
+//アクセサリ効果発動
 invokeUserAccessoryEffect = function (user, enemy) {
     let accessoryReceiveData = {};
     if (user.accessory.invocationRate > utility.random(0, 99)) {
         console.log("アクセサリ効果発動");
         accessoryReceiveData = user.accessory.accessoryEffect(user, enemy);
-    } else{
+    } else {
+        console.log("アクセサリ効果不発");
         accessoryReceiveData = accessoryEffect.none(user, enemy);
     }
 
     return accessoryReceiveData;
 }
 
+//経験値入手処理
 battle.getExp = function(user, amount){
     user.exp += amount;
     this.returnMessage += user.name + "は" + amount + "経験値を獲得．";
     this.levelup(user);
 }
 
-battle.levelup = function (user) {
+//レベルアップ処理
+battle.levelup = function (user) { 
     let levelDifference = 0;
     let userOld = {}; //能力の上昇量を表示するために使う．レベルアップ前の各能力値を入れる変数
     userOld.maxHP = user.maxHP;
@@ -204,7 +263,8 @@ battle.levelup = function (user) {
 
 battle.itemsEffect= function(user, enemy){
     user.itemInventory.forEach((element, index) => {
-        itemInformation.itemList[index].itemEffect(user,enemy);
+        if(user.itemInventory[index] > 0)
+            itemInformation.itemList[index].itemEffect(user,enemy);
     });
 }
 
@@ -222,9 +282,46 @@ battle.lose = function(user,enemy){
 };
 
 battle.draw = function (user, enemy) {
-    this.getExp(user, enemy.exp / 2);
+    this.getExp(user, Math.ceil(enemy.exp / 2));
     console.log(user);
 };
+
+battle.winChampion = async function (user, enemy) {
+    this.getExp(user, enemy.level * 30);
+    let writeUser = JSON.parse(JSON.stringify(user));
+    writeUser.winningStreak = 1;
+    writeUser.lastChallengerName = enemy.name;
+    writeUser.lastChallengerHomePageName = enemy.homePageName;
+    writeUser.lastChallengerHomePageURL = enemy.homePageURL;
+    await usersPeripheral.writeChampion(writeUser);
+}
+
+battle.loseChampion = async function (user, enemy) {
+    this.getExp(user, Math.ceil(enemy.level / 2));
+    enemy.winningStreak += 1;
+    enemy.lastChallengerName = user.name;
+    enemy.lastChallengerHomePageName = user.homePageName;
+    enemy.lastChallengerHomePageURL = user.homePageName;
+    await usersPeripheral.writeChampion(enemy);
+}
+
+battle.timeUpChampion = async function (user, enemy) {
+    this.getExp(user, Math.ceil(enemy.level * 5));
+    enemy.winningStreak += 1;
+    enemy.lastChallengerName = user.name;
+    enemy.lastChallengerHomePageName = user.homePageName;
+    enemy.lastChallengerHomePageURL = user.homePageName;
+    await usersPeripheral.writeChampion(enemy);
+}
+
+battle.drawChampion = async function (user, enemy) {
+    this.getExp(user, Math.ceil(enemy.level * 10));
+    writeUser.winningStreak = 1;
+    writeUser.lastChallengerName = enemy.name;
+    writeUser.lastChallengerHomePageName = enemy.homePageName;
+    writeUser.lastChallengerHomePageURL = enemy.homePageURL;
+    await usersPeripheral.writeChampion(user);
+}
 
 battle.jobMaster = function (user) {
     user.artsInventory = user.artsInventory.concat(usersPeripheral.getJobElementOfUser(user).masterArts);

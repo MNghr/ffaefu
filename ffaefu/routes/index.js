@@ -5,7 +5,10 @@ let usersPeripheral = require("../usersPeripheral.js");
 let jobInformation = require("../informations/jobInformation.js")
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'FFA えふ改' });
+  res.render('index', {
+    title: 'FFA えふ改',
+    champion: usersPeripheral.currentChampion
+  });
 
 });
 
@@ -24,6 +27,7 @@ router.post('/', function (req, res, next) {
     if (data.password === password) {
       console.log("パスワード照合完了");
       req.session.user = data;
+      req.session.user.legendPlaceProgress = 0;
       while (req.session.user.career.length < jobInformation.jobList.length) {
         req.session.user.career.push(0);
       }

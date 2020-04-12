@@ -21,9 +21,7 @@ utility.random = function (min, max) {
     return ret;
 }
 
-utility.readChampion = async function () {
-    let data = await fs.readFile('./database/championData/champion.json', "utf-8");
-    return data;
-};
+
+
 
 module.exports = utility;
