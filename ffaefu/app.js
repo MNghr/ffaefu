@@ -23,6 +23,7 @@ let changeArts = require("./routes/changeArts");
 let changeStatus = require("./routes/changeStatus");
 let equipmentStorage = require("./routes/equipmentStorage");
 let vsChampion = require("./routes/vsChampion");
+let legendPlace = require("./routes/legendPlace");
 
 var app = express();
 
@@ -58,6 +59,7 @@ app.use("/changeArts", changeArts);
 app.use("/changeStatus", changeStatus);
 app.use("/equipmentStorage", equipmentStorage);
 app.use("/vsChampion", vsChampion);
+app.use("/legendPlace", legendPlace);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

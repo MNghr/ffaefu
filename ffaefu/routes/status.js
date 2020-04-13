@@ -12,6 +12,7 @@ router.get('/', function (req, res, next) {
         if (req.session.user !== undefined) {
             let data = await usersPeripheral.readChampion();
             console.log(data);
+            req.session.user.legendPlaceProgress = 0;
             res.render('status', {
                 title: "FFA えふ改",
                 subTitle: "ステータス画面",

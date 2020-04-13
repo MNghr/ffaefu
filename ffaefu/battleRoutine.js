@@ -8,6 +8,7 @@ let enemyArtsEffect = require("./effects/enemyArtsEffect.js");
 let accessoryEffect = require("./effects/accessoryEffect.js");
 let configuration = require("./configuration.js");
 let itemInformation = require("./informations/itemInformation");
+let enemyInformation = require("./informations/enemyInformation");
 
 //戦闘周りの処理 戦闘突入に伴うスタミナ減少，戦闘，戦闘後の各種獲得処理，レベルアップ，レベルアップに伴う職業マスター処理をここに記述
 
@@ -18,12 +19,23 @@ battle.battleAgainstMonster = async function (user, enemy) {
 };
 
 battle.battleAgainstPlayer = async function (user, enemy) {
+    let stamina = usersPeripheral.calculateStamina(user.lastBattleDate);
+    user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsChampionStamina) * 1000);
     return await this.battleRoutine(user, enemy, 1);
 };
 
 battle.battleAgainstChampion = async function (user, enemy) {
     return await this.battleRoutine(user, enemy, 2);
 };
+
+battle.goLegendPlace = async function (user, enemy) {
+    let stamina = usersPeripheral.calculateStamina(user.lastBattleDate);
+    user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsMonsterStamina) * 1000);
+    let result = await this.battleRoutine(user, enemy, 0);
+    return result;
+
+
+}
 
 
 battle.returnMessage = "";
@@ -47,16 +59,19 @@ battle.battleRoutine = async function (user, enemy, kind) {
     if (kind === 0) { //モンスター戦
         _enemy.currentHP = _enemy.maxHP;
         let turn = 1;
+        let result = "";
         console.log("ユーザの戦術番号:"+_user.setArts)
         while (_user.currentHP > 0 && _enemy.currentHP > 0) {
             _enemy.receiveDamage = 0; 
             _enemy.damageCutPercentage = 0.0; 
             _enemy.recoverHP = 0; 
             _enemy.evasiveness = enemy.evasive; 
+            _enemy.currentHP = Math.min(_enemy.maxHP, _enemy.currentHP);
             _user.receiveDamage = 0;
             _user.damageCutPercentage = 0.0; //ユーザのダメージ軽減率
             _user.evasiveness = 50;
             _user.receiveElement = "";
+            _user.currentHP = Math.min(_user.maxHP, _user.currentHP);
     
             this.returnMessage += turn + "ターン目:<br>";
             this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS" + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br>";
@@ -80,13 +95,16 @@ battle.battleRoutine = async function (user, enemy, kind) {
 
         if (_enemy.currentHP <= 0) {
             this.returnMessage += user.name+"は戦闘に勝利した！！";
-            this.win(user,enemy);
+            this.win(user, enemy);
+            result = "win";
         } else if (_user.currentHP <= 0) {
             this.returnMessage += "敗北した．．．";
-            this.lose(user,enemy);   
+            this.lose(user, enemy);   
+            result = "lose";
         } else {
             this.returnMessage += "逃げ出した...♪";
-            this.draw(user,enemy);
+            this.draw(user, enemy);
+            result = "runAway"
         }
         user.currentHP = _user.currentHP;
         if (user.currentHP <= 0) {
@@ -94,7 +112,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
         }
         await usersPeripheral.writeUser(user);
         console.log("戦闘後ファイル書き換え完了");
-        return this.returnMessage;
+        return result;
     } else if (kind === 2 || kind === 1) { //対人戦
         _enemy.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.weapon)));
         _enemy.armor = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.armor)));
@@ -134,25 +152,29 @@ battle.battleRoutine = async function (user, enemy, kind) {
         if (kind === 2) {
             user.currentHP = _user.currentHP;
             if (user.currentHP <= 0)
-                user.currentHP = user.currentHP;
+                user.currentHP = user.maxHP;
             enemy.currentHP = _enemy.currentHP;
             if (_user.currentHP > 0 && _enemy.currentHP <= 0) {
-                this.returnMessage += user.name+"は戦闘に勝利した！！";
+                this.returnMessage += user.name + "は戦闘に勝利した！！";
+                result = "win"
                 await this.winChampion(user, enemy);
             } else if (_user.currentHP <= 0 && _enemy.currentHP <= 0) {
                 user.currentHP = 1;
+                result = "draw";
                 this.returnMessage += user.name + "は"+ enemy.name +"と相打ちした！";
                 await this.drawChampion(user, enemy);
             } else if (turn > configuration.turnLimit) {
                 this.returnMessage += enemy.name + "との決着がつかなかった．．．";
+                result = "timeUp";
                 await this.timeUpChampion(user, enemy);
             } else {
                 this.returnMessage += "敗北した．．．";
+                result = "lose";
                 await this.loseChampion(user, enemy);
             }
         }
         await usersPeripheral.writeUser(user);
-        return this.returnMessage;
+        return result;
     }
 };
 //プレイヤーの戦術発動
@@ -272,7 +294,6 @@ battle.win = function (user, enemy) {
     user.money += enemy.dropMoney;
     this.getExp(user, enemy.exp);
     this.returnMessage += enemy.dropMoney + "C入手した．";
-    console.log(user);
 };
 
 battle.lose = function(user,enemy){

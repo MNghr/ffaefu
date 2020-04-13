@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
     res.redirect('status'); 
 });
 
-//「モンスターと戦う/その辺の探索」 post以外のメソッドでのリクエストは受け付けずステータス画面へ戻る．
+//チャンピオンに挑む
 router.post('/', function (req, res, next) {
     (async () => {
         if (req.session.user !== undefined) {
@@ -33,7 +33,8 @@ router.post('/', function (req, res, next) {
                 });
             }else {
                 console.log(JSON.parse(champion));
-                let content = await battle.battleAgainstChampion(req.session.user, JSON.parse(champion));
+                let result = await battle.battleAgainstChampion(req.session.user, JSON.parse(champion));
+                let content = battle.returnMessage;
                 console.log("戦闘後のコンテンツ表示");
                 console.log(req.session.user.lastBattleDate);
                 if (true) {

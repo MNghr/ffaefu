@@ -38,16 +38,16 @@ enemyInformation.level4 = [
 
 enemyInformation.legendPlace = [];
 enemyInformation.legendPlace[0] = [
-    { enemyId: "0l1",name:"メカブロブ",maxHP:100,attack:4,dropMoney:100000000,exp:650000,accuracy:75,artsActivation: 40,erasive:50,artsEffect: enemyArtsEffect.meteor},
-    { enemyId: "1l1", name: "ラージバルーン", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, erasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "2l1",name: "ラージハツカネズミ",maxHP:100,attack:4,dropMoney:1000,exp:999999,accuracy:75,artsActivation: 40,erasive:50,artsEffect: enemyArtsEffect.deadlyMessage},
-    { enemyId: "3l1", name: "アンティ", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, erasive: 999999999, artsEffect: enemyArtsEffect.efu },
-    { enemyId: "4l1", name: "スノーナイト", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, erasive: 999999999, artsEffect: enemyArtsEffect.efu},
-    { enemyId: "5l1", name: "ボックスライム", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, erasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "6l1", name: "チビゴーレム", maxHP: 1000013, attack: 999999, dropMoney: 1000, exp: 100000, accuracy: 275, artsActivation: 40, erasive: 999999, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "7l1", name: "プチベロス", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, erasive: 999999999, artsEffect: enemyArtsEffect.efu},
-    { enemyId: "8l1", name: "プチタイガー", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, erasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "9l1",name: "ディアブロケラトプス", maxHP:1000013,attack:999999,dropMoney:1000,exp:100000,accuracy:275,artsActivation: 40,erasive:999999,artsEffect: enemyArtsEffect.deadlyMessage }
+    { enemyId: "0l1",name:"メカブロブ",maxHP:100,attack:4,dropMoney:100000000,exp:650000,accuracy:75,artsActivation: 40,erasive:50,artsEffect: enemyArtsEffect.none},
+    { enemyId: "1l1", name: "ラージバルーン", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, erasive: 50, artsEffect: enemyArtsEffect.none },
+    { enemyId: "2l1",name: "ラージハツカネズミ",maxHP:100,attack:4,dropMoney:1000,exp:999999,accuracy:75,artsActivation: 40,erasive:50,artsEffect: enemyArtsEffect.none},
+    { enemyId: "3l1", name: "アンティ", maxHP: 1000, attack: 9, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, erasive: 999999999, artsEffect: enemyArtsEffect.none },
+    { enemyId: "4l1", name: "スノーナイト", maxHP: 100, attack: 9, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, erasive: 999999999, artsEffect: enemyArtsEffect.none},
+    { enemyId: "5l1", name: "ボックスライム", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, erasive: 50, artsEffect: enemyArtsEffect.none },
+    { enemyId: "6l1", name: "チビゴーレム", maxHP: 113, attack: 9, dropMoney: 1000, exp: 100000, accuracy: 275, artsActivation: 40, erasive: 999999, artsEffect: enemyArtsEffect.none },
+    { enemyId: "7l1", name: "プチベロス", maxHP: 10, attack: 99, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, erasive: 999999999, artsEffect: enemyArtsEffect.none},
+    { enemyId: "8l1", name: "プチタイガー", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, erasive: 50, artsEffect: enemyArtsEffect.none },
+    { enemyId: "9l1",name: "ディアブロケラトプス", maxHP:1013,attack:9,dropMoney:1000,exp:100000,accuracy:275,artsActivation: 40,erasive:999999,artsEffect: enemyArtsEffect.none }
 ]
 
 enemyInformation.legendPlace[1] = [

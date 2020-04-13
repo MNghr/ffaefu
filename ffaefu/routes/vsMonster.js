@@ -27,7 +27,8 @@ router.post('/', function (req, res, next) {
             } else {
                 let enemy = enemyInformation.level1[0];
                 console.log(enemy);
-                let content = await battle.battleAgainstMonster(req.session.user, enemy);
+                let result = await battle.battleAgainstMonster(req.session.user, enemy);
+                let content = battle.returnMessage;
                 console.log("戦闘後のコンテンツ表示");
                 console.log(req.session.user.lastBattleDate);
                    
