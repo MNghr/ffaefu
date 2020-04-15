@@ -8,6 +8,7 @@ module.exports = function (req, res, next) {
         if (userId !== undefined) {
             res.locals.user = await usersPeripheral.readUser({ userId: userId });
             res.locals.user.legendPlaceProgress = 0;
+            res.locals.user.beingLegendPlace = -1;
             console.log(res.locals.user);
         }
 

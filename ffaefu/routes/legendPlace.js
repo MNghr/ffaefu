@@ -28,38 +28,13 @@ router.post('/', function (req, res, next) {
                 if (req.body.difficulty !== undefined) {
                     req.session.user.beingLegendPlace = parseInt(req.body.difficulty);
                 }
-                let enemy = enemyInformation.legendPlace[req.session.user.beingLegendPlace][req.session.user.legendPlaceProgress];
-                console.log(enemy);
-                let result = await battle.goLegendPlace(req.session.user, enemy);
-                let content = battle.returnMessage;
-                console.log("戦闘後のコンテンツ表示");
-                console.log(req.session.user.lastBattleDate);
-                req.session.user.legendPlaceProgress += 1;
-                console.log(req.session.user.legendPlaceProgress);
-                console.log(enemyInformation.legendPlace[req.session.user.beingLegendPlace].length);
-                let isFinished = false;
-                if (result === "lose" || result === "runAway") {
-                    isFinished = true;
-                    legendPlaceProgress = 0;
-                    beingLegendPlace = -1;
-                }
-                console.log(result);
-                if (req.session.user.legendPlaceProgress === enemyInformation.legendPlace[req.session.user.beingLegendPlace].length  && result === "win") {
-                    isFinished = true;
-                    legendPlaceProgress = 0;
-                    beingLegendPlace = -1;
-                    if (req.session.user.degree <= req.session.user.beingLegendPlace) {
-                        req.session.user.degree += 1;
-                        content += "<h1>" + req.session.user.name + "はレジェンドプレイスを攻略した！！！称号が" + configuration.degree[req.session.user.degree] + "になった！！！</h1>"
-                    } else {
-                        content += "<h1>" + req.session.user.name + "はレジェンドプレイスを攻略した！！！";
-                    }
-                }
+                let isFinished = await battle.goLegendPlace(req.session.user);
+                content = battle.returnMessage;
                 if (true) {
                     console.log(content);
                     res.render('legendPlace', {
                         title: "FFA えふ改",
-                        subTitle: enemy.name + "が現れた！",
+                        subTitle: "レジェンドプレイス",
                         content: content,
                         user: req.session.user,
                         isFinished: isFinished

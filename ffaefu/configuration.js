@@ -17,4 +17,22 @@ configuration.turnLimit = 150;
 
 configuration.degree = ["駆け出し", "冒険者", "熟練者", "勇者", "蓋世の英雄"]; //各レジェンドプレイス初攻略時に変化する称号．
 
+configuration.vsMonsterDropItem = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+];
+
+configuration.guerrillaDangeonDropItem = [
+    [13, 14, 15, 16, 17, 18]
+]
+
+configuration.legendPlaceDropItem = [
+    [],
+    [],
+    [],
+    []
+];
+
 module.exports = configuration;

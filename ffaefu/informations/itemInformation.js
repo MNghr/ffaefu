@@ -1,12 +1,12 @@
 let itemEffect = require("../effects/itemEffect.js");
 let itemInformation = {};
-itemInformation.accessoryList = [
+itemInformation.itemList = [
     { id: 0,  name: "きよめの雫", value: 5000000, effect: itemEffect.resistFire ,state:"敵から受ける炎属性ダメージを0にします．"},
     { id: 1,  name: "避雷針", value: 5000000, effect: itemEffect.resistThunder ,state:"敵から受ける雷属性ダメージを0にします．"},
     { id: 2,  name: "炎蜥蜴の牙", value: 5000000, effect: itemEffect.resistIce ,state:"敵から受ける氷属性ダメージを0にします．"},
-    { id: 3,  name: "水結晶", value: 500000, effect: itemEffect.none ,state:"敵から受ける炎属性ダメージを0にし，受けるはずだったダメージを敵に与えます．"},
-    { id: 4, name: "黒い石", value: 1000000, effect: itemEffect.none, state: "敵から受ける雷属性ダメージを0にし，受けるはずだったダメージを敵に与えます．" },
-    { id: 5, name: "レッドファング", value: 1000000, effect: itemEffect.none, state: "敵から受ける氷属性ダメージを0にし，受けるはずだったダメージを敵に与えます．" },
+    { id: 3,  name: "水結晶", value: 500000, effect: itemEffect.reflectFire ,state:"敵から受ける炎属性ダメージを0にし，受けるはずだったダメージを敵に与えます．"},
+    { id: 4, name: "黒い石", value: 1000000, effect: itemEffect.reflectThunder, state: "敵から受ける雷属性ダメージを0にし，受けるはずだったダメージを敵に与えます．" },
+    { id: 5, name: "レッドファング", value: 1000000, effect: itemEffect.reflectIce, state: "敵から受ける氷属性ダメージを0にし，受けるはずだったダメージを敵に与えます．" },
     { id: 6, name: "白い砂", value: 1000000, effect: itemEffect.none, state: "敵のHPが回復した時に発動します．自身も同じ量だけ回復します．" },
     { id: 7, name: "神秘のオーブ", value: 1000000, effect: itemEffect.none, state: "敵のHPが回復した時に発動します．自身のHPを大きく回復します．" },
     { id: 8, name: "魔法のブーメラン", value: 1000000, effect: itemEffect.none, state: "敵から受ける炎，雷，氷属性ダメージを0にし，受けるはずだったダメージを敵に与えます．" },

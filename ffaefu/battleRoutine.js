@@ -28,11 +28,15 @@ battle.battleAgainstChampion = async function (user, enemy) {
     return await this.battleRoutine(user, enemy, 2);
 };
 
-battle.goLegendPlace = async function (user, enemy) {
+battle.goLegendPlace = async function (user) {
     let stamina = usersPeripheral.calculateStamina(user.lastBattleDate);
     user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsMonsterStamina) * 1000);
+    let enemy = enemyInformation.legendPlace[user.beingLegendPlace][user.legendPlaceProgress];
     let result = await this.battleRoutine(user, enemy, 0);
-    return result;
+
+    let isFinished = result === "lose" || result === "draw" || (result === "win" && user.beingLegendPlace === -1 && user.legendPlaceProgress === 0);
+
+    return isFinished;
 
 
 }
@@ -119,14 +123,16 @@ battle.battleRoutine = async function (user, enemy, kind) {
         _enemy.accessory = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.accessory)));
         let turn = 1;
         while (_user.currentHP > 0 && _enemy.currentHP > 0) {
+            _enemy.currentHP = Math.min(_enemy.currentHP, _enemy.maxHP);
             _enemy.receiveDamage = 0;//敵が受けるダメージ
             _enemy.damageCutPercentage = 0.0;//敵が受けるダメージの軽減率
             _enemy.recoverHP = 0;//敵のHPの回復量(基本は0)
             _enemy.evasiveness = enemy.evasive; //敵の回避率
+            _user.currentHP = Math.min(_user.currentHP, _user.maxHP);
             _user.receiveDamage = 0; //ユーザの受けるダメージ
             _user.damageCutPercentage = 0.0; //ユーザのダメージ軽減率
             _user.evasiveness = 50; //ユーザの回避率
-            _user.recoverHP;
+            _user.recoverHP = 0;
 
             this.returnMessage += turn + "ターン目:<br>";
             this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS " + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br><br>";
@@ -294,17 +300,35 @@ battle.win = function (user, enemy) {
     user.money += enemy.dropMoney;
     this.getExp(user, enemy.exp);
     this.returnMessage += enemy.dropMoney + "C入手した．";
+
+    if (user.beingLegendPlace >= 0) {  //レジェンドプレイス挑戦時の処理
+        user.legendPlaceProgress += 1;
+        if (user.legendPlaceProgress === enemyInformation.legendPlace[user.beingLegendPlace].length) {
+            user.legendPlaceProgress = 0;
+            user.beingLegendPlace = -1;
+            if (user.degree <= user.beingLegendPlace) {
+                user.degree += 1;
+                this.returnMessage += "<h1>" + user.name + "はレジェンドプレイスを攻略した！！！称号が" + configuration.degree[user.degree] + "になった！！！</h1>"
+            } else {
+                this.returnMessage += "<h1>" + user.name + "はレジェンドプレイスを攻略した！！！";
+            }
+        }
+    }
 };
 
 battle.lose = function(user,enemy){
     user.money /= 10;
+    user.money = parseInt(user.money);
     this.getExp(user, 1);
-    console.log(user)
+    user.beingLegendPlace = -1;
+    user.legendPlaceProgress = 0;
 };
 
 battle.draw = function (user, enemy) {
     this.getExp(user, Math.ceil(enemy.exp / 2));
     console.log(user);
+    user.beingLegendPlace = -1;
+    user.legendPlaceProgress = 0;
 };
 
 battle.winChampion = async function (user, enemy) {

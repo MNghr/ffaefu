@@ -38,6 +38,41 @@ itemEffect.resistIce = function (user, enemy) {
     return returnData;
 };
 
+itemEffect.reflectFire = function (user, enemy) {
+    let returnData = {};
+    returnData.messge = "";
+    if (user.receiveDamage > 0 && user.receiveElement === "fire" && utility.random(0,1) === 0) {
+        returnData.messge = user.name + "は水結晶を掲げた！火属性ダメージ反射！！";
+        enemy.receiveDamage += user.receiveDamage; 
+        user.receiveDamage = 0;
+    }
+    
+    return returnData;
+};
+
+itemEffect.reflectThunder = function (user, enemy) {
+    let returnData = {};
+    returnData.messge = "";
+    if (user.receiveDamage > 0 && user.receiveElement === "thunder" && utility.random(0,1) === 0) {
+        returnData.messge = user.name + "は黒い石を振りかざした！雷属性ダメージ反射！！";
+        enemy.receiveDamage += user.receiveDamage;
+        user.receiveDamage = 0;
+    }
+    return returnData;
+};
+
+itemEffect.reflectIce = function (user, enemy) {
+    let returnData = {};
+    returnData.messge = "";
+    if (user.receiveDamage > 0 && user.receiveElement === "Ice" && utility.random(0,1) === 0) {
+        returnData.messge = user.name + "はレッドファングを掲げた！氷属性ダメージ反射！！";
+        enemy.receiveDamage += user.receiveDamage; 
+        user.receiveDamage = 0;
+    }
+    
+    return returnData;
+};
+
 
 
 
