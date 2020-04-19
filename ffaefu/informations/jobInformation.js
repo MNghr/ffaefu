@@ -1,6 +1,7 @@
 let jobInformation = {};
 //職業情報 
-//各種能力の成長率，要求される各種能力値，x屋に並ぶx(x \in {"武器","防具","装飾品"})，転職することで使えるようになるスキル，マスターすることで使えるようになるスキル，要求される職歴(これらをマスターしていないと転職できない)を記述．
+
+//各職業の攻撃力計算
 let soldierAttack = (user) => user.weapon.attack + user.power;
 let mageAttack = (user) => user.weapon.attak + user.mana;
 let priestAttack = (user) => user.weapon.attack + user.religion;
@@ -33,6 +34,7 @@ let arcanistAttack = (user) => user.weapon.attack + user.power + user.mana + use
 let braveAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
 let grandMasterAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
 
+//各種能力の成長率，要求される各種能力値，x屋に並ぶx(x \in {"武器","防具","装飾品"})，転職することで使えるようになるスキル，マスターすることで使えるようになるスキル，要求される職歴(これらをマスターしていないと転職できない)を記述．
 jobInformation.jobList = [
     { id: 0, name: "戦士", powerGrowth: 4, manaGrowth: 1, religionGrowth: 1, vitalityGrowth: 4, agilityGrowth: 2, dexterityGrowth: 2, charmGrowth: 1, karmaGrowth: 4, powerRequired: 0, manaRequired: 0, religionRequired: 0, vitalityRequired: 0, agilityRequired: 0, dexterityRequired: 0, charmRequired: 0, karmaRequired: 0, weapon: [1, 2, 3, 4], armor: [1, 2, 3, 4], accessory: [1, 2, 3, 4], basicArts: [1], masterArts: [2], jobsRequired: [], calculateAttack: soldierAttack},
     { id: 1, name: "魔法使い", powerGrowth: 1, manaGrowth: 16, religionGrowth: 1, vitalityGrowth: 1, agilityGrowth: 1, dexterityGrowth: 1, charmGrowth: 1, karmaGrowth: 1, powerRequired: 0, manaRequired: 0, religionRequired: 0, vitalityRequired: 0, agilityRequired: 0, dexterityRequired: 0, charmRequired: 0, karmaRequired: 0, weapon: [1, 2, 3, 4], armor: [1, 2, 3, 4], accessory: [1, 2, 3, 4], basicArts: [3], masterArts: [4], jobsRequired: [] ,calculateAttack: mageAttack},
