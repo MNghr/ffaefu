@@ -128,11 +128,13 @@ battle.battleRoutine = async function (user, enemy, kind) {
             _enemy.damageCutPercentage = 0.0;//敵が受けるダメージの軽減率
             _enemy.recoverHP = 0;//敵のHPの回復量(基本は0)
             _enemy.evasiveness = enemy.evasive; //敵の回避率
+            _enemy.weaponRatio = 1.0;
             _user.currentHP = Math.min(_user.currentHP, _user.maxHP);
             _user.receiveDamage = 0; //ユーザの受けるダメージ
             _user.damageCutPercentage = 0.0; //ユーザのダメージ軽減率
             _user.evasiveness = 50; //ユーザの回避率
             _user.recoverHP = 0;
+            _user.weaponRatio = 1.0;
 
             this.returnMessage += turn + "ターン目:<br>";
             this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS " + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br><br>";

@@ -22,6 +22,7 @@ itemInformation.itemList = [
     { id: 18, name: "学習装置", value: 7000000, effect: itemEffect.none, state: "持っているだけでモンスター戦後に得られる経験値が少し増えます．戦闘後一定確率で破損します．" },
     { id: 19, name: "しあわせタマゴ", value: 600000000, effect: itemEffect.none, state: "持っているだけでモンスター戦後に得られる経験値がそれなりに増えます．戦闘後一定確率で破損します．" },
     { id: 20, name: "AGEシステム", value: 600000000, effect: itemEffect.none, state: "持っているだけでモンスター戦後に得られる経験値がかなり増えます．戦闘後一定確率で破損します．" },
+    { id: 21, name: "バグのかけら", value: 600000000, effect: itemEffect.none, state: "無用の長物にも見える欠片．とある使い道があるらしい．．．？" },
 ];
 
 module.exports = itemInformation;

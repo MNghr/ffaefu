@@ -6,3 +6,28 @@ body {
 a {
   color: #00B7FF;
 }
+
+span.artsGray{
+  color: gray;
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+span.artsRed{
+  color: red;
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+span.artsYellow{
+  color:Yellow;
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+span.artsPurple{
+  color:purple;
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+span.artsBlue{
+  color:blue;
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
