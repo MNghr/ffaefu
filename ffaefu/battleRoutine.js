@@ -51,6 +51,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
     _user.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.weapon)));
     _user.armor = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.armor)));
     _user.accessory = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.accessory)));
+
     _enemy.artsEffect = enemy.artsEffect; //関数だけJSON.stringifyの範囲外なので改めて追加
     console.log(_enemy.artsEffect);
     console.log(enemy.artsEffect);
@@ -76,7 +77,9 @@ battle.battleRoutine = async function (user, enemy, kind) {
             _user.evasiveness = 50;
             _user.receiveElement = "";
             _user.currentHP = Math.min(_user.maxHP, _user.currentHP);
-    
+            _user.attack = calculateAttack(_user);
+            console.log(_user.attack);
+            
             this.returnMessage += turn + "ターン目:<br>";
             this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS" + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br>";
             let receiveData = {};
@@ -86,9 +89,9 @@ battle.battleRoutine = async function (user, enemy, kind) {
             enemyReceiveData = invokeEnemyArts(_user, _enemy);
             accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy);            
 
-            _enemy.currentHP -= Math.ceil(_enemy.receiveDamage * Math.ceil(1 - _enemy.damageCutPercentage));
+            _enemy.currentHP -= Math.ceil(_enemy.receiveDamage * 1 - _enemy.damageCutPercentage);
             this.returnMessage += _user.name + "は"+_user.weapon.name+"で攻撃!"+receiveData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた<br>";
-            _user.currentHP -= Math.ceil(_user.receiveDamage*Math.ceil(1-_user.damageCutPercentage));
+            _user.currentHP -= Math.ceil(_user.receiveDamage*1-_user.damageCutPercentage);
             this.returnMessage += _enemy.name + "が襲い掛かった！" + enemyReceiveData.message + _user.name + "は" + _user.receiveDamage + "ダメージ受けた<br>";
             this.returnMessage += "<br>";
             turn++;
@@ -135,6 +138,8 @@ battle.battleRoutine = async function (user, enemy, kind) {
             _user.evasiveness = 50; //ユーザの回避率
             _user.recoverHP = 0;
             _user.weaponRatio = 1.0;
+            _user.attack = calculateAttack(_user);
+            
 
             this.returnMessage += turn + "ターン目:<br>";
             this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS " + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br><br>";
@@ -373,6 +378,77 @@ battle.drawChampion = async function (user, enemy) {
 battle.jobMaster = function (user) {
     user.artsInventory = user.artsInventory.concat(usersPeripheral.getJobElementOfUser(user).masterArts);
     user.career[usersPeripheral.getJobElementOfUser(user).id] = user.jobLevel;
+}
+
+let soldierAttack = (user) => user.weapon.attack + user.power;
+let mageAttack = (user) => user.weapon.attak + user.mana;
+let priestAttack = (user) => user.weapon.attack + user.religion;
+let thiefAttack = (user) => user.weapon.attack + user.dexterity;
+let soilmancerAttack = (user) => user.weapon.attack + user.mana;
+let roilmageAttack = (user) => user.weapon.attack + user.mana;
+let bardAttack = (user) => user.weapon.attack + user.mana + user.charm;
+let blagueurAttack = (user) => user.power + user.mana + user.religion + user.dexterity + user.agility + user.vitality + user.charm + user.karma;
+let summonerAttack = (user) => user.weapon.attack + user.mana + user.charm;
+let dragoonAttack = (user) => user.weapon.attack + user.power + user.dexterity;
+let bishopAttack = (user) => user.weapon.attack + user.mana + user.religion;
+let knightAttack = (user) => user.weapon.attack + user.power + user.religion;
+let samuraiAttack = (user) => user.weapon.attack + user.power + user.mana;
+let monkAttack = (user) => user.power + user.vitality;
+let ninjaAttack = (user) => user.weapon.attack + user.power + user.agility;
+let darkKnightAttack = (user) => user.weapon.attack + user.power + user.mana;
+let mageWarriorAttack = (user) => user.weapon.attack + user.power + user.mana;
+let mercenaryAttack = (user) => user.weapon.attack + user.power + user.agility;
+let tamerAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let emperorAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let paladinAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let augurAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let administratorAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let onionSwordianAttack = (user) => user.weapon.attack + user.power;
+let assassinAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let monsterTamerAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let sageAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let masterValorAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let arcanistAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let braveAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+let grandMasterAttack = (user) => user.weapon.attack + user.power + user.mana + user.religion + user.vitality + user.agility + user.dexterity + user.charm + user.karma;
+
+let calculateAttackTable = [
+    soldierAttack,
+    mageAttack,
+    priestAttack,
+    thiefAttack,
+    soilmancerAttack,
+    roilmageAttack,
+    bardAttack,
+    blagueurAttack,
+    summonerAttack,
+    dragoonAttack,
+    bishopAttack,
+    knightAttack,
+    samuraiAttack,
+    monkAttack,
+    ninjaAttack,
+    darkKnightAttack,
+    mageWarriorAttack,
+    mercenaryAttack,
+    tamerAttack,
+    emperorAttack,
+    paladinAttack,
+    augurAttack,
+    administratorAttack,
+    onionSwordianAttack,
+    assassinAttack,
+    monsterTamerAttack,
+    sageAttack,
+    masterValorAttack,
+    arcanistAttack,
+    braveAttack,
+    grandMasterAttack
+]
+
+let calculateAttack = function (user) {
+    console.log(soldierAttack(user));
+    return calculateAttackTable[user.job](user);
 }
 
 module.exports = battle;

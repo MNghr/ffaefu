@@ -26,7 +26,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
     (async () => {
         if (req.session.user !== undefined) {
-            await usersPeripheral.changeJob(req.session.user, req.body.jobNumber);
+            await usersPeripheral.changeJob(req.session.user, parseInt(req.body.jobNumber));
             res.render('changeJob', {
                 title: "FFA えふ改",
                 subTitle: "転職の祠",

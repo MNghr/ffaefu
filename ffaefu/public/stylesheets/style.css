@@ -7,27 +7,44 @@ a {
   color: #00B7FF;
 }
 
-span.artsGray{
+span.artsgray{
   color: gray;
-  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-weight : bold;
+  font-size: 20px;
 }
 
-span.artsRed{
+span.artsblack{
+  color: black;
+  font-weight : bold;
+  font-size: 20px;
+}
+
+span.artsred{
   color: red;
-  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 20px ;
 }
 
-span.artsYellow{
+span.artsyellow{
   color:Yellow;
-  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-weight : bold;
+  font-size: 20px ;
 }
 
-span.artsPurple{
+span.artspurple{
   color:purple;
-  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-weight : bold;
+  font-size: 20px ;
 }
 
-span.artsBlue{
+span.artsblue{
   color:blue;
-  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-weight : bold;
+  font-size: 20px ;
+}
+
+span.hitAmountblue{
+  color:blue;
+  font-weight : bold;
+  font-size: 14px ;
 }
