@@ -4,13 +4,15 @@ let utility = require("../utility");
 accessoryEffect.none = function (user,enemy) {
     let returnData = {};
     returnData.message = "";
-    enemy.receiveDamage = user.attack*Math.ceil(utility.random(15,50)/10.0)
+    console.log(user);
+    console.log(enemy);
     return returnData;
 };
 //バーサクリング
 accessoryEffect.damageonePointFiveTime = function (user,enemy) {
     let returnData = {};
     enemy.receiveDamage *= 1.5;
+    enemy.receiveDamage = Math.ceil(enemy.receiveDamage);
     Math.ceil(enemy.receiveDamage);
     returnData.message = "";
     return returnData;
@@ -204,6 +206,7 @@ accessoryEffect.bugDeathThunder  = function (user, enemy) {
         if (user.itemInventory[21] > 0) {
             returnData.message += user.accessory.name + "が光を放つ．．．バグデスサンダー！！！！(バグのかけらを1つ消費した)";
             enemy.receiveDamage += user.attack * utility.random(1, 648);
+            user.itemInventory[21]--;
             if (utility.random(1, 10) <= 3) {
                 returnData.message += "敵の動きを鈍らせた！！！";
                 user.evasiveness += 1000075;

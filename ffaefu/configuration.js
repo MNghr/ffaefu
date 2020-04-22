@@ -17,6 +17,10 @@ configuration.turnLimit = 150;
 
 configuration.degree = ["駆け出し", "冒険者", "熟練者", "勇者", "蓋世の英雄"]; //各レジェンドプレイス初攻略時に変化する称号．
 
+configuration.maxMoney = 1000000000000;
+
+configuration.isDebugMode = true; //デバッグモード．trueにしておくと技という技が常時発動するようになるので，デバッグしたいときにどうぞ．
+
 configuration.vsMonsterDropItem = [
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],

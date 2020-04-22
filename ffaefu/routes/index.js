@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 let fs = require("fs");
 let usersPeripheral = require("../usersPeripheral.js");
-let jobInformation = require("../informations/jobInformation.js")
+let jobInformation = require("../informations/jobInformation.js");
+let itemInformation = require("../informations/itemInformation.js");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', {
@@ -30,6 +31,9 @@ router.post('/', function (req, res, next) {
       req.session.user.legendPlaceProgress = 0;
       while (req.session.user.career.length < jobInformation.jobList.length) {
         req.session.user.career.push(0);
+      }
+      while (req.session.user.itemInventory.length < itemInformation.itemList.length) {
+        req.session.user.itemInventory.push(0);
       }
       /*
       [req.session.user,

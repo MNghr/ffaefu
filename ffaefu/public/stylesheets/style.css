@@ -1,6 +1,8 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: url("../images/back00.gif");
+  background-color:"#ffffff";
 }
 
 a {
@@ -26,7 +28,7 @@ span.artsred{
 }
 
 span.artsyellow{
-  color:Yellow;
+  color: #FFAA00;
   font-weight : bold;
   font-size: 20px ;
 }
@@ -43,8 +45,60 @@ span.artsblue{
   font-size: 20px ;
 }
 
+span.artsbrown{
+  color: brown;
+  font-weight : bold;
+  font-size: 20px ;
+}
+
+span.artsgreen{
+  color: green;
+  font-weight : bold;
+  font-size: 20px ;
+}
+
+span.artsdarkred{
+  color: darkred;
+  font-weight : bold;
+  font-size: 20px ;
+}
+
+span.artspink{
+  color: pink;
+  font-weight : bold;
+  font-size: 20px ;
+}
+
+span.artsskyblue{
+  color: skyblue;
+  font-weight : bold;
+  font-size: 20px ;
+}
+
+span.artslightblue{
+  color: lightblue;
+  font-weight : bold;
+  font-size: 20px ;
+}
+
+span.artsdarkblue{
+  color: darkblue;
+  font-weight : bold;
+  font-size: 20px ;
+}
+
+span.artsroyalblue{
+  color: royalblue;
+  font-weight : bold;
+  font-size: 20px ;
+}
+
 span.hitAmountblue{
   color:blue;
   font-weight : bold;
   font-size: 14px ;
+}
+
+span.hpRecover{
+  color:#FFAA00;
 }

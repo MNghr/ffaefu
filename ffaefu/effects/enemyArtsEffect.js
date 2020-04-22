@@ -6,7 +6,7 @@ let enemyArtsEffect = {};
 enemyArtsEffect.none = function (user,enemy) { 
     let returnData = {};
     returnData.message= "";
-    user.receiveDamage = enemy.attack;
+    user.receiveDamage += enemy.attack;
     user.evasiveness -= 0;
     return returnData;
 }
@@ -14,7 +14,7 @@ enemyArtsEffect.none = function (user,enemy) {
 //ファイア
 enemyArtsEffect.fire = function (user, enemy) { 
     let returnData = {};
-    returnData.message= "<h1>黒魔法 ファイア！</h1>";
+    returnData.message= shapeArtsName("黒魔法 ファイア！","darkred");
     user.receiveDamage = enemy.attack;
     returnData.element = "fire";
     user.evasiveness -= 999;
@@ -23,7 +23,7 @@ enemyArtsEffect.fire = function (user, enemy) {
 //ブリザード
 enemyArtsEffect.blizzard = function (user, enemy) { 
     let returnData = {};
-    returnData.message= "<h1>黒魔法 ブリザード！</h1>";
+    returnData.message= shapeArtsName("黒魔法 ブリザード！","royalblue");
     user.receiveDamage = enemy.attack;
     returnData.element = "ice";
     user.evasiveness -= 999;
@@ -32,7 +32,7 @@ enemyArtsEffect.blizzard = function (user, enemy) {
 //サンダー
 enemyArtsEffect.thunder = function (user, enemy) { 
     let returnData = {};
-    returnData.message= "黒魔法 サンダー！";
+    returnData.message= shapeArtsName("黒魔法 サンダー！","yellow");
     user.receiveDamage = enemy.attack;
     returnData.element = "thunder";
     user.evasiveness -= 999;
@@ -42,7 +42,7 @@ enemyArtsEffect.thunder = function (user, enemy) {
 //ファイア2
 enemyArtsEffect.fire2 = function (user, enemy) { 
     let returnData = {};
-    returnData.message= "黒魔法 ファイア2！";
+    returnData.message= shapeArtsName("黒魔法 ファイア2！","darkred");
     user.receiveDamage = enemy.attack*2;
     returnData.element = "fire";
     user.evasiveness -= 999;
@@ -52,7 +52,7 @@ enemyArtsEffect.fire2 = function (user, enemy) {
 //ブリザード2
 enemyArtsEffect.blizzard2 = function (user, enemy) { 
     let returnData = {};
-    returnData.message= "黒魔法 ブリザード2！";
+    returnData.message= shapeArtsName("黒魔法 ブリザード2！","royalblue");
     user.receiveDamage = enemy.attack*2;
     returnData.element = "ice";
     user.evasiveness -= 999;
@@ -62,7 +62,7 @@ enemyArtsEffect.blizzard2 = function (user, enemy) {
 //サンダー2
 enemyArtsEffect.thunder2 = function (user, enemy) { 
     let returnData = {};
-    returnData.message= "黒魔法 サンダー2！";
+    returnData.message= shapeArtsName("黒魔法 サンダー2！","yellow");
     user.receiveDamage= enemy.attack*2;
     returnData.element = "thunder";
     user.evasiveness -= 999;
@@ -73,7 +73,7 @@ enemyArtsEffect.thunder2 = function (user, enemy) {
 enemyArtsEffect.meteor = function (user, enemy) { 
     let returnData = {};
     let hitAmount = utility.random(1, 16);
-    returnData.message = "古代魔法 ミーティア！" + hitAmount + "ヒット！";
+    returnData.message = shapeArtsName("古代魔法 ミーティア！","blue") + shapeHitAmount(hitAmount + "ヒット！");
     user.receiveDamage = enemy.attack * 2 * hitAmount;
     user.evasiveness -= 999;
     return returnData;
@@ -95,6 +95,7 @@ enemyArtsEffect.zantetsuken = function (user, enemy) {
     } else {
         returnData.message += "．．．失敗！";
     }
+    returnData.message += shapeArtsName(returnData.message, "gray");
     user.evasiveness -= 99999999;
     returnData.element = "zantetsuken";
     return returnData;
@@ -115,7 +116,7 @@ enemyArtsEffect.deadlyMessage = function (user, enemy) {
             returnData.message += lut[i];
         }
     }
-
+    returnData.message = shapeArtsName(returnData.message, "purple");
     user.evasiveness -= 999999999;
     return returnData;
 }
@@ -124,19 +125,19 @@ enemyArtsEffect.deadlyMessage = function (user, enemy) {
 enemyArtsEffect.efu = function (user, enemy) { 
     let returnData = {};
     if (utility.random(1, 1000) === 1000) {
-        returnData.message = "Fatal User's Critical Killer";
+        returnData.message = shapeArtsName("Fatal User's Critical Killer","blue");
        user.receiveDamage = 9999999999999999;
     } else {
-        returnData.message = "管理者特権";
-        user.receiveDamage -= 1000000000000;
+        returnData.message = shapeArtsName("管理者特権","yellow");
+        user.receiveDamage -= 100000000;
     }
-    user.evasiveness -= 9999999999;
+    user.evasiveness -= 99999999;
     return returnData;
 }
 //ホーリーパネル
 enemyArtsEffect.hollyPanel = function (user, enemy) {
     let returnData = {};
-    returnData.message = "防御術式展開・ホーリパネル！！";
+    returnData.message = shapeArtsName("防御術式展開・ホーリパネル！！","yellow");
     user.receiveDamage = enemy.attack;
     enemy.damageCutPercentage = 90;
     return returnData;
@@ -144,7 +145,7 @@ enemyArtsEffect.hollyPanel = function (user, enemy) {
 //アルテマ
 enemyArtsEffect.ultima = function (user, enemy) {
     let returnData = {};
-    returnData.message = "禁断魔法アルティメイタム！";
+    returnData.message = shapeArtsName("禁断魔法アルティメイタム！","gray");
     user.receiveDamage = enemy.attack * 50;
     returnData.element = "forbidden";
     return returnData;
@@ -161,12 +162,13 @@ enemyArtsEffect.desion = function (user, enemy) {
         user.receiveDamage = enemy.attack;
     }
     returnData.element = "desion";
+    returnData.message = shapeArtsName(returnData.message, "blue");
     return returnData;
 }
 
 enemyArtsEffect.drain = function (user, enemy) {
     let returnData = {};
-    returnData.message = "暗黒魔法 ドレイン！";
+    returnData.message = shapeArtsName("暗黒魔法 ドレイン！","purple");
     user.receiveDamage = enemy.attack * 2;
     enemy.recoveryHP = user.receiveDamage;
 
@@ -175,7 +177,7 @@ enemyArtsEffect.drain = function (user, enemy) {
 
 enemyArtsEffect.gravity = function (user, enemy) {
     let returnData = {};
-    returnData.message = "古代魔法 ディザスター！";
+    returnData.message = shapeArtsName("古代魔法 ディザスター！","royalblue");
     user.receiveDamage = Math.ceil(user.currentHP/3);
     return returnData;
 }
@@ -186,13 +188,23 @@ enemyArtsEffect.blackMagics = function (user,enemy) {
     let returnData = {};
     let dice = Math.random(1, 6);
     if (dice <= 2) {
-        returnData = this.fire;
+        returnData = enemyArtsEffect.fire(user,enemy);
     } else if (dice <= 4) {
-        returnData = this.blizzard;
+        returnData = enemyArtsEffect.blizzard(user,enemy);
     } else {
-        returnData = this.thunder;
+        returnData = enemyArtsEffect.thunder(user,enemy);
     }
     return returnData;
 }
 
+
+//必殺技の表示形成
+let shapeArtsName = function(artsName, color){  
+    return '<span class="arts'+color+'">'+artsName+"</span>";
+}
+
+//ヒット回数の表示形成
+let shapeHitAmount = function (hitAmount, color) {
+    return '<span class="hitAmount'+color+'">'+hitAmount+"</span>";
+}
 module.exports = enemyArtsEffect;

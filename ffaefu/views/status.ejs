@@ -18,11 +18,12 @@
       }
     </script>
   </head>
-  <body>
+  <body >
     <div class="wrapper">
+     <% const formatter = new Intl.NumberFormat('ja-JP') %>
     <h1><%= subTitle %></h1>    
     現在のチャンピオン:<%= champion.name %>さん
-    HP: <%= champion.currentHP %>/<%=champion.maxHP %>
+    HP: <%= formatter.format(champion.currentHP) %>/<%=champion.maxHP %>
     <% let homepage = '<a href="'+ champion.homePageURL+'">' + champion.homePageName + '</a>'%>
     おすすめのHP: <%- homepage %>
     <div class="instant-status">
@@ -31,7 +32,7 @@
       <li>HP:<%=user.currentHP %>/<%=user.maxHP %></li>
       <li>レベル: <%=user.level %></li>
       <li>経験値: <%= user.exp %>/<%= user.level*300 %></li>
-      <li>所持金: <%= user.money %>C/1,000,000,000C</li>
+      <li>所持金: <%= formatter.format(user.money)  %>C/1,000,000,000C</li>
       <li>スタイル: <%= job.name %></li>
       <li>スタイルレベル: <%= user.jobLevel %> </li>
       <li>スタミナ: <x id="stamina"><%= stamina %></x></li>
@@ -56,9 +57,7 @@
       <a href="/equipmentStorage"><button>装備品倉庫へ</button></a>
       <a href="/bank"><button>銀行へ</button></a>
     
-      <form action="" method="post">
-        <button type="submit">道具屋へ</button>
-      </form>
+      <a href="/itemShop"><button>道具屋</button></a>
       <a href="/weaponShop"><button>武器屋</button></a>
       <a href="/armorShop"><button>防具屋へ</button></a>
       <a href="/accessoryShop"><button>装飾品屋へ</button></a>

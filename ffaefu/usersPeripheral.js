@@ -6,33 +6,39 @@ let armorInformation = require("./informations/armorInformation.js");
 let accessoryInformation = require("./informations/accessoryInformation.js");
 let artsInformation = require("./informations/artsInformation.js");
 let jobInformation = require("./informations/jobInformation.js");
+let itemInformation = require("./informations/itemInformation.js")
 let configuration = require("./configuration.js")
 
-usersPeripheral.deposit = function(user,amount) {
+usersPeripheral.deposit = async function(user,amount) {
     if (user.money < amount)
         return;    
     user.money -= amount;
     user.bank += amount;
-    this.writeUser(user);
+    await this.writeUser(user);
 }
 
-usersPeripheral.fullDeposit = function(user) {
+usersPeripheral.fullDeposit = async function(user) {
     let amount = user.money;
-    this.deposit(user, amount);    
+    await this.deposit(user, amount);    
 }
 
-usersPeripheral.withdraw = function (user, amount) {
+usersPeripheral.withdraw = async function (user, amount) {
     console.log(amount);
     amount = Math.min(amount, user.bank);
     user.bank -= amount;
     user.money += amount;
-    this.writeUser(user);
+    await this.writeUser(user);
 }
 
-usersPeripheral.fullWithdraw = function(user) {
+usersPeripheral.fullWithdraw = async function(user) {
     let amount = 0;
     amount = Math.min(user.bank, 1000000000000 - user.money);
-    this.withdraw(user, amount);    
+    await this.withdraw(user, amount);    
+}
+
+usersPeripheral.addMoney = function (user, amount) {
+    user.money += amount;
+    user.money = Math.max(user.money, configuration.maxMoney);
 }
 
 usersPeripheral.readUser = async function (user) {
@@ -323,6 +329,15 @@ usersPeripheral.currentChampion;
 usersPeripheral.setChampion = async function(){
     this.currentChampion = JSON.parse(await this.readChampion());
     console.log(this.currentChampion);
+}
+
+usersPeripheral.makeUserItemList = function(user){
+    userItemList = JSON.parse(JSON.stringify(itemInformation.itemList));
+    userItemList.forEach((element, index) => {
+        element.amount = user.itemInventory[index];
+    });
+
+    return userItemList;
 }
 
 usersPeripheral.setChampion();//サーバ起動時，チャンピオン情報を読み込む処理

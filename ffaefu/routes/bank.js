@@ -17,42 +17,44 @@ router.get('/', function (req, res, next){
 });
 
 router.post('/', function (req, res, next) {
-    if (req.session.user !== undefined) {
-        let modeMessage = "";
-        switch (req.body.mode) {
-            case "deposit":
-                modeMessage = "deposit";
-                //console.log("deposit");
-                usersPeripheral.deposit(req.session.user,req.body.amount);
-                break;
-            case "fullDeposit":
-                modeMessage = "deposit";
-                //console.log("fullDeposit");
-                usersPeripheral.fullDeposit(req.session.user);
-                break;
-            case "withdraw":
-                modeMessage = "withdraw";
-                //console.log("withdraw");
-                usersPeripheral.withdraw(req.session.user,req.body.amount);
-                break;
-            case "fullWithdraw":
-                modeMessage = "withdraw";
-                //console.log("fullwithdraw");
-                usersPeripheral.fullWithdraw(req.session.user);
-                break;
-            default:
-                console.log("error-bank");
+    (async () => {
+        if (req.session.user !== undefined) {
+            let modeMessage = "";
+            switch (req.body.mode) {
+                case "deposit":
+                    modeMessage = "deposit";
+                    //console.log("deposit");
+                    await usersPeripheral.deposit(req.session.user, req.body.amount);
+                    break;
+                case "fullDeposit":
+                    modeMessage = "deposit";
+                    //console.log("fullDeposit");
+                    await usersPeripheral.fullDeposit(req.session.user);
+                    break;
+                case "withdraw":
+                    modeMessage = "withdraw";
+                    //console.log("withdraw");
+                    await usersPeripheral.withdraw(req.session.user, req.body.amount);
+                    break;
+                case "fullWithdraw":
+                    modeMessage = "withdraw";
+                    //console.log("fullwithdraw");
+                    await usersPeripheral.fullWithdraw(req.session.user);
+                    break;
+                default:
+                    console.log("error-bank");
+            }
+            res.render('bank', {
+                title: "FFAえふ改",
+                subTitle: "銀行",
+                user: req.session.user,
+                isFinished: true,
+                mode: modeMessage
+            });
+        } else {
+            res.redirect('/');
         }
-        res.render('bank', {
-            title: "FFAえふ改",
-            subTitle: "銀行",
-            user: req.session.user,
-            isFinished: true,
-            mode: modeMessage
-        });
-    } else {
-        res.redirect('/');
-   }
+    })().catch(next);
 });
 
 module.exports = router;

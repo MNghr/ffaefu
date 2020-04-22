@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel='stylesheet' href='/stylesheets/style.css'>
+  </head>
+  <body>
+    <h1><%= subTitle %></h1>
+    <% if(mode === "selectItem"){ %>
+      買う
+      <ul>
+      <%for(let i = 0;i < items.length; ++i){ %>
+        <form action="" method="post">
+          <% let input = '<input type="hidden" name="mode" value="buy"><input type="hidden" name="targetItem" value=' + '"'+i+'"' + '>' %>
+            <%- input %>        
+           <li>名前:<%= items[i].name %> , 効果:<%= items[i].statement %>, 値段:<%= items[i].value %>所有数:<%=userItems[i].amount%>個数:<input type="number" name="amount">  <button type=submit>買う</button></li>
+           
+        </form>
+      <% } %>
+      </ul>
+      売る
+
+      <%userItems = userItems.filter((element,index)=>element.amount > 0);%>
+      <%userItems.forEach((element,index)=>{%>
+        <% let input = '<form action="" method="post"><input type="hidden" name="mode" value="sell"><input type="hidden" name="targetItem" value=' + '"'+index+'"' + '>' %>
+        <%- input %>
+        <li>名前:<%=element.name %>,効果:<%=element.statement%>,値段:<%=element.value%>所有数:<%=element.amount%>個数:<input type="number" name="amount"> <button type=submit>売る</button></li>
+      <%})%>
+    <% }else{ %>
+      <%- content %>
+    <% } %>
+    
+    <a href="/status"><button>ステータス画面へ</button></a>    
+  </body>
+</html>
