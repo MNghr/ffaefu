@@ -340,6 +340,31 @@ usersPeripheral.makeUserItemList = function(user){
     return userItemList;
 }
 
+usersPeripheral.buyItem = async (user,targetItemId,amount)=>{
+    let buySuceed = user.money >= amount * itemInformation.itemList[targetItemId].value;
+    if (buySuceed) {
+        user.itemInventory[targetItemId] += amount;
+        user.money -= amount * itemInformation.itemList[targetItemId].value;
+        await usersPeripheral.writeUser(user);
+    } 
+
+    return buySuceed;
+}
+
+usersPeripheral.sellItem = async (user, targetItemId, amount) => {
+    let sellSuceed = amount <= user.itemInventory[targetItemId];
+    let sum = 0;
+    if (sellSuceed) {
+        user.itemInventory[targetItemId] -= amount;
+        sum = amount*Math.ceil(itemInformation.itemList[targetItemId].value/2)
+        usersPeripheral.addMoney(user,sum);
+    
+        await usersPeripheral.writeUser(user);
+    } 
+
+    return sum;
+}
+
 usersPeripheral.setChampion();//サーバ起動時，チャンピオン情報を読み込む処理
 
 

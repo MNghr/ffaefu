@@ -24,15 +24,24 @@ enemyInformation.vsMonster[0] = [
     {enemyId: "19a",name:"伸びたくん",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
     {enemyId: "20a", name: "クソザコピエロ", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.none },
     {enemyId: "21a",name:"チビ神キングゥ",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
-    {enemyId: "22a",name:"夜露死苦男",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
-    {enemyId: "23a",name:"Gあん",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
-    {enemyId: "24a",name:"あくまつき",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
-    {enemyId: "25a",name: "クレガメ", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.none },
+    {enemyId: "22a",name:"ブラストマン",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "23a",name:"ありがとウサギ",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "24a",name:"こんばんワニ",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "25a",name: "さよなライオン", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.desion },
     {enemyId: "26a",name:"かみ",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
     {enemyId: "27a",name:"汚職した政治家",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
     {enemyId: "28a",name:"Gこつせんし",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
     {enemyId: "29a", name: "メタルブロブキング", maxHP: 10011, attack: 145, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.none },
-    {enemyId: "30a",name:"えふ",maxHP:10000000000000,attack:100000000000000, dropMoney: 10000000000,exp:700000, accuracy:70,artsActivation: 100,evasive:50,artsEffect: enemyArtsEffect.efu},
+    {enemyId: "30a", name: "えふ", maxHP: 10000000000000, attack: 100000000000000, dropMoney: 10000000000, exp: 700000, accuracy: 70, artsActivation: 100, evasive: 50, artsEffect: enemyArtsEffect.efu },
+    {enemyId: "31a",name:"ごちそうさマウス",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "32a",name:"いってきまスカンク",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "33a",name:"ただいマンボウ",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "34a",name:"おはよウナギ",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "35a",name: "おやすみなサイ", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.none },
+    {enemyId: "36a",name:"完全変態ハゲオヤジ",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "37a",name:"ケツアゴ",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "38a",name:"でんぎあらすG3",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    {enemyId: "39a", name: "ケンカ売るならF〇ckOFF", maxHP: 10011, attack: 145, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.none },
 ];
 enemyInformation.vsMonster[1] = [
     { enemyId: "0b", name: "アカブロブ", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.fire },
@@ -44,7 +53,8 @@ enemyInformation.vsMonster[1] = [
     { enemyId: "6b", name: "キブロブ", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 9999, artsEffect: enemyArtsEffect.thunder },
     { enemyId: "7b", name: "キブロブ", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 9999, artsEffect: enemyArtsEffect.thunder },
     { enemyId: "8b", name: "スィンダーバルーン", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 9999, artsEffect: enemyArtsEffect.thunder },
-    
+    { enemyId: "9b", name: "ブラストマンEX", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 9999, artsEffect: enemyArtsEffect.thunder },
+    {enemyId: "10b", name: "えふ☆", maxHP: 10000000000000, attack: 100000000000000, dropMoney: 10000000000, exp: 700000, accuracy: 70, artsActivation: 100, evasive: 50, artsEffect: enemyArtsEffect.efu },
     
 ];
 
@@ -52,7 +62,9 @@ enemyInformation.vsMonster[2] = [
     {enemyId: "0c",name:"テュロス",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.fire},
     {enemyId: "1c",name:"ダイダロス",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.fire},
     {enemyId: "2c",name:"オイディプス",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.fire},
-    {enemyId: "3c",name:"ころころ虫",maxHP:100,attack:4, dropMoney: 1000,exp:9000, accuracy:70,artsActivation: 40,evasive:99999999999,artsEffect: enemyArtsEffect.fire},
+    {enemyId: "3c", name: "ころころ虫", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 99999999999, artsEffect: enemyArtsEffect.fire },
+    { enemyId: "4c", name: "タルタロス", maxHP: 100, attack: 4, dropMoney: 1000, exp: 9000, accuracy: 70, artsActivation: 40, evasive: 99999999999, artsEffect: enemyArtsEffect.fire },
+    {enemyId: "30a", name: "えふ☆☆", maxHP: 10000000000000, attack: 100000000000000, dropMoney: 10000000000, exp: 700000, accuracy: 70, artsActivation: 100, evasive: 50, artsEffect: enemyArtsEffect.efu },
 ];
 
 enemyInformation.vsMonster[3] = [
@@ -80,16 +92,16 @@ enemyInformation.legendPlace[0] = [
 ]
 
 enemyInformation.legendPlace[1] = [
-    { enemyId: "0l2",name:"アラクノ",maxHP:100,attack:4,dropMoney:100000000,exp:650000,accuracy:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.meteor},
-    { enemyId: "1l2", name: "クラウストロフォビア", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "2l2",name: "ラージハツカネズミ",maxHP:100,attack:4,dropMoney:1000,exp:999999,accuracy:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.deadlyMessage},
-    { enemyId: "3l2", name: "アンティ", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.efu },
-    { enemyId: "4l2", name: "スノーナイト", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.efu},
-    { enemyId: "5l2", name: "ボックスライム", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "6l2", name: "チビゴーレム", maxHP: 1000013, attack: 999999, dropMoney: 1000, exp: 100000, accuracy: 275, artsActivation: 40, evasive: 999999, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "7l2", name: "プチベロス", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.efu},
-    { enemyId: "8l2", name: "ギガドラゴン", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "9l2",name: "邪眼皇ロマノフI世", maxHP:1000013,attack:999999,dropMoney:1000,exp:100000,accuracy:275,artsActivation: 40,evasive:999999,artsEffect: enemyArtsEffect.deadlyMessage }
+    { enemyId: "0l2",name:"オルトロス",maxHP:100,attack:4,dropMoney:100000000,exp:650000,accuracy:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.meteor},
+    { enemyId: "1l2", name: "氷の女王", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
+    { enemyId: "2l2",name: "炎の女王",maxHP:100,attack:4,dropMoney:1000,exp:999999,accuracy:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.deadlyMessage},
+    { enemyId: "3l2", name: "蔦の女王", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.efu },
+    { enemyId: "4l2", name: "グレートありがとウサギ", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.efu},
+    { enemyId: "5l2", name: "エルダー・恐竜", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
+    { enemyId: "6l2", name: "エルダー・ドラゴン", maxHP: 1000013, attack: 999999, dropMoney: 1000, exp: 100000, accuracy: 275, artsActivation: 40, evasive: 999999, artsEffect: enemyArtsEffect.deadlyMessage },
+    { enemyId: "7l2", name: "フェニックス", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.efu},
+    { enemyId: "8l2", name: "ケルベロス", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
+    { enemyId: "9l2",name: "敵キャンディ", maxHP:1000013,attack:999999,dropMoney:1000,exp:100000,accuracy:275,artsActivation: 40,evasive:999999,artsEffect: enemyArtsEffect.deadlyMessage }
 ]
 
 enemyInformation.legendPlace[2] = [
@@ -106,9 +118,9 @@ enemyInformation.legendPlace[2] = [
 ]
 
 enemyInformation.legendPlace[3] = [
-    { enemyId: "0l4",name:"ブラストマンRV",maxHP:14739274,attack:4,dropMoney:100000000,exp:650000,accuracy:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.meteor},
+    { enemyId: "0l4",name:"ブラストマンRV",maxHP:14739274,attack:4,dropMoney:10029322,exp:650000,accuracy:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
     { enemyId: "1l4", name: "アンドロメダ", maxHP: 247563846, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "2l4",name: "ラ・ムー",maxHP:301635273,attack:4,dropMoney:1000,exp:999999,accuracy:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.deadlyMessage},
+    { enemyId: "2l4",name: "ラ・ムー",maxHP:301635273,attack:4,dropMoney:19289319,exp:999999,accuracy:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.deadlyMessage},
     { enemyId: "3l4", name: "クリムゾンドラゴン", maxHP: 352618273, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.efu },
     { enemyId: "4l4", name: "グレイガ", maxHP: 493728374, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, accuracy: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.efu},
     { enemyId: "5l4", name: "ファルザー", maxHP: 55382383, attack: 4, dropMoney: 1000, exp: 100000, accuracy: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },

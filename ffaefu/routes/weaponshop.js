@@ -31,13 +31,15 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     let content = "";
-    if (req.session.user.money < weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]].value) {
-        content = "エラー:所持金が足りません";
-    } else {
-        usersPeripheral.buyWeapon(req.session.user, weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]]);
-        console.log(jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]);
-        console.log(req.session.user.weapon);
-        content = weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]].name + "を購入して倉庫に送りました．";
+    if (req.body.mode === "buy") {
+        if (req.session.user.money < weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]].value) {
+            content = "エラー:所持金が足りません";
+        } else {
+            usersPeripheral.buyWeapon(req.session.user, weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]]);
+            console.log(jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]);
+            console.log(req.session.user.weapon);
+            content = weaponInformation.weaponList[jobInformation.jobList[req.session.user.job].weapon[req.body.targetWeapon]].name + "を購入して倉庫に送りました．";
+        }
     }
     res.render('weaponShop', {
         title: configuration.gameTitle,

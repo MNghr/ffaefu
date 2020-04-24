@@ -9,14 +9,15 @@
   </head>
   <body>
     <h1><%= subTitle %></h1>
+    <% const formatter = new Intl.NumberFormat('ja-JP') %>
     <% if(mode === "selectItem"){ %>
       買う
       <ul>
       <%for(let i = 0;i < items.length; ++i){ %>
         <form action="" method="post">
-          <% let input = '<input type="hidden" name="mode" value="buy"><input type="hidden" name="targetItem" value=' + '"'+i+'"' + '>' %>
+          <% let input = '<input type="hidden" name="mode" value="buy"><input type="hidden" name="targetItem" value=' + '"'+items[i].id+'"' + '>' %>
             <%- input %>        
-           <li>名前:<%= items[i].name %> , 効果:<%= items[i].statement %>, 値段:<%= items[i].value %>所有数:<%=userItems[i].amount%>個数:<input type="number" name="amount">  <button type=submit>買う</button></li>
+           <li>通し番号:<%=items[i].id%>名前:<%= items[i].name %> , 効果:<%= items[i].statement %>, 購入価格:<%= formatter.format(items[i].value) %>所有数:<%=formatter.format(userItems[i].amount)%>個数:<input type="number" name="amount">  <button type=submit>個買う</button></li>
            
         </form>
       <% } %>
@@ -25,14 +26,20 @@
 
       <%userItems = userItems.filter((element,index)=>element.amount > 0);%>
       <%userItems.forEach((element,index)=>{%>
-        <% let input = '<form action="" method="post"><input type="hidden" name="mode" value="sell"><input type="hidden" name="targetItem" value=' + '"'+index+'"' + '>' %>
+        <% let input = '<form action="" method="post"><input type="hidden" name="mode" value="sell"><input type="hidden" name="targetItem" value=' + '"'+element.id+'"' + '>' %>
         <%- input %>
-        <li>名前:<%=element.name %>,効果:<%=element.statement%>,値段:<%=element.value%>所有数:<%=element.amount%>個数:<input type="number" name="amount"> <button type=submit>売る</button></li>
-      <%})%>
+        <li>通し番号:<%=element.id %>名前:<%=element.name %>,効果:<%=element.statement%>,買取価格:<%=formatter.format(Math.ceil(element.value/2))%>所有数:<%=element.amount%>個数:<input type="number" name="amount"> <button type=submit>個売る</button></li>
+        </form>
+        <%})%>
     <% }else{ %>
       <%- content %>
     <% } %>
     
-    <a href="/status"><button>ステータス画面へ</button></a>    
+    <a href="/status"><button>ステータス画面へ</button></a>
+    <a href="/bank"><button>銀行へ</button></a>
+    <a href="/weaponShop"><button>武器屋へ</button></a>
+    <a href="/armorShop"><button>防具屋へ</button></a>
+    <a href="/accessoryShop"><button>装飾品屋へ</button></a>
+    <a href="/toolShop"><button>道具屋へ</button></a> 
   </body>
 </html>

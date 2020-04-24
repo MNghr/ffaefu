@@ -9,6 +9,7 @@
   </head>
   <body>
     <h1><%= subTitle %></h1>
+    <% const formatter = new Intl.NumberFormat('ja-JP') %>
     <% if(mode === "selectArmor"){ %>
       なにを買うかね？
       <ul>
@@ -16,7 +17,7 @@
         <form action="" method="post">
           <% let input = '<input type="hidden" name="targetArmor" value=' + '"'+i+'"' + '>' %>
             <%- input %>        
-          <button type=submit>買う</button> <li> 名前:<%= armors[i].name %> , 攻撃力:<%= armors[i].defence %>, 値段:<%= armors[i].value %></li>
+          <button type=submit>買う</button> <li> 名前:<%= armors[i].name %> , 攻撃力:<%= formatter.format(armors[i].defence) %>, 値段:<%= formatter.format(armors[i].value) %></li>
         </form>
       <% } %>
       </ul>

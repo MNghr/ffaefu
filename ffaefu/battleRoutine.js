@@ -34,7 +34,7 @@ battle.goLegendPlace = async function (user) {
     let enemy = enemyInformation.legendPlace[user.beingLegendPlace][user.legendPlaceProgress];
     let result = await this.battleRoutine(user, enemy, 0);
 
-    let isFinished = result === "lose" || result === "draw" || (result === "win" && user.beingLegendPlace === -1 && user.legendPlaceProgress === 0);
+    let isFinished = result === "lose" || result === "runAway" || (result === "win" && user.beingLegendPlace === -1 && user.legendPlaceProgress === 0);
 
     return isFinished;
 
@@ -458,14 +458,20 @@ let calculateAttackTable = [
     arcanistAttack,
     braveAttack,
     grandMasterAttack
-]
+];
 
 let calculateAttack = function (user) {
     return calculateAttackTable[user.job](user);
-}
+};
 
-let shapeHPRecover = (agent,amount) => {
-    return '<span class="hpRecover">'+agent.name+"のHPが"+amount+"回復した♪</span>"
-}
+let shapeHPRecover = (agent, amount) => {
+    if (amount > 0) {
+        return '<span class="hpRecover">' + agent.name + "のHPが" + amount + "回復した♪</span>"
+    } else if (amount < 0) {
+        return '<span class="hpRecover">' + agent.name + "は" + amount + "HPを失った...</span>"
+    } else {
+        return "";
+    }
+};
 
 module.exports = battle;

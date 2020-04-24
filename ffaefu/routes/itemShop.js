@@ -29,23 +29,36 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     (async () => {
-        let content = "";
-        if (req.session.user.money < itemInformation.itemList[List]) {
-            content = "エラー:所持金が足りません";
+        if (req.session.user) {
+            let content = "";
+            if (req.body.mode === "buy") {
+                if (await usersPeripheral.buyItem(req.session.user, parseInt(req.body.targetItem), parseInt(req.body.amount))) {
+                    content = itemInformation.itemList[parseInt(req.body.targetItem)].name + "を購入しました！";
+
+                } else {
+                    content = "エラー！！お金が足りません";
+                }
+            } else if (req.body.mode === "sell") {
+                let sum = await usersPeripheral.sellItem(req.session.user, parseInt(req.body.targetItem), parseInt(req.body.amount))
+                if (sum > 0) {
+                    content = itemInformation.itemList[parseInt(req.body.targetItem)].name + "を売却し,"+sum+"Cを得ました！";
+                } else {
+                    content = "エラー！！アイテム数が足りません！";
+                }
+            } else {
+                content = "不正なリクエストです．";
+            }
+            res.render('itemShop', {
+                title: configuration.gameTitle,
+                subTitle: "購入完了",
+                user: req.session.user,
+                accessories: [],
+                content: content,
+                mode: "finished"
+            });
         } else {
-            utility.buyAccessory(req.session.user, accessoryInformation.accessoryList[jobInformation.jobList[req.session.user.job].accessory[req.body.targetAccessory]]);
-            console.log(jobInformation.jobList[req.session.user.job].accessory[req.body.targetAccessory]);
-            console.log(req.session.user.accessory);
-            content = accessoryInformation.accessoryList[jobInformation.jobList[req.session.user.job].accessory[req.body.targetAccessory]].name + "を購入して倉庫に送りました．";
+            res.redirect('/');
         }
-        res.render('itemShop', {
-            title: configuration.gameTitle,
-            subTitle: "購入完了",
-            user: req.session.user,
-            accessories: [],
-            content: content,
-            mode: "finished"
-        });
     })().catch(next);
 });
 
