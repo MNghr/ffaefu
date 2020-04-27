@@ -111,9 +111,9 @@ weaponInformation.weaponList = [
     { id: 86, attack: 5000, name: "ムラサキの水晶", value: 1000000, effect: weaponEffect.none },
 
     { id: 87, attack: 9000, name: "ビームソード", value: 10000000, effect: weaponEffect.none },
-    { id: 88, attack: 5000, name: "ハイペリオンカスタム", value: 1000000, effect: weaponEffect.none },
+    { id: 88, attack: 5000, name: "オメガブラスター", value: 1000000, effect: weaponEffect.none },
     { id: 89, attack: 5000, name: "エレメントソード", value: 1000000, effect: weaponEffect.none },
-    { id: 90, attack: 5000, name: "オメガブラスター", value: 1000000, effect: weaponEffect.none },
+    { id: 90, attack: 5000, name: "シュベルトゲベール", value: 1000000, effect: weaponEffect.none },
 
     { id: 91, attack: 9000, name: "マスタードソード", value: 10000000, effect: weaponEffect.none },
     { id: 92, attack: 5000, name: "エクスカリパー", value: 1000000, effect: weaponEffect.none },

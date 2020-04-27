@@ -32,7 +32,7 @@
       <li>HP:<%=user.currentHP %>/<%=user.maxHP %></li>
       <li>レベル: <%=user.level %></li>
       <li>経験値: <%= user.exp %>/<%= user.level*300 %></li>
-      <li>所持金: <%= formatter.format(user.money)  %>C/1,000,000,000C</li>
+      <li>所持金: <%= formatter.format(user.money)  %>C/<%= formatter.format(configuration.maxMoney) %>C</li>
       <li>スタイル: <%= job.name %></li>
       <li>スタイルレベル: <%= user.jobLevel %> </li>
       <li>スタミナ: <x id="stamina"><%= stamina %></x></li>
@@ -40,30 +40,30 @@
       <li>防具 <%=armor.name %> 防御力: <%= armor.defence %></li>
       <li>装飾品 <%=accessory.name %></li>
     </ul>
-    <a href="/changeArts"><button>戦術を変更する</button></a>
+    <a href="/changeArts" class="btn-square">戦術を変更する</a>
     <% if(champion.userId !== user.userId){ %>
     <form action="/vsChampion" method="post">
-      <button type="submit">チャンピオンに挑む</button>
+      <button type="submit" class="btn-square">チャンピオンに挑む</button>
     </form>
     <% }else{ %>
       ※あなたがチャンピオンなので挑めません
     <% } %>
     <form action="" method="post">
-      <button type="submit">格闘王への道</button>
+      <button type="submit" class="btn-square">※準備中</button>
     </form>
     </div>
     <div>
-      <a href="/inn"><button>HPを回復する(有料)</button></a>
-      <a href="/equipmentStorage"><button>装備品倉庫へ</button></a>
-      <a href="/bank"><button>銀行へ</button></a>
+      <a href="/inn" class="btn-square">HPを回復する(有料)</a>
+      <a href="/equipmentStorage" class="btn-square">装備品倉庫へ</a>
+      <a href="/bank" class="btn-square">銀行へ</a>
     
-      <a href="/itemShop"><button>道具屋</button></a>
-      <a href="/weaponShop"><button>武器屋</button></a>
-      <a href="/armorShop"><button>防具屋へ</button></a>
-      <a href="/accessoryShop"><button>装飾品屋へ</button></a>
-      <a href="/changeJob"><button>転職の祠へ</button></a>
-      <a href="/status"><button>画面更新</button></a>
-      <a href="/changeStatus"><button>ステータス変更画面へ</button></a>
+      <a href="/itemShop" class="btn-square">道具屋</a>
+      <a href="/weaponShop" class="btn-square">武器屋</a>
+      <a href="/armorShop" class="btn-square">防具屋へ</a>
+      <a href="/accessoryShop" class="btn-square">装飾品屋へ</a>
+      <a href="/changeJob" class="btn-square">転職の祠へ</a>
+      <a href="/status" class="btn-square">画面更新</a>
+      <a href="/changeStatus" class="btn-square">ステータス変更画面へ</a>
     </div>
     <div>
       その辺を探索
@@ -72,9 +72,9 @@
           <option value="0">そのへんの森(弱い敵が出現)</option>
           <option value="1">沖合(それなりの敵が出現)</option>
           <option value="2">樹海(割と強い敵が出現)</option>
-          <option value="3">魔の秘境(とても強い敵が出現)</option>
+          <option value="3">魔境(とても強い敵が出現)</option>
         </select>
-        <button type="submit">挑む</button>
+        <button type="submit" class="btn-square">挑む</button>
       </form>
     </div>
     <div>
@@ -86,13 +86,13 @@
           <option value="2">VIPブリッヂ</option>
           <option value="3">次元のはざま</option>
         </select>
-        <button type="submit">挑む</button>
+        <button type="submit" class="btn-square">挑む</button>
       </form>
     </div>
     <div>
-      修練場
+      ポータル
       <form action="" method="post">
-        <button type="submit">修練場へ挑む</button>
+        <button type="submit" class="btn-square">修練場へ挑む</button>
       </form>
     </div>
     </div>

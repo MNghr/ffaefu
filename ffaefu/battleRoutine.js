@@ -94,18 +94,17 @@ battle.battleRoutine = async function (user, enemy, kind) {
 
             receiveData = invokeUserArts(_user,_enemy);
             enemyReceiveData = invokeEnemyArts(_user, _enemy);
-            accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy);           
+            accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy); 
+            itemReceiveData = invokeItemsEffect(_user, _enemy);
+            console.log(_user.itemInventory);
             
-            let userRecover = "";
-            if (_user.recoverHP > 0) {
-                userRecover = shapeHPRecover(_user, _user.recoverHP);
-            }
+            let userRecover = shapeHPRecover(_user, _user.recoverHP);
             console.log(userRecover);
             _enemy.currentHP -= Math.ceil(_enemy.receiveDamage * (1 - _enemy.damageCutPercentage));
             this.returnMessage += _user.name + "は"+_user.weapon.name+"で攻撃！<br>"+receiveData.message+"<br>"+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた。"+userRecover+"<br><br>";
             _user.currentHP -= Math.ceil(_user.receiveDamage * 1 - _user.damageCutPercentage);
             _user.currentHP += _user.recoverHP;
-            this.returnMessage += _enemy.name + "が襲い掛かった！<br>" + enemyReceiveData.message + "<br>"+_user.name + "は" + _user.receiveDamage + "ダメージ受けた<br>";
+            this.returnMessage += _enemy.name + "が襲い掛かった！<br>" + enemyReceiveData.message + "<br>"+itemReceiveData.message+_user.name + "は" + _user.receiveDamage + "ダメージ受けた<br>";
             this.returnMessage += "<br>";
             turn++;
             if (turn > configuration.turnLimit) {
@@ -113,6 +112,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
             }
         }
 
+        
         if (_enemy.currentHP <= 0) {
             this.returnMessage += user.name+"は戦闘に勝利した！！";
             this.win(user, enemy);
@@ -130,6 +130,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
         if (user.currentHP <= 0) {
             user.currentHP = user.maxHP;
         }
+        user.itemInventory = JSON.parse(JSON.stringify(_user.itemInventory));
         await usersPeripheral.writeUser(user);
         console.log("戦闘後ファイル書き換え完了");
     } else if (kind === 2 || kind === 1) { //対人戦
@@ -198,7 +199,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
         }
         await usersPeripheral.writeUser(user);
     }
-    user.itemInventory = _user.itemInventory;
+    
     return result;
 };
 
@@ -308,11 +309,22 @@ battle.levelup = function (user) {
     }
 };
 
-battle.itemsEffect= function(user, enemy){
+invokeItemsEffect = function (user, enemy) {
+    let returnData = {};
+    returnData.message = "";
     user.itemInventory.forEach((element, index) => {
-        if(user.itemInventory[index] > 0)
-            itemInformation.itemList[index].itemEffect(user,enemy);
+        if (element > 0) {
+            let ret = itemInformation.itemList[index].effect(user, enemy);
+            console.log(ret);
+            returnData.message += ret.message;
+            user.itemInventory[index] -= ret.spentAmount;
+        }
     });
+    console.log(user.itemInventory);
+    if (returnData.message !== "") {
+        returnData.message += "<br>"
+    }
+    return returnData;
 }
 
 battle.win = function (user, enemy) {
@@ -460,15 +472,17 @@ let calculateAttackTable = [
     grandMasterAttack
 ];
 
+//攻撃力計算
 let calculateAttack = function (user) {
     return calculateAttackTable[user.job](user);
 };
 
+//HP回復・ライフロス表示作成
 let shapeHPRecover = (agent, amount) => {
     if (amount > 0) {
         return '<span class="hpRecover">' + agent.name + "のHPが" + amount + "回復した♪</span>"
     } else if (amount < 0) {
-        return '<span class="hpRecover">' + agent.name + "は" + amount + "HPを失った...</span>"
+        return '<span class="hpLose">' + agent.name + "は" + Math.abs(amount) + "のライフロス！！</span>"
     } else {
         return "";
     }

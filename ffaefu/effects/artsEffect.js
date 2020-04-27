@@ -340,10 +340,10 @@ artsEffect.zantetsuken = function (user, enemy) {
     returnData.message = "斬"
     enemy.receiveDamage = enemy.attack;
     if (utility.random(1, 10) <= 8) {
-        returnData.message += "  鉄";
+        returnData.message += "　鉄";
         if (utility.random(1, 10) <= 7) {
-            "  剣！！";
-            enemy.receiveDamage = Math.ceil(enemy.currentHP*1.3);
+            returnData.message += "　剣！！";
+            enemy.receiveDamage = Math.ceil(enemy.currentHP*1.1);
         } else {
             returnData.message += "．．．失敗！";
         }
@@ -750,7 +750,7 @@ artsEffect.deathForetold = function (user,enemy) {
         enemy.receiveDamage += enemy.currentHP;
         enemy.evasiveness -= 999999;
     } else {
-        if (utility.random(1, 10) !== 1) {
+        if (utility.random(1, 10) === 1) {
             enemy.receiveDamage += user.attack * utility.random(1, 3);
             returnData.message += "しかし，何も起こらなかった．．．";
         } else {
@@ -798,7 +798,7 @@ artsEffect.blackMagics = function (user,enemy) {
         enemy.receiveDamage += user.mana * utility.random(25, 120);
     }
     if (utility.random(1, 100) < 80) {
-        returnData.message += shapeArtsName("ブリザード！","royalblue");
+        returnData.message += shapeArtsName("アイスストーム！","royalblue");
         enemy.receiveDamage += user.mana * utility.random(25, 150);
     }
     if (utility.random(1, 100) < 60) {

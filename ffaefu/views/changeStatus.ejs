@@ -36,12 +36,17 @@
       <li>魅力:<%=user.charm %></li>
       <li>器用さ:<%=user.dexterity %></li>
       <li>カルマ:<%=user.karma %></li>
+      <li>命中率:<%= configuration.calculateNaturalAccuracy(user)%></li>
+      <li>回避率:<%= configuration.calculateNaturalEvasive(user)%></li></li>
+      <li>必殺率:<%= configuration.calculateNaturalArtsActivation(user)%></li>
       <li>スタイル: <%= job.name %></li>
       <li>スタイルレベル: <%= user.jobLevel %></li>
       <li>武器 <%=weapon.name %> 威力: <%= weapon.attack %></li>
       <li>防具 <%=armor.name %> 防御力: <%= armor.defence %></li>
       <li>装飾品 <%=accessory.name %></li>
+      
     </ul>
+    <a href="/status"><button>ステータス画面へ</button></a>    
     <a href="changeArts"><button>戦術を変更する</button></a>
     </div>
     </div>

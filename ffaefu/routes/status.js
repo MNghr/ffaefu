@@ -5,6 +5,7 @@ let jobInformation = require("../informations/jobInformation.js");
 let weaponInformation = require("../informations/weaponInformation.js");
 let accessoryInformation = require("../informations/accessoryInformation.js");
 let armorInformation = require("../informations/armorInformation.js");
+let configuration = require("../configuration.js");
 
 //ステータス画面のバックエンド．ステータス画面描画に必要なデータをejs側に飛ばすだけ．
 router.get('/', function (req, res, next) {
@@ -22,7 +23,8 @@ router.get('/', function (req, res, next) {
                 armor: armorInformation.armorList[req.session.user.armor],
                 accessory: accessoryInformation.accessoryList[req.session.user.accessory],
                 stamina: usersPeripheral.calculateStamina(req.session.user.lastBattleDate),
-                champion: JSON.parse(await usersPeripheral.readChampion())
+                champion: JSON.parse(await usersPeripheral.readChampion()),
+                configuration: configuration
         });
         } else {
             res.redirect('/');

@@ -16,7 +16,7 @@ enemyArtsEffect.fire = function (user, enemy) {
     let returnData = {};
     returnData.message= shapeArtsName("黒魔法 ファイア！","darkred");
     user.receiveDamage = enemy.attack;
-    returnData.element = "fire";
+    user.receiveElement = "fire";
     user.evasiveness -= 999;
     return returnData;
 }
@@ -25,7 +25,7 @@ enemyArtsEffect.blizzard = function (user, enemy) {
     let returnData = {};
     returnData.message= shapeArtsName("黒魔法 ブリザード！","royalblue");
     user.receiveDamage = enemy.attack;
-    returnData.element = "ice";
+    user.receiveElement = "ice";
     user.evasiveness -= 999;
     return returnData;
 }
@@ -34,7 +34,7 @@ enemyArtsEffect.thunder = function (user, enemy) {
     let returnData = {};
     returnData.message= shapeArtsName("黒魔法 サンダー！","yellow");
     user.receiveDamage = enemy.attack;
-    returnData.element = "thunder";
+    user.receiveElement = "thunder";
     user.evasiveness -= 999;
     return returnData;
 }
@@ -44,7 +44,7 @@ enemyArtsEffect.fire2 = function (user, enemy) {
     let returnData = {};
     returnData.message= shapeArtsName("黒魔法 ファイア2！","darkred");
     user.receiveDamage = enemy.attack*2;
-    returnData.element = "fire";
+    user.receiveElement = "fire";
     user.evasiveness -= 999;
     return returnData;
 }
@@ -54,7 +54,7 @@ enemyArtsEffect.blizzard2 = function (user, enemy) {
     let returnData = {};
     returnData.message= shapeArtsName("黒魔法 ブリザード2！","royalblue");
     user.receiveDamage = enemy.attack*2;
-    returnData.element = "ice";
+    user.receiveElement = "ice";
     user.evasiveness -= 999;
     return returnData;
 }
@@ -64,7 +64,7 @@ enemyArtsEffect.thunder2 = function (user, enemy) {
     let returnData = {};
     returnData.message= shapeArtsName("黒魔法 サンダー2！","yellow");
     user.receiveDamage= enemy.attack*2;
-    returnData.element = "thunder";
+    user.receiveElement = "thunder";
     user.evasiveness -= 999;
     return returnData;
 }
@@ -97,7 +97,7 @@ enemyArtsEffect.zantetsuken = function (user, enemy) {
     }
     returnData.message += shapeArtsName(returnData.message, "gray");
     user.evasiveness -= 99999999;
-    returnData.element = "zantetsuken";
+    user.receiveElement = "zantetsuken";
     return returnData;
 }
 
@@ -147,7 +147,7 @@ enemyArtsEffect.ultima = function (user, enemy) {
     let returnData = {};
     returnData.message = shapeArtsName("禁断魔法アルティメイタム！","gray");
     user.receiveDamage = enemy.attack * 50;
-    returnData.element = "forbidden";
+    user.receiveElement = "forbidden";
     return returnData;
 }
 
@@ -161,7 +161,7 @@ enemyArtsEffect.desion = function (user, enemy) {
         returnData.message +="失敗した．．．"
         user.receiveDamage = enemy.attack;
     }
-    returnData.element = "desion";
+    user.receiveElement = "desion";
     returnData.message = shapeArtsName(returnData.message, "blue");
     return returnData;
 }

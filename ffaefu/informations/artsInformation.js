@@ -64,7 +64,7 @@ artsInformation.artsList = [
     { id: 59, name: "タロットカード", effect: artsEffect.tarotCard, explain: "タロットカードを一枚捲り，様々な効果を得ます．発動率高", invocationRate: 60 },
     { id: 60, name: "タロットカード(倍)", effect: artsEffect.tarotCardDouble, explain: "タロットカードを一枚捲り，その効果を倍にします．発動率中", invocationRate: 10 },
     { id: 61, name: "死の予言", effect: artsEffect.deathForetold, explain: "敵に死の予言をします．的中すれば一撃で葬り去りますが，自分に返ってくることもあります．発動率低", invocationRate: 40 },
-    { id: 62, name: "バグライズソード", effect: artsEffect.buglizeSword, explain: "敵に威力小の攻撃を仕掛けます．発動率低．", invocationRate: 60 },
+    { id: 62, name: "？？？？？ソード", effect: artsEffect.buglizeSword, explain: "敵に威力小の攻撃を仕掛けます．発動率低．", invocationRate: 60 },
     { id: 63, name: "黒魔法", effect: artsEffect.blackMagics, explain: "敵に威力激大の魔法攻撃を最大4回仕掛けます．発動率低，高，高，高", invocationRate: 10 },
     { id: 64, name: "ダムネーション", effect: artsEffect.damnation, explain: "敵に威力絶大の魔法攻撃を仕掛けます．発動率低", invocationRate: 10 },
     { id: 65, name: "闇と同化", effect: artsEffect.saturate, explain: "敵に威力激大の攻撃を仕掛けます．回避不能", invocationRate: 60 },
