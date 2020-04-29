@@ -181,7 +181,7 @@ enemyInformation.legendPlace[1] = [
     { enemyId: "4l2", name: "グレートありがとウサギ", maxHP: 10000, attack: 99999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.blackMagics},
     { enemyId: "5l2", name: "エルダー・恐竜", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.shockWave },
     { enemyId: "6l2", name: "エルダー・ドラゴン", maxHP: 1000013, attack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 999999, artsEffect: enemyArtsEffect.greatBreath },
-    { enemyId: "7l2", name: "フェニックス", maxHP: 100000000000000, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.cure},
+    { enemyId: "7l2", name: "フェニックス", maxHP: 10000, attack: 999, dropMoney: 400000000000, exp: 240000, oscillation: 9999, artsActivation: 100, evasive: 99, artsEffect: enemyArtsEffect.cure},
     { enemyId: "8l2", name: "ケルベロス", maxHP: 100, attack: 4, dropMoney: 1000, exp: 100000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.sonicWave },
     { enemyId: "9l2",name: "敵キャンディ", maxHP:1000013,attack:999999,dropMoney:1000,exp:100000,oscillation:275,artsActivation: 40,evasive:999999,artsEffect: enemyArtsEffect.magnitude }
 ]
@@ -203,19 +203,19 @@ enemyInformation.legendPlace[3] = [
     { enemyId: "0l4",name:"ブラストマンRV",maxHP:14739274,attack:4,dropMoney:10029322,exp:650000,oscillation:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
     { enemyId: "1l4", name: "アンドロメダ", maxHP: 247563846, attack: 4, dropMoney: 1000, exp: 100000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
     { enemyId: "2l4",name: "クリムゾンドラゴン",maxHP:301635273,attack:4,dropMoney:19289319,exp:999999,oscillation:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.greatBreath},
-    { enemyId: "3l4", name: "ラ・ムー", maxHP: 352618273, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.deadlyMessage },
-    { enemyId: "4l4", name: "グレイガ", maxHP: 493728374, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.greatBreath},
+    { enemyId: "3l4", name: "ラ・ムー", maxHP: 352618273, attack: 9999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.deadlyMessage },
+    { enemyId: "4l4", name: "グレイガ", maxHP: 493728374, attack: 9999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.greatBreath},
     { enemyId: "5l4", name: "ファルザー", maxHP: 55382383, attack: 4, dropMoney: 1000, exp: 100000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.shockWave },
     { enemyId: "6l4", name: "ネビュラグレイ", maxHP: 655323832, attack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 999999, artsEffect: enemyArtsEffect.blackMagics },
-    { enemyId: "7l4", name: "ブルースFZ", maxHP: 476314980, attack: 9999999999999999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.zantetsuken},
+    { enemyId: "7l4", name: "ブルースFZ", maxHP: 476314980, attack: 9999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.zantetsuken},
     { enemyId: "8l4", name: "フォルテGS", maxHP: 557623817, attack: 4, dropMoney: 1000, exp: 100000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.ultima },
-    { enemyId: "9l4", name: "セレナード", maxHP: 653827381, attack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.ultimaAndCure },
-    { enemyId: "10l4", name: "ゴスペル", maxHP: 729379319, attack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.greatBreath },
-    { enemyId: "11l4", name: "プロト", maxHP: 838462846, attack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.ultimaAndCure },
+    { enemyId: "9l4", name: "セレナード", maxHP: 653827381, attack: 9999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.ultimaAndCure },
+    { enemyId: "10l4", name: "ゴスペル", maxHP: 729379319, attack: 999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.greatBreath },
+    { enemyId: "11l4", name: "プロト", maxHP: 838462846, attack: 9999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.ultimaAndCure },
     { enemyId: "12l4", name: "デューオ", maxHP: 851738048, attack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.deadlyMessage },
     { enemyId: "13l4", name: "フォルテXX", maxHP: 947183829, attack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 95, artsEffect: enemyArtsEffect.chaosNightMare },
     { enemyId: "14l4", name: "ロード・オブ・カオス", maxHP: 947193843, attack: 999999, dropMoney: 1000, exp: 100000, oscillation: 65, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.chaosNightMare },
-    { enemyId: "15l4",name: "全能神えふ", maxHP:4928372921,attack:99999,dropMoney:1000,exp:100000,oscillation:999999,artsActivation: 100,evasive:999,artsEffect: enemyArtsEffect.berserk }
+    { enemyId: "15l4",name: "全能神えふ", maxHP:4928372921,attack:999,dropMoney:1000,exp:100000,oscillation:999999,artsActivation: 100,evasive:999,artsEffect: enemyArtsEffect.berserk }
 ]
 
 module.exports = enemyInformation

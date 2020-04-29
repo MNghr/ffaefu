@@ -75,6 +75,10 @@ configuration.legendPlaceDropItem = [
     []
 ];
 
+configuration.isGuerrillaAppeared = function (user) {
+    return user.level % 3 === 0
+}
+
 configuration.vsMonsterName = [
     "その辺の原っぱ(弱い敵が出現)",
     "近くの洞窟(ちょっと強い敵が出現)",

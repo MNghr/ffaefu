@@ -106,8 +106,8 @@ enemyArtsEffect.zantetsuken = function (user, enemy) {
     user.receiveDamage = enemy.attack;
     if (utility.random(1, 10) <= 8) {
         returnData.message += "  鉄";
-        if (utility.random(1, 10) <= 7) {
-            "  剣！！";
+        if (utility.random(1, 10) <= 4) {
+            returnData += "  剣！！";
             user.receiveDamage = Math.ceil(user.currentHP*1.3);
         } else {
             returnData.message += "．．．失敗！";
@@ -115,7 +115,7 @@ enemyArtsEffect.zantetsuken = function (user, enemy) {
     } else {
         returnData.message += "．．．失敗！";
     }
-    returnData.message += shapeArtsName(returnData.message, "gray");
+    returnData.message = shapeArtsName(returnData.message, "brown");
     user.evasiveness -= 99999999;
     user.receiveElement = "zantetsuken";
     return returnData;
@@ -237,6 +237,7 @@ enemyArtsEffect.ultimaAndCure = function (user, enemy) {
     } else {
         returnData = enemyArtsEffect.ultima(user, enemy);
     }
+    return returnData;
 }
 
 //マグニチュード アイテムで対策されない中攻撃その1
@@ -329,6 +330,8 @@ enemyArtsEffect.berserk = function (user, enemy) {
         returnData.message = shapeArtsName("ハァハァ．．．", "yellow");
         user.receiveDamage = Math.ceil(enemy.attack **1.3);
     }
+
+    return returnData;
 }
 
 //レベル13デス

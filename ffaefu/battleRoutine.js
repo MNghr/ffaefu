@@ -345,13 +345,13 @@ battle.win = function (user, enemy) {
         user.legendPlaceProgress += 1;
         if (user.legendPlaceProgress === enemyInformation.legendPlace[user.beingLegendPlace].length) {
             user.legendPlaceProgress = 0;
-            user.beingLegendPlace = -1;
             if (user.degree <= user.beingLegendPlace) {
                 user.degree += 1;
                 this.returnMessage += "<h1>" + user.name + "はレジェンドプレイスを攻略した！！！称号が" + configuration.degree[user.degree] + "になった！！！</h1>"
             } else {
                 this.returnMessage += "<h1>" + user.name + "はレジェンドプレイスを攻略した！！！";
             }
+            user.beingLegendPlace = -1;
         }
     }
 };

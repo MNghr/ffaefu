@@ -77,14 +77,23 @@
         <button type="submit" class="btn-square">挑む</button>
       </form>
     </div>
+    <%if(configuration.isGuerrillaAppeared(user)){ %>
+    <div>
+      突然の出現
+      <form action="/vsGuerrilla" method="post">
+        <button type="submit" class="btn-square">幻影の塔に行く！</button>
+      </form>
+    </div>
+    <%}%>
+
     <div>
       勝ち抜きボスバトル
       <form action="/legendPlace" method="post">
         <select name="difficulty">
-          <option value="0">試しの洞窟</option>
-          <option value="1">バーレル火山</option>
-          <option value="2">VIPブリッヂ</option>
-          <option value="3">次元のはざま</option>
+          <% for(let i = 0;i <= user.degree && i < configuration.legendPlaceName.length;++i){ %>
+            <%let output = '<option value="'+i+'">'+configuration.legendPlaceName[i]+"</option>" %>
+            <%- output %>
+          <%}%>
         </select>
         <button type="submit" class="btn-square">挑む</button>
       </form>
