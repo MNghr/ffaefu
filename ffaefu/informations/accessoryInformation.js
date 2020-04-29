@@ -99,7 +99,7 @@ accessoryInformation.accessoryList = [
     { id: 95,  name: "天上のしずく", statement:"準備中",value: 1000000, effect: accessoryEffect.none, invocationRate: 999999 , powerBias: 0, manaBias: 0, religionBias: 0, vitalityBias: 0, agilityBias: 0, dexterityBias:0,charmBias:0,karmaBias:0,accuracyBias:0,evasiveBias:0,invocationalPowerBias:0},
     { id: 96, name: "深海の結晶", statement: "準備中", value: 1000000, effect: accessoryEffect.none, invocationRate: 999999, powerBias: 0, manaBias: 0, religionBias: 0, vitalityBias: 0, agilityBias: 0, dexterityBias: 0, charmBias: 0, karmaBias: 0, accuracyBias: 0, evasiveBias: 0, invocationalPowerBias: 0 },
     { id: 97,  name: "大地の勾玉", statement:"準備中",value: 1000000, effect: accessoryEffect.none, invocationRate: 999999 , powerBias: 0, manaBias: 0, religionBias: 0, vitalityBias: 0, agilityBias: 0, dexterityBias:0,charmBias:0,karmaBias:0,accuracyBias:0,evasiveBias:0,invocationalPowerBias:0},
-    { id: 98, name: "けつばん", statement: "準備中", value: 1000000, effect: accessoryEffect.none, invocationRate: 999999, powerBias: 0, manaBias: 0, religionBias: 0, vitalityBias: 0, agilityBias: 0, dexterityBias: 0, charmBias: 0, karmaBias: 0, accuracyBias: 0, evasiveBias: 0, invocationalPowerBias: 0 },
+    { id: 98, name: "ステータスガード", statement: "与えるダメージが半減+？？？？", value: 1000000, effect: accessoryEffect.none, invocationRate: 999999, powerBias: 0, manaBias: 0, religionBias: 0, vitalityBias: 0, agilityBias: 0, dexterityBias: 0, charmBias: 0, karmaBias: 0, accuracyBias: 0, evasiveBias: 0, invocationalPowerBias: 0 },
     
 ];
 

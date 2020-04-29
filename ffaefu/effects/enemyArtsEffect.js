@@ -69,6 +69,26 @@ enemyArtsEffect.thunder2 = function (user, enemy) {
     return returnData;
 }
 
+//エアロ2 なお，エアロ無印はない模様
+enemyArtsEffect.aero2 = function (user, enemy) { 
+    let returnData = {};
+    returnData.message= shapeArtsName("風魔法 エアロ2！","green");
+    user.receiveDamage= enemy.attack*2;
+    user.receiveElement = "wind";
+    user.evasiveness -= 999;
+    return returnData;
+}
+
+//アビス2 なお，ダーク無印はない模様
+enemyArtsEffect.abyss2 = function (user, enemy) { 
+    let returnData = {};
+    returnData.message= shapeArtsName("暗黒魔法 アビス2！","black");
+    user.receiveDamage= enemy.attack*2;
+    user.receiveElement = "wind";
+    user.evasiveness -= 999;
+    return returnData;
+}
+
 //メテオ
 enemyArtsEffect.meteor = function (user, enemy) { 
     let returnData = {};
@@ -108,7 +128,7 @@ enemyArtsEffect.deadlyMessage = function (user, enemy) {
     user.receiveDamage = user.currentHP;
     let lut = "DEATH";
     for (let i = 0; i < 5; ++i){
-        if (utility.random(1, 10) == 10) {
+        if (utility.random(1, 10) >= 9) {
             returnData.message += "...失敗！";
             user.receiveDamage = enemy.attack;
             break;
@@ -166,27 +186,39 @@ enemyArtsEffect.desion = function (user, enemy) {
     return returnData;
 }
 
+//ドレイン 攻撃しながら回復するやつ
 enemyArtsEffect.drain = function (user, enemy) {
     let returnData = {};
     returnData.message = shapeArtsName("暗黒魔法 ドレイン！","purple");
     user.receiveDamage = enemy.attack * 2;
-    enemy.recoveryHP = user.receiveDamage;
+    enemy.recoverHP = user.receiveDamage;
 
     return returnData;
 }
 
+//ケアル 回復するやつ
+enemyArtsEffect.cure = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeArtsName("白魔法 ケアル！！","yellow");
+    enemy.recoverHP = enemy.attack * utility.random(1, 20);
+
+    return returnData;
+}
+
+// ディザスター HPを1/3削ってくるやつ
 enemyArtsEffect.gravity = function (user, enemy) {
     let returnData = {};
     returnData.message = shapeArtsName("古代魔法 ディザスター！","royalblue");
-    user.receiveDamage = Math.ceil(user.currentHP/3);
+    user.receiveDamage = Math.floor(user.currentHP/3);
     return returnData;
 }
+
 
 
 //ファイア，ブリザード，サンダーを等確率で打ち分け
 enemyArtsEffect.blackMagics = function (user,enemy) { 
     let returnData = {};
-    let dice = Math.random(1, 6);
+    let dice = utility.random(1, 6);
     if (dice <= 2) {
         returnData = enemyArtsEffect.fire(user,enemy);
     } else if (dice <= 4) {
@@ -197,6 +229,127 @@ enemyArtsEffect.blackMagics = function (user,enemy) {
     return returnData;
 }
 
+//アルテマとケアル  等確率で打ち分け
+enemyArtsEffect.ultimaAndCure = function (user, enemy) {
+    let returnData = {};
+    if (utility.random(1, 2) === 1) {
+        returnData = enemyArtsEffect.cure(user, enemy);
+    } else {
+        returnData = enemyArtsEffect.ultima(user, enemy);
+    }
+}
+
+//マグニチュード アイテムで対策されない中攻撃その1
+enemyArtsEffect.magnitude = function (user, enemy) {
+    let returnData = {};
+    let hitAmount = utility.random(1, 7) ;
+    returnData.message = shapeArtsName(enemy.name+"は地震を起こした．．．震度"+hitAmount+"！！","royalblue");
+    user.receiveDamage = Math.ceil(enemy.attack * utility.random(1,5)* hitAmount);
+
+    return returnData;
+}
+
+//ショックウェーブ
+enemyArtsEffect.shockWave = function (user, enemy) {
+    let returnData = {};
+    let hitAmount = utility.random(1, 7) ;
+    returnData.message = shapeArtsName("ショックウェーブ！！","yellow");
+    user.receiveDamage = Math.ceil(enemy.attack * utility.random(1,2)* hitAmount);
+
+    return returnData;
+}
+
+//ソニックウェーブ
+enemyArtsEffect.sonicWave = function (user, enemy) {
+    let returnData = {};
+    let hitAmount = utility.random(1, 19) ;
+    returnData.message = shapeArtsName("ソニックウェーブ！！","pink");
+    user.receiveDamage = Math.ceil(enemy.attack * utility.random(1,5)* hitAmount);
+
+    return returnData;
+}
+
+//サザンクロス
+enemyArtsEffect.southernCross = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeArtsName("サザンクロス！！","gray");
+    user.receiveDamage = enemy.attack * utility.random(1,5);
+
+    return returnData;
+}
+
+
+//グレイト・ブレス アイテムで対策されない強攻撃その1
+enemyArtsEffect.greatBreath = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeArtsName("グレイト・ブレス！","royalblue");
+    user.receiveDamage = enemy.attack * utility.random(1,5);
+
+    return returnData;
+}
+
+
+//メイルシュトローム アイテムで対策されない強攻撃その2
+enemyArtsEffect.meilStrom = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeArtsName("メイルシュトローム！","blue");
+    user.receiveDamage = enemy.attack * utility.random(1,5);
+
+    return returnData;
+}
+
+//アポガリプス アイテムで対策されない強攻撃その3
+enemyArtsEffect.damnation = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeArtsName("最強魔法 アポガリプス！","gray");
+    user.receiveDamage = enemy.attack * utility.random(1,5);
+
+    return returnData;
+}
+
+//カオスナイトメア アイテムで対策されない強攻撃その4
+enemyArtsEffect.chaosNightMare = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeArtsName("カオスナイトメア！","purple");
+    user.receiveDamage = enemy.attack * utility.random(1,5);
+
+    return returnData;
+}
+
+
+
+//バニラ版ラスボス技
+enemyArtsEffect.berserk = function (user, enemy) {
+    let returnData = {};
+    returnData.message ="";
+    if (utility.random(1, 2) === 1) {
+        returnData.message = shapeArtsName("ハァハァ．．．", "gray");
+        user.receiveDamage = Math.ceil(enemy.attack ** 1.5);
+    } else {
+        returnData.message = shapeArtsName("ハァハァ．．．", "yellow");
+        user.receiveDamage = Math.ceil(enemy.attack **1.3);
+    }
+}
+
+//レベル13デス
+enemyArtsEffect.level13Death = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeArtsName("HP13デス  ","black");
+    if (user.currentHP % 13 === 0) {
+        user.receiveDamage = user.currentHP;
+    } else {
+        returnData.message += user.name+"には効かなかった！！！"
+        user.receiveDamage = enemy.attack;
+    }
+
+    if (enemy.currentHP % 13 === 0) {
+        returnData.message += enemy.name + "は しんでしまった！！！";
+        enemy.recoverHP -= enemy.currentHP;
+    } else {
+        returnData.message += enemy.name+"には効かなかった．"
+    }
+    return returnData;
+}
 
 //必殺技の表示形成
 let shapeArtsName = function(artsName, color){  

@@ -50,9 +50,10 @@ itemEffect.reflectFire = function (user, enemy) {
     returnData.message = "";
     returnData.spentAmount = 0;
     if (user.receiveDamage > 0 && user.receiveElement === "fire" && utility.random(0,1) === 0) {
-        returnData.message = shapeItemMessage(user.name + "は水結晶を掲げた！火属性ダメージ反射！！","royalblue");
+        returnData.message = shapeItemMessage(user.name + "は水結晶を掲げた！火属性ダメージ反射！！", "royalblue");
+        enemy.receiveAdditionalDamage += user.receiveDamage; 
+        returnData.message += enemy.name + "に追加で" + enemy.receiveAdditionalDamage + "ダメージ！！";
         returnData.spentAmount = 1;
-        enemy.receiveDamage += user.receiveDamage; 
         user.receiveDamage = 0;
 
     }
@@ -65,8 +66,9 @@ itemEffect.reflectThunder = function (user, enemy) {
     returnData.message = "";
     returnData.spentAmount = 0;
     if (user.receiveDamage > 0 && user.receiveElement === "thunder" && utility.random(0,1) === 0) {
-        returnData.message = shapeItemMessage(user.name + "は黒い石を振りかざした！雷属性ダメージ反射！！","black");
-        enemy.receiveDamage += user.receiveDamage;
+        returnData.message = shapeItemMessage(user.name + "は黒い石を振りかざした！雷属性ダメージ反射！！", "black");
+        enemy.receiveAdditionalDamage += user.receiveDamage; 
+        returnData.message += enemy.name + "に追加で" + enemy.receiveAdditionalDamage + "ダメージ！！";
         returnData.spentAmount = 1;
         user.receiveDamage = 0;
     }
@@ -79,8 +81,9 @@ itemEffect.reflectIce = function (user, enemy) {
     returnData.spentAmount = 0;
     if (user.receiveDamage > 0 && user.receiveElement === "Ice" && utility.random(0,1) === 0) {
         returnData.message = shapeItemMessage(user.name + "はレッドファングを掲げた！氷属性ダメージ反射！！","red");
+        enemy.receiveAdditionalDamage += user.receiveDamage; 
+        returnData.message += enemy.name + "に追加で" + enemy.receiveAdditionalDamage + "ダメージ！！";
         returnData.spentAmount = 1;
-        enemy.receiveDamage += user.receiveDamage; 
         user.receiveDamage = 0;
     }
     

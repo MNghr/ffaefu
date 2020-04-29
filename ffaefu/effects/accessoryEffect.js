@@ -185,12 +185,24 @@ accessoryEffect.reflection = function (user, enemy) {
 accessoryEffect.GaiaForce = function (user, enemy) {
     let returnData = {};
     returnData.message = "";
-    if (enemy.accessory.id === 19) {
+    if (enemy.accessory.id === 71) {
         enemy.receiveDamage *= 10;
         user.receiveDamage /= 2;
         user.receiveDamage = Math.ceil(user.receiveDamage);
         returnData.message = shaprArtsName(user.accessory.name+"が"+enemy.accessory.name+"に反応した．．．秘められた力を解放！！！","gray")
     }    
+
+    return returnData;
+}
+
+accessoryEffect.sealArts = function (user, enemy) {
+    let returnData = {};
+    returnData.message = "";
+    
+    enemy.receiveDamage *= 10;
+    user.receiveDamage /= 2;
+    user.receiveDamage = Math.ceil(user.receiveDamage);
+    returnData.message = shaprArtsName(user.accessory.name+"が光を放つ．．．","gray")
 
     return returnData;
 }
@@ -208,7 +220,7 @@ accessoryEffect.bugDeathThunder  = function (user, enemy) {
             enemy.receiveDamage += user.attack * utility.random(1, 648);
             user.itemInventory[21]--;
             if (utility.random(1, 10) <= 3) {
-                returnData.message += "敵の動きを鈍らせた！！！";
+                returnData.message += enemy.name+"の動きを鈍らせた！！！";
                 user.evasiveness += 1000075;
             }
         } else {

@@ -750,7 +750,7 @@ artsEffect.deathForetold = function (user,enemy) {
         enemy.receiveDamage += enemy.currentHP;
         enemy.evasiveness -= 999999;
     } else {
-        if (utility.random(1, 10) === 1) {
+        if (utility.random(1, 10) !== 1) {
             enemy.receiveDamage += user.attack * utility.random(1, 3);
             returnData.message += "しかし，何も起こらなかった．．．";
         } else {

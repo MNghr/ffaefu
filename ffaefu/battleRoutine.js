@@ -78,6 +78,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
             _enemy.recoverHP = 0; 
             _enemy.evasiveness = enemy.evasive; 
             _enemy.currentHP = Math.min(_enemy.maxHP, _enemy.currentHP);
+            _enemy.receiveAdditionalDamage = 0;
             _user.receiveDamage = 0;
             _user.damageCutPercentage = 0.0; //ユーザのダメージ軽減率
             _user.evasiveness = 50;
@@ -85,6 +86,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
             _user.currentHP = Math.min(_user.maxHP, _user.currentHP);
             _user.recoverHP = 0;
             _user.attack = calculateAttack(_user);
+            _user.receiveAdditionalDamage = 0;
             console.log(_user.attack);
             
             this.returnMessage += turn + "ターン目:<br>";
@@ -99,8 +101,11 @@ battle.battleRoutine = async function (user, enemy, kind) {
             console.log(_user.itemInventory);
             
             let userRecover = shapeHPRecover(_user, _user.recoverHP);
+            
             console.log(userRecover);
             _enemy.currentHP -= Math.ceil(_enemy.receiveDamage * (1 - _enemy.damageCutPercentage));
+            _enemy.currentHP -= _enemy.receiveAdditionalDamage;
+            _enemy.currentHP += _enemy.recoverHP;
             this.returnMessage += _user.name + "は"+_user.weapon.name+"で攻撃！<br>"+receiveData.message+"<br>"+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた。"+userRecover+"<br><br>";
             _user.currentHP -= Math.ceil(_user.receiveDamage * 1 - _user.damageCutPercentage);
             _user.currentHP += _user.recoverHP;
@@ -137,6 +142,8 @@ battle.battleRoutine = async function (user, enemy, kind) {
         _enemy.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.weapon)));
         _enemy.armor = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.armor)));
         _enemy.accessory = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.accessory)));
+        _enemy.artsSealed = false;
+        _user.artsSealed = false;
         let turn = 1;
         while (_user.currentHP > 0 && _enemy.currentHP > 0) {
             _enemy.currentHP = Math.min(_enemy.currentHP, _enemy.maxHP);
@@ -146,6 +153,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
             _enemy.evasiveness = enemy.evasive; //敵の回避率
             _enemy.weaponRatio = 1.0;
             _enemy.attack = calculateAttack(_enemy);
+            
             _user.currentHP = Math.min(_user.currentHP, _user.maxHP);
             _user.receiveDamage = 0; //ユーザの受けるダメージ
             _user.damageCutPercentage = 0.0; //ユーザのダメージ軽減率
@@ -153,6 +161,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
             _user.recoverHP = 0;
             _user.weaponRatio = 1.0;
             _user.attack = calculateAttack(_user);
+            
             
             this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS " + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br><br>";
             let receiveData = {};
@@ -266,8 +275,8 @@ battle.levelup = function (user) {
     userOld.vitality = user.vitality;
     userOld.charm = user.charm;
     userOld.jobLevel = user.jobLevel;
-    while (user.level * 300 <= user.exp) {
-        user.exp -= (user.level) * 300;
+    while (configuration.requiredExperience(user) <= user.exp) {
+        user.exp -= configuration.requiredExperience(user);
         ++user.level;
         ++levelDifference;
         ++user.jobLevel;

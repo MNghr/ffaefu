@@ -75,4 +75,17 @@ configuration.legendPlaceDropItem = [
     []
 ];
 
+configuration.vsMonsterName = [
+    "その辺の原っぱ(弱い敵が出現)",
+    "近くの洞窟(ちょっと強い敵が出現)",
+    "ミンティアの塔(そこそこ強い敵が出現)",
+    "厄海(とても強い敵が出現)"
+]
+
+configuration.legendPlaceName = [
+    "試しのほこら",
+    "ガイアフォース",
+    "心の洞窟",
+    "グレイヴヤード"
+]
 module.exports = configuration;

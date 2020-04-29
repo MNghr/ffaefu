@@ -111,8 +111,8 @@ span.hpLose{
   display: inline-block;
   padding: 0.5em 1em;
   text-decoration: none;
-  background: #000;/*ボタン色*/
-  color: #DDD;
+  background: #aaaadd;/*ボタン色*/
+  color: #000;
   border-bottom: solid 4px #627295;
   border-radius: 3px;
 }
