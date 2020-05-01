@@ -90,6 +90,95 @@ itemEffect.reflectIce = function (user, enemy) {
     return returnData;
 };
 
+itemEffect.reflectBlackMagics = function (user, enemy) {
+    let returnData = {};
+    returnData.message = "";
+    returnData.spentAmount = 0;
+    if (user.receiveDamage > 0 && (user.receiveElement === "Ice" || user.receiveElement === "fire" || user.receiveElement === "thunder") && utility.random(0,1) === 0) {
+        returnData.message = shapeItemMessage(user.name + "は魔法のブーメランを高く掲げた．．．魔法のダメージを反射した！！！","red");
+        enemy.receiveAdditionalDamage += user.receiveDamage; 
+        returnData.message += enemy.name + "に追加で" + enemy.receiveAdditionalDamage + "ダメージ！！";
+        returnData.spentAmount = 1;
+        user.receiveDamage = 0;
+    }
+    
+    return returnData;
+};
+
+itemEffect.resistZantetsuken = function (user, enemy) {
+    let returnData = {};
+    returnData.message = "";
+    returnData.spentAmount = 0;
+    if (user.receiveElement === "zantetsuken" && utility.random(0,1) === 0 && user.receiveDamage > 0) {
+        returnData.message = shapeItemMessage(user.name + "は騎士の盾で身構えた！斬鉄剣のダメージ半減！！","brown");
+        returnData.spentAmount = 1;
+        user.receiveDamage = Math.ceil(user.receiveDamage/2.0);
+    }
+    return returnData;
+};
+
+itemEffect.annulZantetsuken = function (user, enemy) {
+    let returnData = {};
+    returnData.message = "";
+    returnData.spentAmount = 0;
+    if (user.receiveElement === "zantetsuken" && utility.random(0,1) === 0) {
+        returnData.message = shapeItemMessage(user.name + "は勇者の盾で身構えた！斬鉄剣のダメージ無効！","brown");
+        returnData.spentAmount = 1;
+        user.receiveDamage = 0;
+    }
+    return returnData;
+};
+
+itemEffect.resistDesion = function (user, enemy) {
+    let returnData = {};
+    returnData.message = "";
+    returnData.spentAmount = 0;
+    if (user.receiveElement === "zantetsuken" && utility.random(0,1) === 0 && user.receiveDamage > 0) {
+        returnData.message = shapeItemMessage(user.name + "はブライノイズを展開した！デジョンのダメージ半減！！","brown");
+        returnData.spentAmount = 1;
+        user.receiveDamage = Math.ceil(user.receiveDamage/2.0);
+    }
+    return returnData;
+};
+
+itemEffect.annulZantetsuken = function (user, enemy) {
+    let returnData = {};
+    returnData.message = "";
+    returnData.spentAmount = 0;
+    if (user.receiveElement === "zantetsuken" && utility.random(0,1) === 0) {
+        returnData.message = shapeItemMessage(user.name + "は勇者の盾で身構えた！斬鉄剣のダメージ無効！","brown");
+        returnData.spentAmount = 1;
+        user.receiveDamage = 0;
+    }
+    return returnData;
+};
+
+itemEffect.ressurrectionSmall = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeItemMessage("不死身の雫が" + user.name + "に降り注いだ．．．" + user.name + "のHPが1/20回復した！", "green");
+    user.currentHP = Math.ceil(user.maxHP / 20);
+
+    return returnData;
+}
+
+itemEffect.ressurrectionMedium = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeItemMessage("不死身の土塊が" + user.name + "に降り注いだ．．．" + user.name + "のHPが1/5回復した！", "green");
+    user.currentHP = Math.ceil(user.maxHP / 5);
+
+    return returnData;
+}
+
+itemEffect.ressurrectionLarge = function (user, enemy) {
+    let returnData = {};
+    returnData.message = shapeItemMessage("不死身の果実が" + user.name + "に力を与えた．．．" + user.name + "のHPが1/2回復した！", "green");
+    user.currentHP = Math.ceil(user.maxHP / 2);
+
+    return returnData;
+}
+
+
+
 let shapeItemMessage = function(message, color){  
     return '<span class="arts'+color+'">'+message+"</span>";
 }

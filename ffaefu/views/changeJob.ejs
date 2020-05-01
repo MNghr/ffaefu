@@ -12,15 +12,24 @@
     <div wrapper>
 
       <% if(mode === "selectJob"){ %>
+        <div>
         あなたが転職可能な職業は
+        <div>
         <% changeableJobs.forEach(function(element){ %>
           <%= element.name %>,
         <% }); %>
-        です．このうち，マスターしていない職業は
+        </div>
+        です．
+        <div>
+        このうち，マスターしていない職業は
+        <div>
         <% changeableAndNotYetMasterJobs.forEach(function(element){ %>
           [<%= element.name %>],
         <% }); %>
-        です．転職先のジョブレベルが19以下の場合，HP以外の各ステータスが1割，カルマは2割減少します．
+        </div>
+        です．
+        </div>
+        転職先のジョブレベルが19以下の場合，HP以外の各ステータスが1割，カルマは2割減少します．
       <form action="" method="POST">
         <select name="jobNumber">
         <% changeableJobs.forEach(function(element){ %>

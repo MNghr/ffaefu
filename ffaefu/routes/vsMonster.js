@@ -25,8 +25,10 @@ router.post('/', function (req, res, next) {
                     user: req.session.user
                 });
             } else {
+
                 let enemy = enemyInformation.vsMonster[parseInt(req.body.difficulty)][utility.random(0,enemyInformation.vsMonster[parseInt(req.body.difficulty)].length-1)];
                 console.log(enemy);
+                req.session.user.vsMonsterLevel = parseInt(req.body.difficulty);
                 let result = await battle.battleAgainstMonster(req.session.user, enemy);
                 let content = battle.returnMessage;
                 console.log("戦闘後のコンテンツ表示");

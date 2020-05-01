@@ -14,6 +14,7 @@ router.get('/', function (req, res, next) {
             let data = await usersPeripheral.readChampion();
             //console.log(data);
             req.session.user.legendPlaceProgress = 0;
+            req.session.user.beingLegendPlace = -1;
             res.render('status', {
                 title: "FFA えふ改",
                 subTitle: "ステータス画面",

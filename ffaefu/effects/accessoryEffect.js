@@ -57,7 +57,7 @@ accessoryEffect.healingSong = function (user,enemy) {
     
     return returnData;
 };
-//
+//自動回復(小)
 accessoryEffect.autoHealSmall = function (user,enemy) {
     let returnData = {};
     user.recoverHP += utility.random(1, user.religion);
@@ -65,7 +65,7 @@ accessoryEffect.autoHealSmall = function (user,enemy) {
     returnData.message = "";
     return returnData;
 };
-//
+//自動回復(中)
 accessoryEffect.autoHealMedium = function (user,enemy) {
     let returnData = {};
     user.recoverHP += utility.random(1, user.religion)*utility.random(1,100);
@@ -73,7 +73,7 @@ accessoryEffect.autoHealMedium = function (user,enemy) {
     returnData.message = "";
     return returnData;
 };
-//
+//自動回復(大)
 accessoryEffect.autoHealLarge = function (user,enemy) {
     let returnData = {};
     user.recoverHP += utility.random(1, user.religion)*utility.random(1,user.religion);
@@ -81,7 +81,7 @@ accessoryEffect.autoHealLarge = function (user,enemy) {
     returnData.message = "";
     return returnData;
 };
-
+//ダメージ軽減(小)
 accessoryEffect.easeDamageSmall = function (user,enemy) {
     let returnData = {};
     user.receiveDamage -= Math.ceil(user.receiveDamage*utility.random(1,13)/100.0);
@@ -89,7 +89,7 @@ accessoryEffect.easeDamageSmall = function (user,enemy) {
     returnData.message = "";
     return returnData;
 };
-//
+//ダメージ軽減(中)
 accessoryEffect.easeDamageMedium = function (user,enemy) {
     let returnData = {};
     user.receiveDamage -= Math.ceil(user.receiveDamage*utility.random(1,25)/100.0);
@@ -98,7 +98,7 @@ accessoryEffect.easeDamageMedium = function (user,enemy) {
     return returnData;
 };
 
-//
+//ダメージ軽減(大)
 accessoryEffect.easeDamageLarge = function (user,enemy) {
     let returnData = {};
     user.receiveDamage -= Math.ceil(user.receiveDamage*utility.random(1,50)/100.0);
@@ -181,28 +181,39 @@ accessoryEffect.reflection = function (user, enemy) {
     return returnData;
 }
 
-//ガイアフォース
-accessoryEffect.GaiaForce = function (user, enemy) {
+//ガイアフォースの結晶
+accessoryEffect.gaiaForce = function (user, enemy) {
     let returnData = {};
     returnData.message = "";
-    if (enemy.accessory.id === 71) {
+    if (user.sealArts === true) {
         enemy.receiveDamage *= 10;
         user.receiveDamage /= 2;
         user.receiveDamage = Math.ceil(user.receiveDamage);
-        returnData.message = shaprArtsName(user.accessory.name+"が"+enemy.accessory.name+"に反応した．．．秘められた力を解放！！！","gray")
+        returnData.message = shaprArtsName(user.accessory.name + "が光を放つ．．．秘められた力を解放！！！" + user.name + "にスバラシイ力が備わった！！！", "gray");
     }    
 
     return returnData;
 }
 
+//封印球 敵の戦術を封印
 accessoryEffect.sealArts = function (user, enemy) {
     let returnData = {};
     returnData.message = "";
     
-    enemy.receiveDamage *= 10;
-    user.receiveDamage /= 2;
-    user.receiveDamage = Math.ceil(user.receiveDamage);
-    returnData.message = shaprArtsName(user.accessory.name+"が光を放つ．．．","gray")
+    returnData.message = shaprArtsName(user.accessory.name + "が光を放つ．．．"+enemy.name+"の戦術を封じた！！", "gray");
+    enemy.sealArts = true;
+
+    return returnData;
+}
+
+//銀河の翡翠その他  戦術封印を無効化
+accessoryEffect.liberateArts = function (user, enemy) {
+    let returnData = {};
+    returnData.message = "";
+    if (user.sealArts === true) {
+        user.sealArts = false;
+        returnData.message = shaprArtsName(user.accessory.name + "が光を放つ．．．" + user.name + "にかかっている戒めを解いた！！", "gray");
+    }
 
     return returnData;
 }
@@ -221,7 +232,7 @@ accessoryEffect.bugDeathThunder  = function (user, enemy) {
             user.itemInventory[21]--;
             if (utility.random(1, 10) <= 3) {
                 returnData.message += enemy.name+"の動きを鈍らせた！！！";
-                user.evasiveness += 1000075;
+                user.receiveDamage = 0;
             }
         } else {
             returnData.message += user.accessory.name+"が光を放つ．．．サンダー！！(何かが不足しているようだ．．．)";

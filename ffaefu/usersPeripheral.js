@@ -128,19 +128,19 @@ usersPeripheral.calculateStamina = function (lastBattleDate) {
 }
 
 usersPeripheral.buyWeapon = function(user,targetWeapon){ 
-    user.equipmentInventory.weapons.push(targetWeapon);
+    user.equipmentInventory.weapons.push(targetWeapon.id);
     user.money -= targetWeapon.value;
     this.writeUser(user);
 }
 
 usersPeripheral.buyArmor = function (user,targetArmor) {
-    user.equipmentInventory.armors.push(targetArmor);
+    user.equipmentInventory.armors.push(targetArmor.id);
     user.money -= targetArmor.value;
     this.writeUser(user);
 }
 
 usersPeripheral.buyAccessory = function (user,targetAccessory) {
-    user.equipmentInventory.accessories.push(targetAccessory);
+    user.equipmentInventory.accessories.push(targetAccessory.id);
     user.money -= targetAccessory.value;
     this.writeUser(user);
 }

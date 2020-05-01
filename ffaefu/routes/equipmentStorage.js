@@ -28,7 +28,7 @@ router.post('/', function (req, res, next) {
             switch (req.body.mode) {
                 case "weapon":
                     changeWeapon(req.session.user, parseInt(req.body.targetWeapon));
-                    content += req.session.user.name + "は" + usersPeripheral.getWeaponByIndex(req.session.user.weapon).name + "を装備した";
+                    content += req.session.user.name + "は" + usersPeripheral.getWeaponByIndex(req.session.user.weapon).name + "を装備した.";
                     break;
                 case "armor":
                     changeArmor(req.session.user, parseInt(req.body.targetArmor));
@@ -38,14 +38,27 @@ router.post('/', function (req, res, next) {
                     changeAccessory(req.session.user, parseInt(req.body.targetAccessory));
                     content += req.session.user.name + "は" + usersPeripheral.getAccessoryByIndex(req.session.user.accessory).name + "を装備した";
                     break;
+                case "weaponRenounce":
+                    content += req.session.user.name + "は" + usersPeripheral.getWeaponByIndex(req.session.user.equipmentInventory.armors[parseInt(req.body.targetWeapon)]).name + "を投げ捨てた";
+                    renounceWeapon(req.session.user, parseInt(req.body.targetWeapon));
+                    break;
+                case "armorRenounce":
+                    content += req.session.user.name + "は" + usersPeripheral.getArmorByIndex(req.session.user.equipmentInventory.armors[parseInt(req.body.targetArmor)]).name + "を投げ捨てた";
+                    renounceArmor(req.session.user, parseInt(req.body.targetArmor));
+                    break;
+                case "accessoryRenounce":
+                    content += req.session.user.name + "は" + usersPeripheral.getAccessoryByIndex(req.session.user.equipmentInventory.accessories[parseInt(req.body.targetAccessory)]).name + "を投げ捨てた";
+                    renounceAccessory(req.session.user, parseInt(req.body.targetAccessory));
+                    break;
             }
+            
             await usersPeripheral.writeUser(req.session.user);
             res.render('equipmentStorage', {
                 title: "FFAえふ改",
                 subTitle: "装備品倉庫",
                 user: req.session.user,
                 isFinished: true,
-                content: content
+                content: content,
             });
         } else {
             res.redirect('/');
@@ -55,41 +68,57 @@ router.post('/', function (req, res, next) {
 
 
 
-function changeWeapon(user, target) {
+function changeWeapon(user, targetIndex) {
     if (user.weapon === 0) {
-        user.weapon = user.equipmentInventory.weapons[target];
-        user.equipmentInventory.weapons.splice(target,1);
+        user.weapon = user.equipmentInventory.weapons[targetIndex];
+        user.equipmentInventory.weapons.splice(targetIndex,1);
     } else {
         let tmp = user.weapon;
-        user.weapon = user.equipmentInventory.weapons[target];
-        user.equipmentInventory.weapons[target] = tmp;
+        user.weapon = user.equipmentInventory.weapons[targetIndex];
+        user.equipmentInventory.weapons[targetIndex] = tmp;
     }
     return 0;
 }
 
-function changeArmor(user, target) {
+function renounceWeapon(user, targetIndex) {
+    user.equipmentInventory.weapons.splice(targetIndex, 1);
+    return 0;
+}
+
+function changeArmor(user, targetIndex) {
     if (user.armor === 0) {
-        user.armor = user.equipmentInventory.armors[target];
-        user.equipmentInventory.armors.splice(target,1);
+        user.armor = user.equipmentInventory.armors[targetIndex];
+        user.equipmentInventory.armors.splice(targetIndex,1);
     } else {
         let tmp = user.armor;
-        user.armor = user.equipmentInventory.armors[target];
-        user.equipmentInventory.armors[target] = tmp;
+        user.armor = user.equipmentInventory.armors[targetIndex];
+        user.equipmentInventory.armors[targetIndex] = tmp;
     }
     return 0;
 }
 
-function changeAccessory(user, target) {
+function renounceArmor(user, targetIndex) {
+    user.equipmentInventory.armors.splice(targetIndex, 1);
+    return 0;
+}
+
+function changeAccessory(user, targetIndex) {
     if (user.accessory === 0) {
-        user.accessory = user.equipmentInventory.accessories[target];
-        user.equipmentInventory.accessories.splice(target,1);
+        user.accessory = user.equipmentInventory.accessories[targetIndex];
+        user.equipmentInventory.accessories.splice(targetIndex,1);
     } else {
         let tmp = user.accessory;
-        user.accessory = user.equipmentInventory.accessories[target];
-        user.equipmentInventory.accessories[target]=tmp;
+        user.accessory = user.equipmentInventory.accessories[targetIndex];
+        user.equipmentInventory.accessories[targetIndex]=tmp;
     }
     return 0;
 }
+
+function renounceAccessory(user, targetIndex) {
+    user.equipmentInventory.accessories.splice(targetIndex,1);
+    return 0;
+}
+
 
 
 module.exports = router;

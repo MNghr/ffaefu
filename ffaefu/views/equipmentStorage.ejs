@@ -13,34 +13,61 @@
         武器一覧
       <ul>
       <%for(let i = 0;i < user.equipmentInventory.weapons.length; ++i){ %>
+        <li>
         <form action="" method="post">
           <% let input = '<input type="hidden" name="targetWeapon" value=' + '"'+i+'"' + '>' %>
           <input type="hidden" name="mode" value="weapon">
             <%- input %>        
-           <li> <button type=submit>装備する</button> 名前:<%= weapons[i].name %> , 攻撃力:<%= weapons[i].attack %>, 値段:<%= weapons[i].value %></li>
+           <button type=submit>装備する</button> 
         </form>
+        <form action="" method="post">
+          <% input = '<input type="hidden" name="targetWeapon" value=' + '"'+i+'"' + '>' %>
+          <input type="hidden" name="mode" value="weaponRenounce">
+            <%- input %>        
+           <button type=submit>捨てる</button> 
+        </form>
+
+        名前:<%= weapons[i].name %> , 攻撃力:<%= weapons[i].attack %>, 値段:<%= weapons[i].value %></li>
       <% } %>
       </ul>
       防具一覧
       <ul>
         <%for(let i = 0;i < user.equipmentInventory.armors.length; ++i){ %>
+          <li>
           <form action="" method="post">
             <% let input = '<input type="hidden" name="targetArmor" value=' + '"'+i+'"' + '>' %>
             <input type="hidden" name="mode" value="armor">
               <%- input %>        
-             <li> <button type=submit>装備する</button>名前:<%= armors[i].name %> , 防御力:<%= armors[i].attack %>, 値段:<%= armors[i].value %></li>
+             <button type=submit>装備する</button>
           </form>
+          <form action="" method="post">
+            <%input = '<input type="hidden" name="targetArmor" value=' + '"'+i+'"' + '>' %>
+            <input type="hidden" name="mode" value="armorRenounce">
+              <%- input %>        
+             <button type=submit>捨てる</button>
+          </form>
+          <li>名前:<%= armors[i].name %> , 防御力:<%= armors[i].attack %>, 値段:<%= armors[i].value %></li>
         <% } %>
         </ul>
         装飾品一覧
         <ul>
             <%for(let i = 0;i < user.equipmentInventory.accessories.length; ++i){ %>
+              <li>
               <form action="" method="post">
                 <% let input = '<input type="hidden" name="targetAccessory" value=' + '"'+i+'"' + '>' %>
                 <input type="hidden" name="mode" value="accessory">
                   <%- input %>        
-                 <li> <button type=submit>装備する</button>名前:<%= accessories[i].name %> , 防御力:<%= accessories[i].value %>, 値段:<%= accessories[i].explain %></li>
+                   <button type=submit>装備する</button>
               </form>
+              <form action="" method="post">
+                <% input = '<input type="hidden" name="targetAccessory" value=' + '"'+i+'"' + '>' %>
+                <input type="hidden" name="mode" value="accessoryRenounce">
+                  <%- input %>        
+                   <button type=submit>捨てる</button>
+              </form>
+
+              名前:<%= accessories[i].name %> , 防御力:<%= accessories[i].value %>, 値段:<%= accessories[i].statement %>
+            </li>
             <% } %>
             </ul>
     <% }else{ %>

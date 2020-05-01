@@ -107,7 +107,7 @@ enemyArtsEffect.zantetsuken = function (user, enemy) {
     if (utility.random(1, 10) <= 8) {
         returnData.message += "  鉄";
         if (utility.random(1, 10) <= 4) {
-            returnData += "  剣！！";
+            returnData.message += "  剣！！";
             user.receiveDamage = Math.ceil(user.currentHP*1.3);
         } else {
             returnData.message += "．．．失敗！";
@@ -159,7 +159,7 @@ enemyArtsEffect.hollyPanel = function (user, enemy) {
     let returnData = {};
     returnData.message = shapeArtsName("防御術式展開・ホーリパネル！！","yellow");
     user.receiveDamage = enemy.attack;
-    enemy.damageCutPercentage = 90;
+    enemy.receiveDamage = Math.ceil(enemy.receiveDamage/ 10.0);
     return returnData;
 }
 //アルテマ
@@ -325,11 +325,13 @@ enemyArtsEffect.berserk = function (user, enemy) {
     returnData.message ="";
     if (utility.random(1, 2) === 1) {
         returnData.message = shapeArtsName("ハァハァ．．．", "gray");
-        user.receiveDamage = Math.ceil(enemy.attack ** 1.5);
+        user.receiveDamage = utility.random(1, enemy.attack) * 5
     } else {
         returnData.message = shapeArtsName("ハァハァ．．．", "yellow");
-        user.receiveDamage = Math.ceil(enemy.attack **1.3);
+        user.receiveDamage = utility.random(1, enemy.oscillation) * 4
+        enemy.recoverHP = utility.random(1, enemy.oscillation) * 4
     }
+    user.evasiveness -= 999999
 
     return returnData;
 }
@@ -340,6 +342,7 @@ enemyArtsEffect.level13Death = function (user, enemy) {
     returnData.message = shapeArtsName("HP13デス  ","black");
     if (user.currentHP % 13 === 0) {
         user.receiveDamage = user.currentHP;
+        user.evasiveness -= 999999;
     } else {
         returnData.message += user.name+"には効かなかった！！！"
         user.receiveDamage = enemy.attack;
@@ -349,7 +352,7 @@ enemyArtsEffect.level13Death = function (user, enemy) {
         returnData.message += enemy.name + "は しんでしまった！！！";
         enemy.recoverHP -= enemy.currentHP;
     } else {
-        returnData.message += enemy.name+"には効かなかった．"
+        returnData.message += enemy.name + "には効かなかった．"
     }
     return returnData;
 }

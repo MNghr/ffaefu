@@ -55,7 +55,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
     _user.accessory = JSON.parse(JSON.stringify(usersPeripheral.getAccessoryByIndex(user.accessory)));
     _user.accessory.effect = usersPeripheral.getAccessoryByIndex(user.accessory).effect;
     console.log(_user.accessory);
-
+    _user.gainMoney = 0;
     _enemy.artsEffect = enemy.artsEffect; //関数だけJSON.stringifyの範囲外なので改めて追加
     console.log(_enemy.artsEffect);
     console.log(enemy.artsEffect);
@@ -70,7 +70,7 @@ battle.battleRoutine = async function (user, enemy, kind) {
         _enemy.currentHP = _enemy.maxHP;
         _enemy.element = "monster";
         let turn = 1;
-
+        _user.weaponRatio = 1.0;
         console.log("ユーザの戦術番号:"+_user.setArts)
         while (_user.currentHP > 0 && _enemy.currentHP > 0) {
             _enemy.receiveDamage = 0; 
@@ -83,9 +83,15 @@ battle.battleRoutine = async function (user, enemy, kind) {
             _user.damageCutPercentage = 0.0; //ユーザのダメージ軽減率
             _user.evasiveness = 50;
             _user.receiveElement = "";
+            _enemy.attack = _enemy.basicAttack + utility.random(1,_enemy.oscillation);
             _user.currentHP = Math.min(_user.maxHP, _user.currentHP);
             _user.recoverHP = 0;
+            _user.weapon.attack *= _user.weaponRatio;
+            _user.weapon.attack = Math.ceil(_user.weapon.attack);
             _user.attack = calculateAttack(_user);
+            _user.artsActivated = false;
+            _enemy.artsActivated = false;
+            
             _user.receiveAdditionalDamage = 0;
             console.log(_user.attack);
             
@@ -96,20 +102,20 @@ battle.battleRoutine = async function (user, enemy, kind) {
 
             receiveData = invokeUserArts(_user,_enemy);
             enemyReceiveData = invokeEnemyArts(_user, _enemy);
+            receiveDataDelayed = invokeUserArtsDelayed(_user,_enemy)
             accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy); 
-            itemReceiveData = invokeItemsEffect(_user, _enemy);
-            console.log(_user.itemInventory);
+            itemReceiveData = invokeCombatItemsEffect(_user, _enemy);
             
             let userRecover = shapeHPRecover(_user, _user.recoverHP);
-            
-            console.log(userRecover);
+            let enemyRecover = shapeHPRecover(_enemy,_enemy.recoverHP)
+    
             _enemy.currentHP -= Math.ceil(_enemy.receiveDamage * (1 - _enemy.damageCutPercentage));
             _enemy.currentHP -= _enemy.receiveAdditionalDamage;
             _enemy.currentHP += _enemy.recoverHP;
-            this.returnMessage += _user.name + "は"+_user.weapon.name+"で攻撃！<br>"+receiveData.message+"<br>"+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた。"+userRecover+"<br><br>";
+            this.returnMessage += _user.name + "は"+_user.weapon.name+"で攻撃！<br>"+receiveData.message+"<br>"+receiveDataDelayed.message+accessoryReceiveData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた。"+userRecover+"<br><br>";
             _user.currentHP -= Math.ceil(_user.receiveDamage * 1 - _user.damageCutPercentage);
             _user.currentHP += _user.recoverHP;
-            this.returnMessage += _enemy.name + "が襲い掛かった！<br>" + enemyReceiveData.message + "<br>"+itemReceiveData.message+_user.name + "は" + _user.receiveDamage + "ダメージ受けた<br>";
+            this.returnMessage += _enemy.name + "が襲い掛かった！<br>" + enemyReceiveData.message + "<br>"+itemReceiveData.message+_user.name + "は" + _user.receiveDamage + "ダメージ受けた。"+enemyRecover+"<br>";
             this.returnMessage += "<br>";
             turn++;
             if (turn > configuration.turnLimit) {
@@ -117,7 +123,8 @@ battle.battleRoutine = async function (user, enemy, kind) {
             }
         }
 
-        
+        user.itemInventory = JSON.parse(JSON.stringify(_user.itemInventory));
+
         if (_enemy.currentHP <= 0) {
             this.returnMessage += user.name+"は戦闘に勝利した！！";
             this.win(user, enemy);
@@ -135,7 +142,8 @@ battle.battleRoutine = async function (user, enemy, kind) {
         if (user.currentHP <= 0) {
             user.currentHP = user.maxHP;
         }
-        user.itemInventory = JSON.parse(JSON.stringify(_user.itemInventory));
+        
+        delete user.vsMonsterLevel;
         await usersPeripheral.writeUser(user);
         console.log("戦闘後ファイル書き換え完了");
     } else if (kind === 2 || kind === 1) { //対人戦
@@ -144,8 +152,11 @@ battle.battleRoutine = async function (user, enemy, kind) {
         _enemy.accessory = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.accessory)));
         _enemy.artsSealed = false;
         _user.artsSealed = false;
+        
         let turn = 1;
         while (_user.currentHP > 0 && _enemy.currentHP > 0) {
+            _user.artsActivated = false;
+            _enemy.artsActivated = false;
             _enemy.currentHP = Math.min(_enemy.currentHP, _enemy.maxHP);
             _enemy.receiveDamage = 0;//敵が受けるダメージ
             _enemy.damageCutPercentage = 0.0;//敵が受けるダメージの軽減率
@@ -170,11 +181,14 @@ battle.battleRoutine = async function (user, enemy, kind) {
             receiveData = invokeUserArts(_user, _enemy);
             console.log(receiveData);
             enemyReceiveData = invokeUserArts(_enemy, _user);
+            receiveDataDelayed = invokeUserArtsDelayed(_user, _enemy);
+            enemyReceiveDataDlayed = invokeUserArtsDelayed(_user, _enemy);
             accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy);
+            enemyAccessoryReceiveData = invokeUserAccessoryEffect(_enemy, _user);
             _enemy.currentHP -= Math.ceil(_enemy.receiveDamage * Math.ceil(1 - _enemy.damageCutPercentage));
             console.log(_enemy.receiveDamage);
             console.log(_user.receiveDamage)
-            this.returnMessage += _user.name + "は" + _user.weapon.name + "で攻撃!<br>" + receiveData.message + "<br>" + _enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた<br><br>";
+            this.returnMessage += _user.name + "は" + _user.weapon.name + "で攻撃!<br>" + receiveData.message + "<br>" + receiveDataDelayed.message+accessiryReceiveData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた<br><br>";
             _user.currentHP -= Math.ceil(_user.receiveDamage * Math.ceil(1 - _user.damageCutPercentage));
             this.returnMessage += _enemy.name + "は" + _enemy.weapon.name + "で攻撃！<br>" + enemyReceiveData.message + "<br>" + _user.name + "は" + _user.receiveDamage + "ダメージ受けた<br><br>";
             this.returnMessage += "<br>";
@@ -216,11 +230,23 @@ battle.battleRoutine = async function (user, enemy, kind) {
 invokeUserArts = function (user, enemy) {
     let receiveData = {};
     if (usersPeripheral.getArtsOfUser(user).invocationRate > utility.random(0, 99) || configuration.isDebugMode === true) {
+        user.artsActivated = true;
         console.log("戦術発動");
-        receiveData = usersPeripheral.getArtsOfUser(user).effect(user, enemy);            
+        receiveData = usersPeripheral.getArtsOfUser(user).effect.immediateEffect(user,enemy);            
     } else {
         console.log("戦術不発");
-        receiveData = usersPeripheral.getArtsById(0).effect(user,enemy);
+        receiveData = usersPeripheral.getArtsById(0).effect.immediateEffect(user,enemy);
+    }
+
+    return receiveData;
+}
+
+invokeUserArtsDelayed = function (user, enemy) {
+    let receiveData = {};
+    if (user.artsActivated === true) {
+        receiveData = usersPeripheral.getArtsOfUser(user).effect.delayedEffect(user, enemy);
+    } else {
+        receiveData = usersPeripheral.getArtsById(0).effect.delayedEffect(user, enemy);
     }
 
     return receiveData;
@@ -246,6 +272,7 @@ invokeUserAccessoryEffect = function (user, enemy) {
     if (user.accessory.invocationRate > utility.random(0, 99) || configuration.isDebugMode === true) {
         console.log("アクセサリ効果発動");
         accessoryReceiveData = user.accessory.effect(user, enemy);
+        accessoryReceiveData.message += "<br>";
     } else {
         console.log("アクセサリ効果不発");
         accessoryReceiveData = accessoryEffect.none(user, enemy);
@@ -318,11 +345,11 @@ battle.levelup = function (user) {
     }
 };
 
-invokeItemsEffect = function (user, enemy) {
+invokeCombatItemsEffect = function (user, enemy) {
     let returnData = {};
     returnData.message = "";
     user.itemInventory.forEach((element, index) => {
-        if (element > 0) {
+        if (element > 0 && itemInformation.itemList[index].kind === "combat") {
             let ret = itemInformation.itemList[index].effect(user, enemy);
             console.log(ret);
             returnData.message += ret.message;
@@ -335,6 +362,8 @@ invokeItemsEffect = function (user, enemy) {
     }
     return returnData;
 }
+
+
 
 battle.win = function (user, enemy) {
     user.money += enemy.dropMoney;
@@ -353,8 +382,21 @@ battle.win = function (user, enemy) {
             }
             user.beingLegendPlace = -1;
         }
+    } else {
+        if(configuration.itemDropRate < utility.random(1,100) || configuration.isDebugMode === true)
+            itemDrop(user);
     }
+    console.log(user.itemInventory);
 };
+
+itemDrop = function (user) {
+    let dropItem = configuration.vsMonsterDropItem[user.vsMonsterLevel][utility.random(0, configuration.vsMonsterDropItem[user.vsMonsterLevel].length-1)];
+    user.itemInventory[dropItem] += 1;
+    user.itemInventory[dropItem] = Math.min(user.itemInventory[dropItem], configuration.maxItem);
+    battle.returnMessage += "<br>" +  itemInformation.itemList[dropItem].name + "を拾った．";
+    return;
+}
+
 
 battle.lose = function(user,enemy){
     user.money /= 10;

@@ -17,6 +17,8 @@ configuration.turnLimit = 150;//戦闘時の制限ターン デフォルトな�
 
 configuration.degree = ["駆け出し", "冒険者", "熟練者", "勇者", "蓋世の英雄"]; //各レジェンドプレイス初攻略時に変化する称号．
 
+configuration.maxItem = 99;//アイテムの所持数上限
+
  //プレイヤー回避率の計算式 ※装備による補正はふくめ ないよ！
 configuration.calculateNaturalEvasive = (user) => {
     return Math.min(50, Math.ceil(user.agility / 20.0));
@@ -55,6 +57,8 @@ configuration.guerrillaDangeonEnemyLevel = (user) => {
 
 configuration.isDebugMode = true; //デバッグモード．trueにしておくと技という技が常時発動するようになるので，デバッグしたいときにどうぞ．
 
+configuration.itemDropRate = 0.10;//基本的なアイテムドロップ率
+
 //「モンスターと戦う」で拾えるアイテムのテーブル．上から順に でそれぞれ拾えるアイテムのリスト
 configuration.vsMonsterDropItem = [
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -67,7 +71,7 @@ configuration.vsMonsterDropItem = [
 configuration.guerrillaDangeonDropItem = [
     [13, 14, 15, 16, 17, 18]
 ]
-//レジェンドプレイスで拾えるアイテムのリスト．といってもデフォでは拾わないように設定
+//レジェンドプレイスで拾えるアイテムのリスト．といってもデフォでは拾わないように設定．
 configuration.legendPlaceDropItem = [
     [],
     [],
@@ -83,13 +87,14 @@ configuration.vsMonsterName = [
     "その辺の原っぱ(弱い敵が出現)",
     "近くの洞窟(ちょっと強い敵が出現)",
     "ミンティアの塔(そこそこ強い敵が出現)",
-    "厄海(とても強い敵が出現)"
+    "隔絶された大地(とても強い敵が出現)"
 ]
 
 configuration.legendPlaceName = [
     "試しのほこら",
     "ガイアフォース",
-    "心の洞窟",
+    "戒めの洞窟",
     "グレイヴヤード"
 ]
+
 module.exports = configuration;
