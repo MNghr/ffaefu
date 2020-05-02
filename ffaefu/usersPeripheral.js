@@ -41,7 +41,7 @@ usersPeripheral.fullWithdraw = async function(user) {
 
 usersPeripheral.addMoney = function (user, amount) {
     user.money += amount;
-    user.money = Math.max(user.money, configuration.maxMoney);
+    user.money = Math.min(user.money, configuration.maxMoney);
 }
 
 usersPeripheral.readUser = async function (user) {
@@ -316,24 +316,29 @@ usersPeripheral.getAccessoriesOfUser = function (user) {
     return accessories;
 }
 
+//チャンピオン書き込み関数 
 usersPeripheral.writeChampion = async function (user) {
     this.currentChampion = JSON.parse(JSON.stringify(user));
     await fs.writeFile('./database/ChampionData/champion.json', JSON.stringify(user));
 }
 
+//チャンピオン読み込み関数
 usersPeripheral.readChampion = async function () {
     let data = await fs.readFile('./database/championData/champion.json', "utf-8");
     
     return data;
 };
 
+//現在のチャンピオン ページリロードの度にわざわざ読み直すとか地獄もいいとこなので，メンテ等サーバを止める必要が出たときの為に一応外部ファイルに書き出してはいるけどメモリにも置いておく．チャンピオンの参照をするときはこれを参照してね
 usersPeripheral.currentChampion;
 
+//チャンピオンデータを読み込んでメモリのチャンピオンデータを更新する関数 起動時以外出番ないはず
 usersPeripheral.setChampion = async function(){
     this.currentChampion = JSON.parse(await this.readChampion());
     console.log(this.currentChampion);
 }
 
+//所持アイテムリスト作成処理
 usersPeripheral.makeUserItemList = function(user){
     userItemList = JSON.parse(JSON.stringify(itemInformation.itemList));
     userItemList.forEach((element, index) => {
@@ -342,7 +347,7 @@ usersPeripheral.makeUserItemList = function(user){
 
     return userItemList;
 }
-
+//アイテム購入処理
 usersPeripheral.buyItem = async (user,targetItemId,amount)=>{
     let buySuceed = user.money >= amount * itemInformation.itemList[targetItemId].value;
     if (buySuceed) {
@@ -354,6 +359,7 @@ usersPeripheral.buyItem = async (user,targetItemId,amount)=>{
     return buySuceed;
 }
 
+//アイテム売却処理
 usersPeripheral.sellItem = async (user, targetItemId, amount) => {
     let sellSuceed = amount <= user.itemInventory[targetItemId];
     let sum = 0;
@@ -368,11 +374,18 @@ usersPeripheral.sellItem = async (user, targetItemId, amount) => {
     return sum;
 }
 
-usersPeripheral.setChampion();//サーバ起動時，チャンピオン情報を読み込む処理
 
+//「このへんのプレイヤー」
 usersPeripheral.playingPlayers = [];
 
-//ログイン中のプレイヤー表示
+//ログイン中のプレイヤー名追加処理 重複を防ぐために名前の他にIdを，ログイン中のプレイヤー名削除処理を正常に行うために最終入力時刻を持つ．
+usersPeripheral.addPlayingPlayers = (user) => {
+    usersPeripheral.playingPlayers = usersPeripheral.playingPlayers.filter(element => element.userId != user.userId);
+    usersPeripheral.playingPlayers.push({ userId: user.userId, name: user.name, lastInputTime: user.lastInputTime });
+    console.log(usersPeripheral.playingPlayers);
+};
+
+//ログイン中のプレイヤー名削除処理(最後に操作した時刻から設定されたプレイヤー表示時間をオーバーすると「この辺のプレイヤー」リストから削除される)
 cron.schedule('* * * * *', () => {
     usersPeripheral.playingPlayers = usersPeripheral.playingPlayers.filter((element) => {
         console.log((element.lastInputTime + configuration.showPlayingPlayerTime * 1000) + "," + utility.getTime());
@@ -381,12 +394,8 @@ cron.schedule('* * * * *', () => {
     console.log(usersPeripheral.playingPlayers);
 });
 
-//ログイン中のプレイヤー追加処理
-usersPeripheral.addPlayingPlayers = (user) => {
-    usersPeripheral.playingPlayers = usersPeripheral.playingPlayers.filter(element => element.userId != user.userId);
-    usersPeripheral.playingPlayers.push({ userId: user.userId, name: user.name, lastInputTime: user.lastInputTime });
-    console.log(usersPeripheral.playingPlayers);
-};
+//サーバ起動時，チャンピオン情報を読み込む処理
+usersPeripheral.setChampion();
 
 
 

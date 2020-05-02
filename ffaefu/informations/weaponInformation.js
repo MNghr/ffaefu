@@ -138,8 +138,18 @@ weaponInformation.weaponList = [
 
     { id: 102, attack: () => 500000, name: "神剣グラヴィティ・レイプ", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
     
-    { id: 102, attack: ()=> 750000, name: "ドリームソード", value: 999000000000, effect: weaponEffect.none , invocationRate: 999999}
-
+    { id: 103, attack: () => 750000, name: "ドリームソード", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 104, attack: () => 245000, name: "はかぶさの剣", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 105, attack: () => 5, name: "はやぶさの剣", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 106, attack: () => 888888, name: "諸刃の剣", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 107, attack: () => 888888, name: "諸刃の剣-", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 108, attack: () => 400000, name: "ビッグノイズ", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 109, attack: () => 990000, name: "エクスカリバー", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 110, attack: ()=> 990000, name: "ギガキャノン", value: 999000000000, effect: weaponEffect.none , invocationRate: 999999},
+    { id: 111, attack: () => 990000, name: "ギガントフック", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 112, attack: () => 990000, name: "オメガロケット", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 113, attack: () => 990000, name: "シグマアーム", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    { id: 114, attack: () => 1400000, name: "真理と正義の剣", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
 ];
 
 module.exports = weaponInformation;

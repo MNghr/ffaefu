@@ -11,7 +11,7 @@
     <h1><%= subTitle %></h1>
     <% const formatter = new Intl.NumberFormat('ja-JP') %>
     <% if(mode === "selectAccessory"){ %>
-      なにを買うかね？
+      ここは装飾品屋だ．なにを買うかね？
       <ul>
       <%for(let i = 0;i < accessories.length; ++i){ %>
         <form action="" method="post">
@@ -24,7 +24,12 @@
     <% }else{ %>
       <%- content %>
     <% } %>
-    
-    <a href="/status"><button>ステータス画面へ</button></a>    
+    <br><br>
+    <a href="/status"><button class="btn-square">ステータス画面へ</button></a>
+    <a href="/bank"><button class="btn-square">銀行へ</button></a>
+    <a href="/weaponShop"><button class="btn-square">武器屋へ</button></a>
+    <a href="/armorShop"><button class="btn-square">防具屋へ</button></a>
+    <a href="/accessoryShop"><button class="btn-square">装飾品屋へ</button></a>
+    <a href="/toolShop"><button class="btn-square">道具屋へ</button></a>  
   </body>
 </html>
