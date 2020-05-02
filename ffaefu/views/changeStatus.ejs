@@ -41,7 +41,7 @@
       <li>必殺率:<%= configuration.calculateNaturalArtsActivation(user)%></li>
       <li>スタイル: <%= job.name %></li>
       <li>スタイルレベル: <%= user.jobLevel %></li>
-      <li>武器 <%=weapon.name %> 威力: <%= weapon.attack %></li>
+      <li>武器 <%=weapon.name %> 威力: <%= weapon.attack() %></li>
       <li>防具 <%=armor.name %> 防御力: <%= armor.defence %></li>
       <li>装飾品 <%=accessory.name %></li>
       

@@ -18,7 +18,7 @@
           <% let input = '<input type="hidden" name="targetWeapon" value=' + '"'+i+'"' + '>' %>
             <%- input %>        
             <input type="hidden" name="mode" value="buy">
-          <button type=submit>買う</button> <li> 名前:<%= weapons[i].name %> , 攻撃力:<%= formatter.format(weapons[i].attack) %>, 値段:<%= formatter.format(weapons[i].value) %></li>
+          <button type=submit>買う</button> <li> 名前:<%= weapons[i].name %> , 攻撃力:<%= formatter.format(weapons[i].attack()) %>, 値段:<%= formatter.format(weapons[i].value) %></li>
         </form>
       <% } %>
       </ul>

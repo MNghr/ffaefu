@@ -27,7 +27,7 @@
            <button type=submit>捨てる</button> 
         </form>
 
-        名前:<%= weapons[i].name %> , 攻撃力:<%= weapons[i].attack %>, 値段:<%= weapons[i].value %></li>
+        名前:<%= weapons[i].name %> , 攻撃力:<%= weapons[i].attack() %>, 値段:<%= weapons[i].value %></li>
       <% } %>
       </ul>
       防具一覧
@@ -46,7 +46,7 @@
               <%- input %>        
              <button type=submit>捨てる</button>
           </form>
-          <li>名前:<%= armors[i].name %> , 防御力:<%= armors[i].attack %>, 値段:<%= armors[i].value %></li>
+          <li>名前:<%= armors[i].name %> , 防御力:<%= armors[i].defence %>, 値段:<%= armors[i].value %></li>
         <% } %>
         </ul>
         装飾品一覧
@@ -66,7 +66,7 @@
                    <button type=submit>捨てる</button>
               </form>
 
-              名前:<%= accessories[i].name %> , 防御力:<%= accessories[i].value %>, 値段:<%= accessories[i].statement %>
+              名前:<%= accessories[i].name %> ,値段:<%= accessories[i].value %>, テキスト:<%= accessories[i].statement %>
             </li>
             <% } %>
             </ul>

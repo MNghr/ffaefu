@@ -120,7 +120,7 @@ accessoryEffect.damageTripleAndEaseDamageLarge = function (user, enemy) {
 //オーラの結晶
 accessoryEffect.aura = function (user, enemy) {
     let returnData = {};
-    user.weapon.attack *= 2;
+    user.weaponRatio *= 2;
     returnData.message = shapeArtsName("オーラの結晶が光を放つ．．．武器の効果二倍！(効果継続・重複有効)","gray");
     return returnData;
 }
