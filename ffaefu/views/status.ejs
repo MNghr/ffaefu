@@ -21,6 +21,12 @@
   <body >
     <div class="wrapper">
      <% const formatter = new Intl.NumberFormat('ja-JP') %>
+     この辺のプレイヤー:<%=playingPlayers.length%>人
+     <% playingPlayers.forEach((element,index) =>{ %>
+      <%= element.name %>
+      ★
+     <% }) %>
+     <br>
     <h1><%= subTitle %></h1>    
     現在のチャンピオン:<%= champion.name %>さん
     HP: <%= formatter.format(champion.currentHP) %>/<%=formatter.format(champion.maxHP) %>
@@ -37,7 +43,7 @@
       <li>スタイルレベル: <%= user.jobLevel %> </li>
       <li>スタミナ: <x id="stamina"><%= stamina %></x></li>
       <li>武器 <%=weapon.name %> 威力: <%= weapon.attack() %></li>
-      <li>防具 <%=armor.name %> 防御力: <%= armor.defence %></li>
+      <li>防具 <%=armor.name %> 防御力: <%= armor.defence() %></li>
       <li>装飾品 <%=accessory.name %></li>
     </ul>
     <a href="/changeArts" class="btn-square">戦術を変更する</a>

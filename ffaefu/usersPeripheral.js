@@ -8,6 +8,9 @@ let artsInformation = require("./informations/artsInformation.js");
 let jobInformation = require("./informations/jobInformation.js");
 let itemInformation = require("./informations/itemInformation.js")
 let configuration = require("./configuration.js")
+let utility = require("./utility.js");
+const cron = require('node-cron');
+
 
 usersPeripheral.deposit = async function(user,amount) {
     if (user.money < amount)
@@ -366,6 +369,24 @@ usersPeripheral.sellItem = async (user, targetItemId, amount) => {
 }
 
 usersPeripheral.setChampion();//サーバ起動時，チャンピオン情報を読み込む処理
+
+usersPeripheral.playingPlayers = [];
+
+//ログイン中のプレイヤー表示
+cron.schedule('* * * * *', () => {
+    usersPeripheral.playingPlayers = usersPeripheral.playingPlayers.filter((element) => {
+        console.log((element.lastInputTime + configuration.showPlayingPlayerTime * 1000) + "," + utility.getTime());
+        return element.lastInputTime + configuration.showPlayingPlayerTime * 1000 >= utility.getTime();
+    });
+    console.log(usersPeripheral.playingPlayers);
+});
+
+//ログイン中のプレイヤー追加処理
+usersPeripheral.addPlayingPlayers = (user) => {
+    usersPeripheral.playingPlayers = usersPeripheral.playingPlayers.filter(element => element.userId != user.userId);
+    usersPeripheral.playingPlayers.push({ userId: user.userId, name: user.name, lastInputTime: user.lastInputTime });
+    console.log(usersPeripheral.playingPlayers);
+};
 
 
 

@@ -87,7 +87,7 @@ configuration.vsMonsterName = [
     "その辺の原っぱ(弱い敵が出現)",
     "近くの洞窟(ちょっと強い敵が出現)",
     "ミンティアの塔(そこそこ強い敵が出現)",
-    "隔絶された大地(とても強い敵が出現)"
+    "上の世界(とても強い敵が出現)"
 ]
 
 configuration.legendPlaceName = [
@@ -95,6 +95,8 @@ configuration.legendPlaceName = [
     "ガイアフォース",
     "戒めの洞窟",
     "グレイヴヤード"
-]
+];
+
+configuration.showPlayingPlayerTime = 60; //ログイン中のプレイヤー表示時間(秒)
 
 module.exports = configuration;

@@ -25,7 +25,8 @@ router.get('/', function (req, res, next) {
                 accessory: accessoryInformation.accessoryList[req.session.user.accessory],
                 stamina: usersPeripheral.calculateStamina(req.session.user.lastBattleDate),
                 champion: JSON.parse(await usersPeripheral.readChampion()),
-                configuration: configuration
+                configuration: configuration,
+                playingPlayers: usersPeripheral.playingPlayers
         });
         } else {
             res.redirect('/');

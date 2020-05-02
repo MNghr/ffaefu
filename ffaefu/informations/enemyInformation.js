@@ -215,7 +215,7 @@ enemyInformation.legendPlace[3] = [
     { enemyId: "12l4", name: "デューオ", maxHP: 851738048, basicAttack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.deadlyMessage },
     { enemyId: "13l4", name: "フォルテXX", maxHP: 947183829, basicAttack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 95, artsEffect: enemyArtsEffect.chaosNightMare },
     { enemyId: "14l4", name: "ロード・オブ・カオス", maxHP: 947193843, basicAttack: 999999, dropMoney: 1000, exp: 100000, oscillation: 65, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.chaosNightMare },
-    { enemyId: "15l4",name: "全能神えふ", maxHP:4928372921,basicAttack:999,dropMoney:1000,exp:100000,oscillation:999999,artsActivation: 100,evasive:999,artsEffect: enemyArtsEffect.berserk }
+    { enemyId: "15l4",name: "全能神えふ", maxHP:4273142731,basicAttack:42731,dropMoney:1000,exp:100000,oscillation:2590000,artsActivation: 100,evasive:999,artsEffect: enemyArtsEffect.berserk }
 ]
 
 module.exports = enemyInformation

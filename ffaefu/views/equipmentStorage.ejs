@@ -46,7 +46,7 @@
               <%- input %>        
              <button type=submit>捨てる</button>
           </form>
-          <li>名前:<%= armors[i].name %> , 防御力:<%= armors[i].defence %>, 値段:<%= armors[i].value %></li>
+          <li>名前:<%= armors[i].name %> , 防御力:<%= armors[i].defence() %>, 値段:<%= armors[i].value %></li>
         <% } %>
         </ul>
         装飾品一覧

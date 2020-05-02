@@ -136,7 +136,9 @@ weaponInformation.weaponList = [
 
     { id: 101, attack: ()=>400000, name: "EXカリバー", value: 740000000000, effect: weaponEffect.none , invocationRate: 999999},
 
-    { id: 102, attack: ()=>500000, name: "神剣グラヴィティ・レイプ", value: 999000000000, effect: weaponEffect.none , invocationRate: 999999}
+    { id: 102, attack: () => 500000, name: "神剣グラヴィティ・レイプ", value: 999000000000, effect: weaponEffect.none, invocationRate: 999999 },
+    
+    { id: 102, attack: ()=> 750000, name: "ドリームソード", value: 999000000000, effect: weaponEffect.none , invocationRate: 999999}
 
 ];
 
