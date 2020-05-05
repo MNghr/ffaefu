@@ -151,9 +151,9 @@ enemyInformation.vsMonster[3] = [
     { enemyId: "32d",name:"デスメタブロブ",maxHP:102933,basicAttack:7,dropMoney:464999999,exp:1400000,oscillation:7,artsActivation: 4649,evasive:4649,artsEffect: enemyArtsEffect.deadlyMessage},
     { enemyId: "33d", name: "ガルダ", maxHP: 1000000, basicAttack: 99, dropMoney: 1000000, exp: 72739, oscillation: 999, artsActivation: 10, evasive: 9, artsEffect: enemyArtsEffect.desion },
     { enemyId: "34d", name: "テュポーン", maxHP: 2407384, basicAttack: 9299, dropMoney: 6000000, exp: 140000, oscillation: 11999, artsActivation: 100, evasive: 999, artsEffect: enemyArtsEffect.damnation},
-    { enemyId: "35d", name: "ノストラダムス", maxHP: 57500, basicAttack: 2342, dropMoney: 1000000, exp: 10000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.none },
+    { enemyId: "35d", name: "ノストラダムス", maxHP: 57500, basicAttack: 2342, dropMoney: 1000000, exp: 14000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.none },
     { enemyId: "36d", name: "パイモン", maxHP: 5532084, basicAttack: 120, dropMoney: 10000000, exp: 180000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.none },
-    { enemyId: "37d", name: "ライフちゅっちゅギガント", maxHP: 4000000, basicAttack: 0, dropMoney: 1000, exp: 100000, oscillation: 8000, artsActivation: 40, evasive: 999999, artsEffect: enemyArtsEffect.drain },
+    { enemyId: "37d", name: "ライフちゅっちゅギガント", maxHP: 4000000, basicAttack: 12580, dropMoney: 1000, exp: 127680, oscillation: 8000, artsActivation: 40, evasive: 999999, artsEffect: enemyArtsEffect.drain },
     { enemyId: "38d", name: "オシリス", maxHP: 1560147, basicAttack: 4, dropMoney: 10000000, exp: 160000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.none },
     { enemyId: "39d", name: "アメン・ラー", maxHP: 1000013, basicAttack: 999999, dropMoney: 1000000, exp: 100000, oscillation: 22275, artsActivation: 40, evasive: 999999, artsEffect: enemyArtsEffect.none },
 
@@ -200,7 +200,7 @@ enemyInformation.legendPlace[2] = [
 ]
 
 enemyInformation.legendPlace[3] = [
-    { enemyId: "0l4",name:"ブラストマンRV",maxHP:14739274,basicAttack:4,dropMoney:10029322,exp:650000,oscillation:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
+    { enemyId: "0l4",name:"ブラストマンRV",maxHP:14739274,basicAttack:191919191919191919,dropMoney:10029322,exp:650000,oscillation:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.none},
     { enemyId: "1l4", name: "アンドロメダ", maxHP: 247563846, basicAttack: 4, dropMoney: 1000, exp: 100000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.deadlyMessage },
     { enemyId: "2l4",name: "クリムゾンドラゴン",maxHP:301635273,basicAttack:4,dropMoney:19289319,exp:999999,oscillation:75,artsActivation: 40,evasive:50,artsEffect: enemyArtsEffect.greatBreath},
     { enemyId: "3l4", name: "ラ・ムー", maxHP: 352618273, basicAttack: 9999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.deadlyMessage },
@@ -209,10 +209,10 @@ enemyInformation.legendPlace[3] = [
     { enemyId: "6l4", name: "ネビュラグレイ", maxHP: 655323832, basicAttack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 999999, artsEffect: enemyArtsEffect.blackMagics },
     { enemyId: "7l4", name: "ブルースFZ", maxHP: 476314980, basicAttack: 9999, dropMoney: 400000000000, exp: 2400000, oscillation: 9999999999, artsActivation: 100, evasive: 999999999, artsEffect: enemyArtsEffect.zantetsuken},
     { enemyId: "8l4", name: "フォルテGS", maxHP: 557623817, basicAttack: 4, dropMoney: 1000, exp: 100000, oscillation: 75, artsActivation: 40, evasive: 50, artsEffect: enemyArtsEffect.ultima },
-    { enemyId: "9l4", name: "セレナード", maxHP: 653827381, basicAttack: 9999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.ultimaAndCure },
-    { enemyId: "10l4", name: "ゴスペル", maxHP: 729379319, basicAttack: 999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.greatBreath },
-    { enemyId: "11l4", name: "プロト", maxHP: 838462846, basicAttack: 9999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.ultimaAndCure },
-    { enemyId: "12l4", name: "デューオ", maxHP: 851738048, basicAttack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.deadlyMessage },
+    { enemyId: "9l4", name: "ダブルビースト", maxHP: 653827381, basicAttack: 9999, dropMoney: 1000, exp: 100000, oscillation: 22275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.ultimaAndCure },
+    { enemyId: "10l4", name: "ゴスペル", maxHP: 729379319, basicAttack: 999, dropMoney: 1000, exp: 100000, oscillation: 222275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.greatBreath },
+    { enemyId: "11l4", name: "プロト", maxHP: 838462846, basicAttack: 9999, dropMoney: 1000, exp: 100000, oscillation: 222275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.ultimaAndCure },
+    { enemyId: "12l4", name: "デューオ", maxHP: 851738048, basicAttack: 999999, dropMoney: 1000, exp: 100000, oscillation: 22275, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.deadlyMessage },
     { enemyId: "13l4", name: "フォルテXX", maxHP: 947183829, basicAttack: 999999, dropMoney: 1000, exp: 100000, oscillation: 275, artsActivation: 40, evasive: 95, artsEffect: enemyArtsEffect.chaosNightMare },
     { enemyId: "14l4", name: "ロード・オブ・カオス", maxHP: 947193843, basicAttack: 999999, dropMoney: 1000, exp: 100000, oscillation: 65, artsActivation: 40, evasive: 75, artsEffect: enemyArtsEffect.chaosNightMare },
     { enemyId: "15l4",name: "全能神えふ", maxHP:4273142731,basicAttack:42731,dropMoney:1000,exp:100000,oscillation:2590000,artsActivation: 100,evasive:999,artsEffect: enemyArtsEffect.berserk }

@@ -12,7 +12,9 @@ let enemyInformation = require("./informations/enemyInformation");
 
 //戦闘周りの処理 戦闘突入に伴うスタミナ減少，戦闘，戦闘後の各種獲得処理，レベルアップ，レベルアップに伴う職業マスター処理をここに記述
 
-battle.battleAgainstMonster = async function (user, enemy) {
+battle.battleAgainstMonster = async function (user, difficulcy) {
+    let enemy = enemyInformation.vsMonster[difficulty][utility.random(0, enemyInformation.vsMonster[difficulty].length - 1)];
+    user.vsMonsterLevel = difficulcy;
     let stamina = usersPeripheral.calculateStamina(user.lastBattleDate);
     user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsMonsterStamina) * 1000);
     return await this.battleRoutine(user, enemy, 0);
@@ -116,6 +118,8 @@ battle.battleRoutine = async function (user, enemy, kind) {
             _user.currentHP += _user.recoverHP;
             this.returnMessage += _enemy.name + "が襲い掛かった！<br>" + enemyReceiveData.message + "<br>"+itemReceiveData.message+_user.name + "は" + _user.receiveDamage + "ダメージ受けた。"+enemyRecover+"<br>";
             this.returnMessage += "<br>";
+
+            this.returnMessage += invokePhaseZeroItemsEffect(_user,_enemy).message;
             turn++;
             if (turn > configuration.turnLimit) {
                 break;
@@ -364,7 +368,23 @@ invokeCombatItemsEffect = function (user, enemy) {
     return returnData;
 }
 
-
+invokePhaseZeroItemsEffect = function (user, enemy) {
+    let returnData = {};
+    returnData.message = "";
+    user.itemInventory.forEach((element, index) => {
+        if (element > 0 && itemInformation.itemList[index].kind === "phaseZero") {
+            let ret = itemInformation.itemList[index].effect(user, enemy);
+            console.log(ret);
+            returnData.message += ret.message;
+            user.itemInventory[index] -= ret.spentAmount;
+        }
+    });
+    console.log(user.itemInventory);
+    if (returnData.message !== "") {
+        returnData.message += "<br>"
+    }
+    return returnData;
+}
 
 battle.win = function (user, enemy) {
     user.money += enemy.dropMoney;
@@ -456,6 +476,13 @@ battle.drawChampion = async function (user, enemy) {
 battle.jobMaster = function (user) {
     user.artsInventory = user.artsInventory.concat(usersPeripheral.getJobElementOfUser(user).masterArts);
     user.career[usersPeripheral.getJobElementOfUser(user).id] = user.jobLevel;
+}
+
+
+
+
+phaseZero = function (user,enemy) {
+    invokePhaseZeroItemsEffect(user,enemy);
 }
 
 let soldierAttack = (user) => user.weapon.attack + user.power;

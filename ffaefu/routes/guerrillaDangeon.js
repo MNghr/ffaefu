@@ -4,6 +4,7 @@ let fs = require("fs").promises;
 let configuration = require("../configuration.js");
 let utility = require("../utility.js")
 let enemyInformation = require("../informations/enemyInformation.js");
+let configuration = require("../configuration.js");
 
 var express = require('express');
 var router = express.Router();
@@ -24,8 +25,16 @@ router.post('/', function (req, res, next) {
                     content: "スタミナ不足です．",
                     user: req.session.user
                 });
+            } else if (configuration.isGuerrillaAppeared(user) !== true) {
+                res.render('vsMonster', {
+                    title: "FFA えふ改",
+                    subTitle: "幻影の塔",
+                    content: "しかし，塔はとうに消えていた．．．(激ウマ)",
+                    user: req.session.user
+                });
             } else {
-                let result = await battle.battleAgainstMonster(req.session.user, parseInt(req.body.difficulty));
+
+                let result = await battle.battleAgainstMonster(req.session.user, configuration.guerrillaDangeonEnemyLevel(user));
                 let content = battle.returnMessage;
                 console.log("戦闘後のコンテンツ表示");
                 console.log(req.session.user.lastBattleDate);
@@ -34,7 +43,7 @@ router.post('/', function (req, res, next) {
                     console.log(content);
                     res.render('vsMonster', {
                         title: "FFA えふ改",
-                        subTitle: "敵と戦う",
+                        subTitle: "幻影の塔",
                         content: content,
                         user: req.session.user
                     });
@@ -47,7 +56,3 @@ router.post('/', function (req, res, next) {
         }
     })().catch(next);
 });
-
-
-
-module.exports = router;

@@ -154,25 +154,33 @@ itemEffect.annulZantetsuken = function (user, enemy) {
 };
 
 itemEffect.ressurrectionSmall = function (user, enemy) {
-    let returnData = {};
-    returnData.message = shapeItemMessage("不死身の雫が" + user.name + "に降り注いだ．．．" + user.name + "のHPが1/20回復した！", "green");
-    user.currentHP = Math.ceil(user.maxHP / 20);
+    let returnData = {message:"",spentAmount:0};
 
+    if (user.currentHP <= 0) {
+        returnData.message = shapeItemMessage("不死身の雫が" + user.name + "に降り注いだ．．．" + user.name + "のHPが1/20回復した！", "green");
+        user.currentHP = Math.ceil(user.maxHP / 200);
+        returnData.spentAmount = 1;
+    }
     return returnData;
 }
 
 itemEffect.ressurrectionMedium = function (user, enemy) {
-    let returnData = {};
-    returnData.message = shapeItemMessage("不死身の土塊が" + user.name + "に降り注いだ．．．" + user.name + "のHPが1/5回復した！", "green");
-    user.currentHP = Math.ceil(user.maxHP / 5);
-
+    let returnData = { message: "" ,spentAmount:0};
+    if (user.currentHP <= 0) {
+        returnData.message = shapeItemMessage("不死身の土塊が" + user.name + "に降り注いだ．．．" + user.name + "のHPが1/5回復した！", "green");
+        user.currentHP = Math.ceil(user.maxHP / 20);
+        returnData.spentAmount = 1;
+    }
     return returnData;
 }
 
 itemEffect.ressurrectionLarge = function (user, enemy) {
-    let returnData = {};
-    returnData.message = shapeItemMessage("不死身の果実が" + user.name + "に力を与えた．．．" + user.name + "のHPが1/2回復した！", "green");
-    user.currentHP = Math.ceil(user.maxHP / 2);
+    let returnData = { message: "" ,spentAmount:0};
+    if (user.currentHP <= 0) {
+        returnData.message = shapeItemMessage("不死身の果実が" + user.name + "に力を与えた．．．" + user.name + "のHPが1/2回復した！", "green");
+        user.currentHP = Math.ceil(user.maxHP / 2);
+        returnData.spentAmount = 1;
+    }
 
     return returnData;
 }

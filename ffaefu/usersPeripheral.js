@@ -74,9 +74,10 @@ usersPeripheral.registerUser = async function (user) {
     user.artsInventory = user.artsInventory.concat(this.getBasicArtsNumbersByUser(user));
     console.log(this.getBasicArtsNumbersByUser(user));
     console.log(user.artsInventory);
-    
+    usersPeripheral.addWorldMessage(user.name + "さんが新しくキャラ作成されました！皆さんよろしく！！");
+
     await Promise.all([
-        this.writeUser(user),
+        this.writeUser(user)
         //this.writeEquipInventory(user, []),
         //this.writeItemInventory(user, user.itemInventory),
         //this.writeArtsInventory(user, [0].concat(this.getBasicArtsNumbersByUser(user))),
@@ -378,12 +379,32 @@ usersPeripheral.sellItem = async (user, targetItemId, amount) => {
 //「このへんのプレイヤー」
 usersPeripheral.playingPlayers = [];
 
+//全体向けメッセージ
+usersPeripheral.worldMessage = []
 //ログイン中のプレイヤー名追加処理 重複を防ぐために名前の他にIdを，ログイン中のプレイヤー名削除処理を正常に行うために最終入力時刻を持つ．
-usersPeripheral.addPlayingPlayers = (user) => {
+usersPeripheral.addPlayingPlayer = (user) => {
     usersPeripheral.playingPlayers = usersPeripheral.playingPlayers.filter(element => element.userId != user.userId);
     usersPeripheral.playingPlayers.push({ userId: user.userId, name: user.name, lastInputTime: user.lastInputTime });
-    console.log(usersPeripheral.playingPlayers);
+    //console.log(usersPeripheral.playingPlayers);
 };
+
+//全体的メッセージを外部ファイルに書き込み
+usersPeripheral.writeWorldMessage = async () => {
+    await fs.writeFile("./database/worldMessage.JSON",JSON.stringify(usersPeripheral.worldMessage))
+}
+
+//全体向けメッセージをメモリ内に読み込む ※起動時以外出番無いはず
+usersPeripheral.readWorldMessage = async () => {
+    usersPeripheral.worldMessage = JSON.parse(await fs.readFile("./database/worldMessage.json","utf-8"))
+}
+
+//全体向けメッセージに新たな要素を追加  全体向けメッセージはFILO(用はスタックで先入れ後だし)なので，追加したいメッセージは先頭に追加される．
+usersPeripheral.addWorldMessage = async (message) => {
+    usersPeripheral.worldMessage.unshift(message);
+    console.log(usersPeripheral.worldMessage);
+    if (usersPeripheral.worldMessage )
+    await usersPeripheral.writeWorldMessage();
+}
 
 //ログイン中のプレイヤー名削除処理(最後に操作した時刻から設定されたプレイヤー表示時間をオーバーすると「この辺のプレイヤー」リストから削除される)
 cron.schedule('* * * * *', () => {
@@ -396,6 +417,8 @@ cron.schedule('* * * * *', () => {
 
 //サーバ起動時，チャンピオン情報を読み込む処理
 usersPeripheral.setChampion();
+
+usersPeripheral.worldMessage=usersPeripheral.readWorldMessage();
 
 
 

@@ -13,6 +13,10 @@ configuration.jobMasterLevel = 60;//ジョブマスターに必要なジョブ�
 
 configuration.maxStamina = 600; //スタミナの上限値
 
+configuration.maxWorldMessage = 1000; //全プレイヤー向けメッセージの最大要素数  ユーザ向けに表示する数では無いので，サーバのスペックと相談して決めてね
+
+configuration.basicShowWorldMessageLines = 10; //全プレイヤー向けメッセージの基本的な表示行数 これは画面デザインと相談して決めてね  
+
 configuration.turnLimit = 150;//戦闘時の制限ターン デフォルトなら150ターンをこえると逃げる(モンスター戦)か引き分け(チャンプ戦)になる．
 
 configuration.degree = ["駆け出し", "冒険者", "熟練者", "勇者", "蓋世の英雄"]; //各レジェンドプレイス初攻略時に変化する称号．
@@ -97,6 +101,6 @@ configuration.legendPlaceName = [
     "グレイヴヤード"
 ];
 
-configuration.showPlayingPlayerTime = 60; //ログイン中のプレイヤー表示時間(秒)
+configuration.showPlayingPlayerTime = 600; //ログイン中のプレイヤー表示時間(秒) 削除処理の実行は分単位なので最大59秒ずれるけど気にしなくていいでしょ別に
 
 module.exports = configuration;

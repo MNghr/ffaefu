@@ -44,9 +44,12 @@ router.post('/', function (req, res, next) {
             setArts: 0,
             job: parseInt(req.body.job),
             jobLevel: 1,
+            degree:0,
             lastBattleDate: utility.getTime(),
             lastLoginDate: utility.getTime(),
-            legendPlaceProgress: 0
+            legendPlaceProgress: 0,
+            beingLegendPlace:-1,
+            lastInputTime: utility.getTime()
         };
         //データベースファイルを開いて書き込む
         await usersPeripheral.registerUser(userData);

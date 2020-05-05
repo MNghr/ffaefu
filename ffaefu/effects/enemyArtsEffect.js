@@ -357,6 +357,16 @@ enemyArtsEffect.level13Death = function (user, enemy) {
     return returnData;
 }
 
+//メテオナックル
+enemyArtsEffect.meteorKnuckle = function (user, enemy) { 
+    let returnData = {};
+    let hitAmount = utility.random(4, 16);
+    returnData.message = shapeArtsName(user.name+"に拳の雨が降り注ぐ．．．メテオナックル！！！","blue") + shapeHitAmount(hitAmount + "ヒット！");
+    user.receiveDamage = Math.floor(enemy.attack/8) * utility.random(1,3) * hitAmount;
+    user.evasiveness -= 999999;
+    return returnData;
+}
+
 //必殺技の表示形成
 let shapeArtsName = function(artsName, color){  
     return '<span class="arts'+color+'">'+artsName+"</span>";

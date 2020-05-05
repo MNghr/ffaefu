@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 let login = require("./routes/login");
 let signUp = require("./routes/signUp");
 let setUser = require("./setUser");
+let setUserList = require("./setUserList")
 let status = require("./routes/status");
 let inn = require("./routes/inn");
 let bank = require("./routes/bank");
@@ -46,9 +47,9 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use("/login", setUser,login);
+app.use("/login", setUser,setUserList,login);
 app.use("/signUp", signUp);
-app.use("/status", status);
+app.use("/status", setUserList,status);
 app.use("/inn",  inn);
 app.use("/bank",  bank);
 app.use("/vsMonster", vsMonster);
