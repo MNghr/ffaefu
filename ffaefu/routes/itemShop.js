@@ -6,6 +6,7 @@ let itemInformation = require("../informations/itemInformation.js");
 let router = express.Router();
 let fs = require('fs');
 
+
 router.get('/', function (req, res, next) {
     (async () => {
         if (req.session.user) {
@@ -26,6 +27,7 @@ router.get('/', function (req, res, next) {
         }
     })().catch(next);
 });
+
 
 router.post('/', function (req, res, next) {
     (async () => {

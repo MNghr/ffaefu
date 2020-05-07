@@ -1,6 +1,7 @@
 <html>
   <head>
     <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
     <% if(loginSucceeded) {%>
@@ -8,9 +9,20 @@
       <form action="login" method="post" class="form">
         <button type="submit">ステータス画面へ</button>
       </form>
+      全体向けメッセージ：<br>
+      <%if(worldMessage.length != 0){ %>
+        <ul>
+        <%worldMessage.forEach((element)=>{%>
+         <li><%= element %></li>
+        <%})%>
+         </ul>
+      <%}else{%>
+        ありません
+      <%}%>
     <% }else{ %>
       <span class="error-message">エラー:不正なログインです</span>
       <a href="/">TOPに戻る</a>
     <% } %>
+
     </body>
 </html>

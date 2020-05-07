@@ -9,12 +9,13 @@ let accessoryEffect = require("./effects/accessoryEffect.js");
 let configuration = require("./configuration.js");
 let itemInformation = require("./informations/itemInformation");
 let enemyInformation = require("./informations/enemyInformation");
+const formatter = new Intl.NumberFormat('ja-JP');
 
 //戦闘周りの処理 戦闘突入に伴うスタミナ減少，戦闘，戦闘後の各種獲得処理，レベルアップ，レベルアップに伴う職業マスター処理をここに記述
 
-battle.battleAgainstMonster = async function (user, difficulcy) {
+battle.battleAgainstMonster = async function (user, difficulty) {
     let enemy = enemyInformation.vsMonster[difficulty][utility.random(0, enemyInformation.vsMonster[difficulty].length - 1)];
-    user.vsMonsterLevel = difficulcy;
+    user.vsMonsterLevel = difficulty;
     let stamina = usersPeripheral.calculateStamina(user.lastBattleDate);
     user.lastBattleDate = (utility.getTime() - (stamina - configuration.vsMonsterStamina) * 1000);
     return await this.battleRoutine(user, enemy, 0);
@@ -51,16 +52,19 @@ battle.returnMessage = "";
 battle.battleRoutine = async function (user, enemy, kind) {
     let _user = JSON.parse(JSON.stringify(user));
     let _enemy = JSON.parse(JSON.stringify(enemy));
-    this.enemy = _enemy;
-    _user.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.weapon)));
-    user.entityWeapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(user.weapon)));
-    user.entityWeapon.attack = usersPeripheral.getWeaponByIndex(user.weapon).attack;
-    _user.armor = JSON.parse(JSON.stringify(usersPeripheral.getArmorByIndex(user.armor)));
-    _user.accessory = JSON.parse(JSON.stringify(usersPeripheral.getAccessoryByIndex(user.accessory)));
-    _user.accessory.effect = usersPeripheral.getAccessoryByIndex(user.accessory).effect;
-    console.log(_user.accessory);
+    _user.weaponRatio = 1.0;
+    _user.armorRatio = 1.0;
+    _enemy.artsSealed = false;
+    _user.artsSealed = false;
+    
+
+    loadEnemy(_enemy, enemy);
+    loadArmor(_user, user);
+    loadWeapon(_user, user);
+    loadAccessory(_user, user);
+
     _user.gainMoney = 0;
-    _enemy.artsEffect = enemy.artsEffect; //関数だけJSON.stringifyの範囲外なので改めて追加
+    
     console.log(_enemy.artsEffect);
     console.log(enemy.artsEffect);
     console.log(_user.weapon)
@@ -68,55 +72,41 @@ battle.battleRoutine = async function (user, enemy, kind) {
     console.log(_user);
     console.log(_enemy);
 
+
     this.returnMessage = "";
     let result = "";
     if (kind === 0) { //モンスター戦
         _enemy.currentHP = _enemy.maxHP;
         _enemy.element = "monster";
+        
         let turn = 1;
-        _user.weaponRatio = 1.0;
+
         console.log("ユーザの戦術番号:"+_user.setArts)
         while (_user.currentHP > 0 && _enemy.currentHP > 0) {
-            _enemy.receiveDamage = 0; 
-            _enemy.recoverHP = 0; 
-            _enemy.evasiveness = enemy.evasive; 
-            _enemy.currentHP = Math.min(_enemy.maxHP, _enemy.currentHP);
-            _enemy.receiveAdditionalDamage = 0;
-            _user.receiveDamage = 0;
-            _user.evasiveness = 50;
-            _user.receiveElement = "";
-            _enemy.attack = _enemy.basicAttack + utility.random(1,_enemy.oscillation);
-            _user.currentHP = Math.min(_user.maxHP, _user.currentHP);
-            _user.recoverHP = 0;
-            _user.weapon.attack = Math.ceil(_user.weaponRatio * user.entityWeapon.attack());
-            _user.attack = calculateAttack(_user);
-            _user.artsActivated = false;
-            _enemy.artsActivated = false;
+            turnStartVsMonster(_user, _enemy);
             
-            _user.receiveAdditionalDamage = 0;
-            console.log(_user.attack);
-            
-            this.returnMessage += turn + "ターン目:<br>";
-            this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS" + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br>";
-            let receiveData = {};
-            let enemyReceiveData = {};
+            battle.returnMessage += turn + "ターン目:<br>";
+            battle.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS" + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br>";
 
-            receiveData = invokeUserArts(_user,_enemy);
-            enemyReceiveData = invokeEnemyArts(_user, _enemy);
-            receiveDataDelayed = invokeUserArtsDelayed(_user,_enemy)
-            accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy); 
-            itemReceiveData = invokeCombatItemsEffect(_user, _enemy);
+            let receiveData = invokeUserArts(_user,_enemy);
+            let enemyReceiveData = invokeEnemyArts(_user, _enemy);
+            let receiveDataDelayed = invokeUserArtsDelayed(_user,_enemy)
+            let accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy); 
+            let itemReceiveData = invokeCombatItemsEffect(_user, _enemy); 
             
             let userRecover = shapeHPRecover(_user, _user.recoverHP);
-            let enemyRecover = shapeHPRecover(_enemy,_enemy.recoverHP)
+            let enemyRecover = shapeHPRecover(_enemy, _enemy.recoverHP);
+
+            let userDodgeData = playerDodgeFromEnemy(_user,_enemy); 
+            let enemyDodgeData = enemyDodge(_user, _enemy);
+            
+            let jobBonusData = jobBonus(_user, _enemy);
+
+            affectArmorDefence(_user, _enemy);
+            processDamage(_user, _enemy);
     
-            _enemy.currentHP -= Math.ceil(_enemy.receiveDamage);
-            _enemy.currentHP -= _enemy.receiveAdditionalDamage;
-            _enemy.currentHP += _enemy.recoverHP;
-            this.returnMessage += _user.name + "は"+_user.weapon.name+"で攻撃！<br>"+receiveData.message+"<br>"+receiveDataDelayed.message+accessoryReceiveData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた。"+userRecover+"<br><br>";
-            _user.currentHP -= Math.ceil(_user.receiveDamage);
-            _user.currentHP += _user.recoverHP;
-            this.returnMessage += _enemy.name + "が襲い掛かった！<br>" + enemyReceiveData.message + "<br>"+itemReceiveData.message+_user.name + "は" + _user.receiveDamage + "ダメージ受けた。"+enemyRecover+"<br>";
+            this.returnMessage += _user.name + "は" + _user.weapon.name + "で攻撃！<br>" + receiveData.message + "<br>" + receiveDataDelayed.message + accessoryReceiveData.message + enemyDodgeData.message + _enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた。" + userRecover + "<br><br>";
+            this.returnMessage += _enemy.name + "が襲い掛かった！<br>" + enemyReceiveData.message + "<br>"+itemReceiveData.message+userDodgeData.message+_user.name + "は" + _user.receiveDamage + "ダメージ受けた。"+enemyRecover+"<br>";
             this.returnMessage += "<br>";
 
             this.returnMessage += invokePhaseZeroItemsEffect(_user,_enemy).message;
@@ -147,54 +137,42 @@ battle.battleRoutine = async function (user, enemy, kind) {
         }
         
         delete user.vsMonsterLevel;
-        delete user.entityWeapon;
         await usersPeripheral.writeUser(user);
         console.log("戦闘後ファイル書き換え完了");
     } else if (kind === 2 || kind === 1) { //対人戦
-        _enemy.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.weapon)));
-        _enemy.armor = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.armor)));
-        _enemy.accessory = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(enemy.accessory)));
-        _enemy.artsSealed = false;
-        _user.artsSealed = false;
-        _user.weaponRatio = 1.0;
+
+        loadWeapon(_enemy, enemy);
+        loadArmor(_enemy, enemy);
+        loadAccessory(_enemy, enemy);
+        _enemy.armorRatio = 1.0;
         _enemy.weaponRatio = 1.0;
+
         let turn = 1;
         while (_user.currentHP > 0 && _enemy.currentHP > 0) {
-            _user.artsActivated = false;
-            _enemy.artsActivated = false;
-            _enemy.currentHP = Math.min(_enemy.currentHP, _enemy.maxHP);
-            _enemy.receiveDamage = 0;//敵が受けるダメージ
-            _enemy.recoverHP = 0;//敵のHPの回復量(基本は0)
-            _enemy.evasiveness = enemy.evasive; //敵の回避率
-            
-            _enemy.weapon.attack = Math.ceil(_enemy.weaponRatio*enemy.weapon.attack());
-            _enemy.attack = calculateAttack(_enemy);
-            
-            _user.currentHP = Math.min(_user.currentHP, _user.maxHP);
-            _user.receiveDamage = 0; //ユーザの受けるダメージ
-            _user.evasiveness = 50; //ユーザの回避率
-            _user.recoverHP = 0;
-            _user.weapon.attack = Math.ceil(_user.weaponRatio * user.weapon.attack());
-            _user.attack = calculateAttack(_user);
-            
+            turnStartVsPlayer(_user, _enemy);
             
             this.returnMessage += _user.name + ":" + _user.currentHP + "/" + _user.maxHP + "VS " + _enemy.name + ":" + _enemy.currentHP + "/" + _enemy.maxHP + "<br><br>";
-            let receiveData = {};
-            let enemyReceiveData = {};
 
-            receiveData = invokeUserArts(_user, _enemy);
-            console.log(receiveData);
-            enemyReceiveData = invokeUserArts(_enemy, _user);
-            receiveDataDelayed = invokeUserArtsDelayed(_user, _enemy);
-            enemyReceiveDataDlayed = invokeUserArtsDelayed(_enemy, _user);
-            accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy);
-            enemyAccessoryReceiveData = invokeUserAccessoryEffect(_enemy, _user);
-            _enemy.currentHP -= Math.ceil(_enemy.receiveDamage);
-            console.log(_enemy.receiveDamage);
-            console.log(_user.receiveDamage)
-            this.returnMessage += _user.name + "は" + _user.weapon.name + "で攻撃!<br>" + receiveData.message + "<br>" + receiveDataDelayed.message+accessiryReceiveData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた<br><br>";
-            _user.currentHP -= Math.ceil(_user.receiveDamage);
-            this.returnMessage += _enemy.name + "は" + _enemy.weapon.name + "で攻撃！<br>" + enemyReceiveData.message + "<br>" + _user.name + "は" + _user.receiveDamage + "ダメージ受けた<br><br>";
+            let receiveData = invokeUserArts(_user, _enemy);
+            let enemyReceiveData = invokeUserArts(_enemy, _user);
+            let receiveDataDelayed = invokeUserArtsDelayed(_user, _enemy);
+            let enemyReceiveDataDlayed = invokeUserArtsDelayed(_enemy, _user);
+            let accessoryReceiveData = invokeUserAccessoryEffect(_user, _enemy);
+            let enemyAccessoryReceiveData = invokeUserAccessoryEffect(_enemy, _user);
+
+            let userRecover = shapeHPRecover(_user, _user.recoverHP);
+            let enemyRecover = shapeHPRecover(_enemy, _enemy.recoverHP);
+
+            let userDodgeData = playerDodgeFromPlayer(_user,_enemy); 
+            let enemyDodgeData = playerDodgeFromPlayer(_enemy, _user);
+
+            affectArmorDefence(_user, _enemy);
+            affectArmorDefence(_enemy, _user);
+
+            processDamage(_user, _enemy);
+
+            this.returnMessage += _user.name + "は" + _user.weapon.name + "で攻撃!<br>" + receiveData.message + "<br>" + receiveDataDelayed.message+accessoryReceiveData.message+enemyDodgeData.message+_enemy.name + "に" + _enemy.receiveDamage + "ダメージを与えた。"+userRecover+"<br><br>";
+            this.returnMessage += _enemy.name + "は" + _enemy.weapon.name + "で攻撃！<br>" + enemyReceiveData.message + "<br>" + enemyReceiveDataDlayed.message+enemyAccessoryReceiveData.message+userDodgeData.message+_user.name + "は" + _user.receiveDamage + "ダメージ受けた。"+enemyRecover+"<br><br>";
             this.returnMessage += "<br>";
             turn++;
             if (turn > configuration.turnLimit) {
@@ -224,15 +202,143 @@ battle.battleRoutine = async function (user, enemy, kind) {
                 await this.loseChampion(user, enemy);
             }
         }
-        delete user.entityWeapon;
         await usersPeripheral.writeUser(user);
     }
     
     return result;
 };
 
+let turnStartVsPlayer = (user, enemy)=>{
+    enemy.receiveDamage = 0; 
+    enemy.recoverHP = 0; 
+    enemy.evasiveness = configuration.calculateNaturalEvasive(enemy) + enemy.accessory.evasiveBias;
+    enemy.accuracy = configuration.calculateNaturalAccuracy(enemy) + enemy.accessory.accuracyBias;
+    enemy.currentHP = Math.min(enemy.maxHP, enemy.currentHP);
+    enemy.armor.defence = Math.ceil(enemy.armorRatio * enemy.entityArmor.defence());
+    enemy.receiveAdditionalDamage = 0;
+    enemy.weapon.attack = Math.ceil(enemy.weaponRatio * enemy.entityWeapon.attack());
+    enemy.attack = calculateAttack(enemy);
+    enemy.receiveAdditionalDamage = 0;
+    user.receiveDamage = 0;
+    user.evasiveness = configuration.calculateNaturalEvasive(user)  + user.accessory.evasiveBias;
+    user.accuracy = configuration.calculateNaturalAccuracy(user) + user.accessory.accuracyBias;
+    user.armor.defence = Math.ceil(user.armorRatio * user.entityArmor.defence());
+    user.currentHP = Math.min(user.maxHP, user.currentHP);
+    user.recoverHP = 0;
+    user.weapon.attack = Math.ceil(user.weaponRatio * user.entityWeapon.attack());
+    user.attack = calculateAttack(user);
+    user.artsActivated = false;
+    enemy.artsActivated = false;
+    user.receiveAdditionalDamage = 0;
+}
+
+let loadEnemy = (enemy, metaphysicalEnemy) => {
+    enemy.artsEffect = metaphysicalEnemy.artsEffect; 
+    battle.enemy = enemy;
+}
+
+let loadAccessory = (user, sessionUser) => {
+    user.accessory = JSON.parse(JSON.stringify(usersPeripheral.getAccessoryByIndex(sessionUser.accessory)));
+    user.accessory.effect = usersPeripheral.getAccessoryByIndex(sessionUser.accessory).effect;
+}
+
+let loadArmor = (user, sessionUser)=>{
+    user.armor = JSON.parse(JSON.stringify(usersPeripheral.getArmorByIndex(sessionUser.armor)));
+    user.entityArmor = JSON.parse(JSON.stringify(usersPeripheral.getArmorByIndex(sessionUser.armor)));
+    user.entityArmor.defence = usersPeripheral.getArmorByIndex(sessionUser.armor).defence;
+}
+
+let loadWeapon = (user,sessionUser) => {
+    user.weapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(sessionUser.weapon)));
+    user.entityWeapon = JSON.parse(JSON.stringify(usersPeripheral.getWeaponByIndex(sessionUser.weapon)));
+    user.entityWeapon.attack = usersPeripheral.getWeaponByIndex(sessionUser.weapon).attack;
+}
+
+let processDamage = (user,enemy) => {
+    enemy.currentHP -= Math.ceil(enemy.receiveDamage);
+    enemy.currentHP -= enemy.receiveAdditionalDamage;
+    enemy.currentHP += enemy.recoverHP;
+    user.currentHP -= Math.ceil(user.receiveDamage);
+    user.currentHP += user.recoverHP;
+}
+
+let turnStartVsMonster = (user, enemy) => {
+    enemy.receiveDamage = 0; 
+    enemy.recoverHP = 0; 
+    enemy.evasiveness = enemy.evasive; 
+    enemy.currentHP = Math.min(enemy.maxHP, enemy.currentHP);
+    enemy.receiveAdditionalDamage = 0;
+    enemy.attack = enemy.basicAttack + utility.random(1, enemy.oscillation);
+    user.receiveDamage = 0;
+    user.evasiveness = user.agility / 20 + user.accessory.evasiveBias;
+    user.accuracy = user.dexterity / 10 + 51 + user.accessory.accuracyBias;
+    user.receiveElement = "";
+    user.armor.defence = Math.ceil(user.armorRatio * user.entityArmor.defence());
+    user.currentHP = Math.min(user.maxHP, user.currentHP);
+    user.recoverHP = 0;
+    user.weapon.attack = Math.ceil(user.weaponRatio * user.entityWeapon.attack());
+    user.attack = calculateAttack(user);
+    user.artsActivated = false;
+    enemy.artsActivated = false;
+    user.receiveAdditionalDamage = 0;
+}
+
+let affectArmorDefence=(user,enemy)=>{
+    user.receiveDamage -= user.armor.defence
+    user.receiveDamage = Math.max(0,user.receiveDamage);
+}
+
+
+let jobBonus = (user, enemy) => {
+    let returnData = {message:""};
+    if (user.job > 17) {
+        user.receiveDamage = Math.floor(user.receiveDamage/4);
+        Math.floor(user.receiveDamage);
+    } else if (user.job > 7){
+        user.receiveDamage = Math.floor(user.receiveDamage/2);
+        Math.floor(user.receiveDamage);
+    }
+    return returnData;
+    //君はここに各職業の得られるボーナスを追加してここで実行してもいいし，しなくてもいい
+}
+
+//プレイヤーがNPCの攻撃をよける処理
+let playerDodgeFromEnemy = (user, enemy)=>{
+    let returnData = { message: "" };
+    console.log(user.evasiveness)
+    if (utility.random(1,Math.ceil(user.evasiveness)) > utility.random(0,100)) {
+        returnData.message += user.name + "は身をかわした！";
+        user.receiveDamage = 0;
+    }
+
+    return returnData;
+}
+
+//プレイヤーが相手プレイヤーの攻撃をよける処理
+let playerDodgeFromPlayer = (user, enemy) => {
+    let returnData = { message: "" };
+    user.evasiveness -= (enemy.accuracy + enemy.accessory.accuracyBias);
+    if (utility.random(1, Math.ceil(user.evasiveness)) > utility.random(1,100)){
+        returnData.message += user.name + "は身をかわした！";
+        user.receiveDamage = 0;
+    }
+    return returnData;
+}
+
+//NPCがプレイヤーの攻撃をよける処理
+let enemyDodge = (user, enemy) => {
+    returnData = { message: "" };
+    enemy.evasiveness -= user.accuracy;
+    if (utility.random(1,Math.ceil(enemy.evasiveness)) > utility.random(1,100)) {
+        returnData.message += enemy.name + "は身をかわした！";
+        enemy.receiveDamage = 0;
+    }
+    return returnData;
+}
+
+
 //プレイヤーの戦術発動
-invokeUserArts = function (user, enemy) {
+let invokeUserArts = function (user, enemy) {
     let receiveData = {};
     if (usersPeripheral.getArtsOfUser(user).invocationRate > utility.random(0, 99) || configuration.isDebugMode === true) {
         user.artsActivated = true;
@@ -246,7 +352,7 @@ invokeUserArts = function (user, enemy) {
     return receiveData;
 }
 
-invokeUserArtsDelayed = function (user, enemy) {
+let invokeUserArtsDelayed = function (user, enemy) {
     let receiveData = {};
     if (user.artsActivated === true) {
         receiveData = usersPeripheral.getArtsOfUser(user).effect.delayedEffect(user, enemy);
@@ -258,7 +364,7 @@ invokeUserArtsDelayed = function (user, enemy) {
 }
 
 //敵戦術効果発動
-invokeEnemyArts = function (user, enemy) {
+let invokeEnemyArts = function (user, enemy) {
     let enemyReceiveData = {};
     if (enemy.artsActivation > utility.random(0, 99) || configuration.isDebugMode === true) {
         console.log("敵戦術発動");
@@ -272,7 +378,7 @@ invokeEnemyArts = function (user, enemy) {
 }
 
 //アクセサリ効果発動
-invokeUserAccessoryEffect = function (user, enemy) {
+let invokeUserAccessoryEffect = function (user, enemy) {
     let accessoryReceiveData = {};
     if (user.accessory.invocationRate > utility.random(0, 99) || configuration.isDebugMode === true) {
         console.log("アクセサリ効果発動");
@@ -289,7 +395,7 @@ invokeUserAccessoryEffect = function (user, enemy) {
 //経験値入手処理
 battle.getExp = function(user, amount){
     user.exp += amount;
-    this.returnMessage += user.name + "は" + amount + "経験値を獲得．";
+    this.returnMessage += user.name + "は" + formatter.format(amount) + "経験値を獲得．";
     this.levelup(user);
 }
 
@@ -350,7 +456,7 @@ battle.levelup = function (user) {
     }
 };
 
-invokeCombatItemsEffect = function (user, enemy) {
+let invokeCombatItemsEffect = function (user, enemy) {
     let returnData = {};
     returnData.message = "";
     user.itemInventory.forEach((element, index) => {
@@ -368,7 +474,7 @@ invokeCombatItemsEffect = function (user, enemy) {
     return returnData;
 }
 
-invokePhaseZeroItemsEffect = function (user, enemy) {
+let invokePhaseZeroItemsEffect = function (user, enemy) {
     let returnData = {};
     returnData.message = "";
     user.itemInventory.forEach((element, index) => {
@@ -387,9 +493,11 @@ invokePhaseZeroItemsEffect = function (user, enemy) {
 }
 
 battle.win = function (user, enemy) {
-    user.money += enemy.dropMoney;
+    let getMoney = Math.floor(enemy.dropMoney * Math.random() * 10);
+    user.money += getMoney;
+    user.money = Math.min(user.money, configuration.maxMoney);
     this.getExp(user, enemy.exp);
-    this.returnMessage += enemy.dropMoney + "C入手した．";
+    this.returnMessage += formatter.format(getMoney) + "C入手した．";
 
     if (user.beingLegendPlace >= 0) {  //レジェンドプレイス挑戦時の処理
         user.legendPlaceProgress += 1;
@@ -410,7 +518,7 @@ battle.win = function (user, enemy) {
     console.log(user.itemInventory);
 };
 
-itemDrop = function (user) {
+let itemDrop = function (user) {
     let dropItem = configuration.vsMonsterDropItem[user.vsMonsterLevel][utility.random(0, configuration.vsMonsterDropItem[user.vsMonsterLevel].length-1)];
     user.itemInventory[dropItem] += 1;
     user.itemInventory[dropItem] = Math.min(user.itemInventory[dropItem], configuration.maxItem);
@@ -478,10 +586,7 @@ battle.jobMaster = function (user) {
     user.career[usersPeripheral.getJobElementOfUser(user).id] = user.jobLevel;
 }
 
-
-
-
-phaseZero = function (user,enemy) {
+let phaseZero = function (user,enemy) {
     invokePhaseZeroItemsEffect(user,enemy);
 }
 

@@ -71,7 +71,7 @@ artsInformation.artsList = [
     { id: 66, name: "卍魔殿", effect: artsEffect.pandemonium, explain: "敵に威力絶大の攻撃を仕掛けます．回避不能", invocationRate: 10 },
     { id: 67, name: "ベホマ", effect: artsEffect.behoma, explain: "威力絶大の回復を行います．", invocationRate: 60 },
     { id: 68, name: "メドローア", effect: artsEffect.medoroa, explain: "敵に威力絶大の攻撃を仕掛けます．回避不能", invocationRate: 10 },
-    { id: 69, name: "無限拳", effect: artsEffect.infinitPunch, explain: "敵に威力激大の攻撃を仕掛けます．回避不能", invocationRate: 60 },
+    { id: 69, name: "霧眩拳", effect: artsEffect.infinitPunch, explain: "敵に威力激大の攻撃を仕掛けます．回避不能", invocationRate: 60 },
     { id: 70, name: "ジャスティスワン", effect: artsEffect.justiceOne, explain: "敵に威力絶大の攻撃を仕掛けます．回避不能", invocationRate: 10 },
     { id: 71, name: "SIN-悪裂斬", effect: artsEffect.SINevilSlayer, explain: "敵に威力絶大の攻撃を仕掛けます．回避不能", invocationRate: 60 },
     { id: 72, name: "矛槍三段", effect: artsEffect.triAttack, explain: "敵に威力絶大の攻撃を仕掛けます．回避不能", invocationRate: 10 },

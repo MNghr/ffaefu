@@ -10,11 +10,11 @@ router.get('/', function (req, res, next) {
     if (req.session.user) {
         req.session.lastLoginTime = utility.getDate().getTime();
 
-        //usersPeripheral.addPlayingPlayers({ userId: req.session.user.userId, name: req.session.user.name,lastInputTime: utility.getTime() }); //「この辺のプレイヤー」リスト更新
         res.render('login', {
             title: req.session.user.name+"でログインしました",
             loginSucceeded: true,
-            user: req.session.user.name
+            user: req.session.user.name,
+            worldMessage: usersPeripheral.worldMessage
         });
     } else {
         res.render('login', { title: "ログイン失敗", loginSucceeded: false });

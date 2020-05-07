@@ -10,14 +10,17 @@
   <body>
     <h1><%= subTitle %></h1>
     <div wrapper>
+      <% const formatter = new Intl.NumberFormat('ja-JP') %>
     <% if(isFinished) {%>
         <% if(mode ==="deposit") {%>
-          お金を預けました．現在の預金残高は<%= user.bank %>Cです．
+          お金を預けました．現在の預金残高は<%= formatter.format(user.bank) %>Cです．
         <% } else{%>
-          お金を引き出しました．現在の預金残高は<%=user.bank %>Cです．
+          お金を引き出しました．現在の預金残高は<%=formatter.format(user.bank) %>Cです．
         <% } %>
     <% } else {%>
-     <h2>現在の預金残高は<%= user.bank %>Cです．</h2>
+     <h2>現在の預金残高は<%= formatter.format(user.bank) %>Cです．</h2>
+           あなたの所持金は<%=formatter.format(user.money) %>です．<br>
+
     <form action="" method="post" class="form">
         <input type="hidden" name="mode" value="deposit">
         <input type="text" name="amount" required><label>C</label>

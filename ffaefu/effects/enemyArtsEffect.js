@@ -108,7 +108,8 @@ enemyArtsEffect.zantetsuken = function (user, enemy) {
         returnData.message += "  鉄";
         if (utility.random(1, 10) <= 4) {
             returnData.message += "  剣！！";
-            user.receiveDamage = Math.ceil(user.currentHP*1.3);
+            user.receiveDamage = Math.ceil(user.currentHP * 1.3);
+            user.evasiveness -= 99999999;
         } else {
             returnData.message += "．．．失敗！";
         }
@@ -116,7 +117,6 @@ enemyArtsEffect.zantetsuken = function (user, enemy) {
         returnData.message += "．．．失敗！";
     }
     returnData.message = shapeArtsName(returnData.message, "brown");
-    user.evasiveness -= 99999999;
     user.receiveElement = "zantetsuken";
     return returnData;
 }
